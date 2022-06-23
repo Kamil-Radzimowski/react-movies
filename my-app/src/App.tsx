@@ -5,7 +5,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 import config from './Config'
 import axios from 'axios';
 import { MovieCard } from './MovieCard'
+import { Gradient } from 'react-gradient';
 import './style.scss';
+
 
 // const GradientText = require('react-gradient-text')
 
@@ -42,10 +44,15 @@ function App() {
           <div>Zaloguj się</div>
       </header>
         <div className="App-search">
-            <div className="search-text">Szukaj Filmu</div>
-            <TextField className="search" fullWidth id="outlined" label="Nazwa Filmu" variant="outlined"></TextField>
+            <Gradient className='search-text' gradients={[
+                ['#90cea1', '#01b4e4'],
+            ]} property='text' angle='180deg'>Szukaj Filmu</Gradient>
+            <TextField className="search" id="outlined" label="Nazwa Filmu" variant="outlined"></TextField>
         </div>
         <div className="App-recommendations">
+            <Gradient className='recommendations-text' gradients={[
+                ['#90cea1', '#01b4e4'],
+            ]} property='text' angle='180deg'>Nasze Rekomendacje</Gradient>
             {recommendationsData.length > 0 ? (<div className="recommendations">
                 {recommendationsData.map((e) => {return MovieCard(e)})}
             </div>) : (<CircularProgress className="recommendations-loading"/>)}
