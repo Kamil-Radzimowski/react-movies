@@ -1,6 +1,6 @@
 .App {
-  text-align: center;
-  background: #121212;
+  height: 100vh;
+  background: whitesmoke;
 }
 
 .App-logo {
@@ -18,10 +18,42 @@
   background-color: #282c34;
   display: flex;
   flex-direction: row;
-  padding: 25px;
+  padding: 15px;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   color: white;
+}
+
+.App-header > div:hover{
+  border-radius: 8px;
+  background-color: dimgray;
+  cursor: pointer;
+}
+
+.App-header > div {
+  margin: 0 25px;
+  padding: 10px;
+}
+
+.App-search {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 5px 25px;
+}
+
+.App-search > * {
+  padding: 10px 0;
+}
+
+.search {
+  color: white;
+  margin: 0 50px;
+}
+
+.search-text{
+
 }
 
 .Header-left {
@@ -36,6 +68,54 @@
 
 .App-header-div {
   color: white;
+}
+
+.App-recommendations {
+
+}
+
+.recommendations-text {
+  text-align: center;
+  font-size: 18px;
+  color: cadetblue;
+}
+
+.recommendations {
+  border-radius: 10px;
+  min-height: 250px;
+  margin: 10px 25px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.recommendations-loading {
+
+}
+
+.movie-card {
+  border-radius: 10px;
+  height: 325px;
+  background-color: #3c424d;
+  margin: 5px;
+  padding: 10px;
+}
+
+.movie-card-img {
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.movie-card-title {
+  display: none;
+  padding: 15px;
+  color: white;
+}
+
+.movie-card-title:hover {
+  display: flex;
 }
 
 .App-link {
