@@ -5,7 +5,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import config from './Config'
 import axios from 'axios';
 import { MovieCard } from './MovieCard'
-import './App.css';
+import './style.scss';
 
 // const GradientText = require('react-gradient-text')
 
