@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import config from "../Config";
 import movie_logo from "../assets/the-movie-db-logo.svg";
-import MovieCard from "../MovieCard";
+import RecommendedMovieCard from "./recommendedMovieCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Gradient } from 'react-gradient';
 import '../assets/style.scss';
@@ -39,6 +39,7 @@ function Main() {
         axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${config.getApiKey()}&language=pl`).then((res) => {
             const fiveRecommendations = res.data["results"].slice(0, 5).map((entry: any) => {
                 return {
+                    id: entry.id,
                     title: entry.title,
                     popularity: entry.popularity,
                     poster: entry.poster_path,
@@ -78,7 +79,7 @@ function Main() {
             <div className="App-recommendations">
                 <Gradient className='recommendations-text' gradients={gradient} property='text' angle='45deg'>Nasze Rekomendacje</Gradient>
                 {recommendationsData.length > 0 ? (<div className="recommendations">
-                    {recommendationsData.map((e) => {return <MovieCard data={e}/>})}
+                    {recommendationsData.map((e) => {return <RecommendedMovieCard data={e}/>})}
                 </div>) : (<CircularProgress className="recommendations-loading"/>)}
             </div>
         </div>
