@@ -20,7 +20,7 @@ function MovieList() {
 
     useEffect(() => {
         console.log(`https://api.themoviedb.org/3/search/movie?api_key=${config.getApiKey()}&query=${params.input}`)
-        axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${config.getApiKey()}&query=${params.input}`).then(r => {
+        axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${config.getApiKey()}&query=${params.input}&language=pl`).then(r => {
             setMoviesLoaded(true)
             const data = r.data.results.map((entry) => {
                 return {

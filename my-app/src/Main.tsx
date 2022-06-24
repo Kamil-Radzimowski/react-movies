@@ -39,7 +39,7 @@ function Main() {
     useEffect(() => {
         console.log("ok")
         // Get 5 recommendations
-        axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${config.getApiKey()}`).then((res) => {
+        axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${config.getApiKey()}&language=pl`).then((res) => {
             const fiveRecommendations = res.data["results"].slice(0, 5).map((entry: any) => {
                 return {
                     title: entry.title,
