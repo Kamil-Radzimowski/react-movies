@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 
 
 function MovieListItem(props) {
-    let navigate = useNavigate()
+    const navigate = useNavigate()
     let desc = props.data.overview
     if(desc == ''){
         desc = 'Brak opisu'

@@ -7,6 +7,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Gradient } from 'react-gradient';
 import '../assets/style.scss';
 import {Autocomplete, IconButton, InputAdornment, OutlinedInput, TextField} from "@mui/material";
+import { createTheme } from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
 
 function Main() {
@@ -15,7 +16,7 @@ function Main() {
     const [searchInput, setSearchInput] = useState("")
     const gradient = config.getGradient()
 
-    let navigate = useNavigate()
+    const navigate = useNavigate()
 
     function loadMovies(s: unknown[]){
         console.log(s)

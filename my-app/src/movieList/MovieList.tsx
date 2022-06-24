@@ -14,8 +14,8 @@ function MovieList() {
     const [movies, setMovies] = useState([])
     const [areMoviesLoaded, setMoviesLoaded] = useState(false)
     const gradient = config.getGradient()
-    let params = useParams()
-    let navigate = useNavigate()
+    const params = useParams()
+    const navigate = useNavigate()
 
     function navigateToMainPage() {
         navigate('/')
