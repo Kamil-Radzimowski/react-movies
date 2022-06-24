@@ -5,7 +5,6 @@ function MovieCard(props: any) {
     let navigate = useNavigate()
 
     async function navigateToMovie(){
-        console.log("navigate")
         navigate(`/movie/${1}`)
     }
 

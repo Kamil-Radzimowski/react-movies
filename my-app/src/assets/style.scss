@@ -27,17 +27,20 @@
   .App-search {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 5px 15px;
+    padding: 5px 45px;
     .search {
       flex-basis: 100%;
+      flex-grow: 1;
       color: white;
-      margin: 10px 35px;
+      width: 100%;
+      padding: 10px 0;
     }
     .search-text {
       font-size: 25px;
-      margin: 10px 35px;
+      padding: 10px 0;
     }
   }
   .App-recommendations {

@@ -1,12 +1,12 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import config from "./Config";
 import movie_logo from "./assets/the-movie-db-logo.svg";
-import TextField from "@mui/material/TextField";
 import MovieCard from "./MovieCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Gradient } from 'react-gradient';
 import './assets/style.scss';
+import {Autocomplete, IconButton, InputAdornment, OutlinedInput, TextField} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 
 const gradient = [
@@ -14,7 +14,27 @@ const gradient = [
 ]
 
 function Main() {
-    const [recommendationsData, setRecommendationsData] = React.useState([])
+    const [recommendationsData, setRecommendationsData] = useState([])
+    const [searchedMovies, setSearchedMovies] = useState([])
+    const [searchInput, setSearchInput] = useState("")
+
+    let navigate = useNavigate()
+
+    function loadMovies(s: unknown[]){
+        console.log(s)
+        return s;
+    }
+
+    function onSearchKeyPressed(key){
+        if(key.keyCode == 13){
+            navigate(`/movieList/${searchInput}`)
+        }
+    }
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchInput(event.target.value);
+    };
+
 
     useEffect(() => {
         console.log("ok")
@@ -47,7 +67,16 @@ function Main() {
             </header>
             <div className="App-search">
                 <Gradient className='search-text' gradients={gradient} property='text' angle='45deg'>Szukaj Filmu</Gradient>
-                <TextField className="search" id="outlined" label="Nazwa Filmu" variant="outlined"></TextField>
+                {/* <Autocomplete className='search' filterOptions={(x) => {return loadMovies(x)}} renderInput={(params) => <TextField {...params} label="Szukaj Filmu"></TextField>} options={searchedMovies}></Autocomplete>*/}
+                <OutlinedInput className='search' onChange={handleChange} value={searchInput} onKeyDown={key => onSearchKeyPressed(key)} color='primary' label="Szukaj Filmu" endAdornment={
+                    <InputAdornment position="end">
+                        <IconButton
+                            aria-label="toggle password visibility"
+                            edge="end"
+                        >
+                        </IconButton>
+                    </InputAdornment>
+                }></OutlinedInput>
             </div>
             <div className="App-recommendations">
                 <Gradient className='recommendations-text' gradients={gradient} property='text' angle='45deg'>Nasze Rekomendacje</Gradient>
