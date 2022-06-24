@@ -94,6 +94,7 @@
         }
       }
       .movie-card:hover {
+        cursor: pointer;
         .movie-card-details{
           background-color: rgb(0, 0, 0, 0.5);
           display: inline-block;

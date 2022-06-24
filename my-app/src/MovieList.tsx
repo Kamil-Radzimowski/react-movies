@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import './assets/styleMovieList.scss';
 import movie_logo from "./assets/the-movie-db-logo.svg";
@@ -15,6 +15,11 @@ function MovieList() {
     const [areMoviesLoaded, setMoviesLoaded] = useState(false)
     const gradient = config.getGradient()
     let params = useParams()
+    let navigate = useNavigate()
+
+    function navigateToMainPage() {
+        navigate('/')
+    }
 
 
     useEffect(() => {
@@ -39,7 +44,7 @@ function MovieList() {
     return (
         <div className="Main">
             <div className="top-nav">
-                <img src={movie_logo} alt='movie database logo'/>
+                <img src={movie_logo} onClick={() => {navigateToMainPage()}} alt='movie database logo'/>
                 <div className="nav-input-text">{`Wyniki wyszukiwania dla ${params.input}`}</div>
             </div>
             {areMoviesLoaded ? <div className="list-wrapper">
