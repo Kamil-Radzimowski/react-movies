@@ -1,7 +1,7 @@
 import React from "react";
 import { Gradient } from 'react-gradient';
-import './assets/styleMovieListItem.scss';
-import config from "./Config";
+import '../assets/styleMovieListItem.scss';
+import config from "../Config";
 import {useNavigate} from "react-router-dom";
 
 

@@ -1,9 +1,9 @@
 import {useNavigate, useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import './assets/styleMovieList.scss';
-import movie_logo from "./assets/the-movie-db-logo.svg";
+import '../assets/styleMovieList.scss';
+import movie_logo from "../assets/the-movie-db-logo.svg";
 import axios from "axios";
-import config from "./Config";
+import config from "../Config";
 import { Gradient } from 'react-gradient';
 import CircularProgress from "@mui/material/CircularProgress";
 import MovieListItem from "./MovieListItem";

@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import config from "./Config";
-import movie_logo from "./assets/the-movie-db-logo.svg";
-import MovieCard from "./MovieCard";
+import config from "../Config";
+import movie_logo from "../assets/the-movie-db-logo.svg";
+import MovieCard from "../MovieCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Gradient } from 'react-gradient';
-import './assets/style.scss';
+import '../assets/style.scss';
 import {Autocomplete, IconButton, InputAdornment, OutlinedInput, TextField} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 

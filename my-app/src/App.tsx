@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Main from "./Main";
-import MoviePage from "./MoviePage";
-import MovieList from "./MovieList";
+import Main from "./landingPage/Main";
+import MoviePage from "./moviePage/MoviePage";
+import MovieList from "./movieList/MovieList";
 
 
 function App() {
