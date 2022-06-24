@@ -8,13 +8,12 @@ import { Gradient } from 'react-gradient';
 import CircularProgress from "@mui/material/CircularProgress";
 import MovieListItem from "./MovieListItem";
 
-const gradient = [
-    ['#90cea1', '#01b4e4'],
-]
+
 
 function MovieList() {
     const [movies, setMovies] = useState([])
     const [areMoviesLoaded, setMoviesLoaded] = useState(false)
+    const gradient = config.getGradient()
     let params = useParams()
 
 

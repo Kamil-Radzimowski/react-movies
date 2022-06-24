@@ -1,12 +1,14 @@
 import React from "react";
 import { Gradient } from 'react-gradient';
 import './assets/styleMovieListItem.scss';
+import config from "./Config";
 
-const gradient = [
-    ['#90cea1', '#01b4e4'],
-]
+
 
 function MovieListItem(props) {
+
+    const gradient = config.getGradient()
+
     return (
         <div className="item">
             <img alt={`${props.data.title} movie poster`} className="item-img" src={`https://image.tmdb.org/t/p/original/${props.data.poster}`}></img>

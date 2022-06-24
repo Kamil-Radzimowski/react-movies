@@ -9,14 +9,11 @@ import './assets/style.scss';
 import {Autocomplete, IconButton, InputAdornment, OutlinedInput, TextField} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 
-const gradient = [
-    ['#90cea1', '#01b4e4'],
-]
-
 function Main() {
     const [recommendationsData, setRecommendationsData] = useState([])
     const [searchedMovies, setSearchedMovies] = useState([])
     const [searchInput, setSearchInput] = useState("")
+    const gradient = config.getGradient()
 
     let navigate = useNavigate()
 
