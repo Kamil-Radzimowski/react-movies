@@ -25,6 +25,7 @@
       flex-wrap: wrap;
       align-items: flex-start;
       justify-content: flex-start;
+      flex-direction: column;
       margin-left: 10px;
       .top-content{
         display: flex;
@@ -32,7 +33,7 @@
         justify-content: flex-start;
         margin-bottom: 10px;
         .genre{
-          border: solid #282c34;
+          border: 2px solid #282c34;
           color: #282c34;
           margin-right: 10px;
           padding: 10px;
@@ -45,7 +46,15 @@
       }
       .desc{
         border-radius: 10px;
-        border: solid #282c34;
+        border: 2px solid #282c34;
+        padding: 10px;
+        color: #282c34;
+        flex: 1;
+        margin-bottom: 10px;
+      }
+      .production-country{
+        border-radius: 10px;
+        border: 2px solid #282c34;
         padding: 10px;
         color: #282c34;
       }

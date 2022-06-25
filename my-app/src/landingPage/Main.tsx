@@ -6,9 +6,19 @@ import RecommendedMovieCard from "./recommendedMovieCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Gradient } from 'react-gradient';
 import '../assets/style.scss';
-import {Autocomplete, IconButton, InputAdornment, OutlinedInput, TextField} from "@mui/material";
+import {IconButton, InputAdornment, OutlinedInput, TextField} from "@mui/material";
 import { createTheme } from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
+import Visibility from '@mui/icons-material/Visibility';
+import {Search} from "@mui/icons-material";
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#01b4e4',
+        },
+    },
+});
 
 type movie = {
     id: number
@@ -34,8 +44,12 @@ function Main() {
 
     function onSearchKeyPressed(key){
         if(key.keyCode == 13){
-            navigate(`/movieList/${searchInput}`)
+            navigateToMovieList()
         }
+    }
+
+    function navigateToMovieList(){
+        navigate(`/movieList/${searchInput}`)
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,12 +90,13 @@ function Main() {
             <div className="App-search">
                 <Gradient className='search-text' gradients={gradient} property='text' angle='45deg'>Szukaj Filmu</Gradient>
                 {/* <Autocomplete className='search' filterOptions={(x) => {return loadMovies(x)}} renderInput={(params) => <TextField {...params} label="Szukaj Filmu"></TextField>} options={searchedMovies}></Autocomplete>*/}
-                <OutlinedInput sx={{color: 'secondary'}} className='search' onChange={handleChange} value={searchInput} onKeyDown={key => onSearchKeyPressed(key)} label="Szukaj Filmu" endAdornment={
+                <OutlinedInput theme={theme} sx={{color: 'secondary'}} className='search' onChange={handleChange} value={searchInput} onKeyDown={key => onSearchKeyPressed(key)} label="Szukaj Filmu" endAdornment={
                     <InputAdornment position="end">
                         <IconButton
                             aria-label="toggle password visibility"
-                            edge="end"
+                            onClick={() => {navigateToMovieList()}}
                         >
+                            <Search/>
                         </IconButton>
                     </InputAdornment>
                 }></OutlinedInput>

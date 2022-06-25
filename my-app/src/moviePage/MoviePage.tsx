@@ -15,11 +15,16 @@ type data = {
     vote_count: number,
     vote_avg: number,
     genres: genre[],
-    production_countries: [],
+    production_countries: country[],
 }
 
 type genre = {
     id: number,
+    name: string,
+}
+
+type country = {
+    iso: string,
     name: string,
 }
 
@@ -65,6 +70,15 @@ function MoviePage(){
                         <Rating className='rating' readOnly value={data.vote_avg / 2} precision={0.25}></Rating>
                     </div>
                     <div className="desc">{`${data.overview}`}</div>
+                    <div className='production-country'>{`Kraj Produkcji: ${data.production_countries.reduce((acc, current, index) => {
+                        if(index == 0) {
+                            return acc.concat(current.name)
+                        }
+                        else{
+                           return acc.concat(', ').concat(current.name)
+                        }
+                    }, "")}`}</div>
+
                 </div>
             </div>}
         </div>
