@@ -10,8 +10,17 @@ import {Autocomplete, IconButton, InputAdornment, OutlinedInput, TextField} from
 import { createTheme } from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
 
+type movie = {
+    id: number
+    title: string,
+    popularity: number,
+    poster: string,
+    vote_count: number,
+    overview: string,
+}
+
 function Main() {
-    const [recommendationsData, setRecommendationsData] = useState([])
+    const [recommendationsData, setRecommendationsData] = useState([] as movie[])
     const [searchedMovies, setSearchedMovies] = useState([])
     const [searchInput, setSearchInput] = useState("")
     const gradient = config.getGradient()
