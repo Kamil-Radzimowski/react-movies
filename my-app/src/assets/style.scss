@@ -1,5 +1,9 @@
-.App {
+body, html{
+  height: 100%;
   background: whitesmoke;
+}
+.App {
+  height: 100%;
   .App-header {
     background-color: #282c34;
     display: flex;

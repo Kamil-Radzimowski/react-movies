@@ -8,10 +8,17 @@ import { Gradient } from 'react-gradient';
 import CircularProgress from "@mui/material/CircularProgress";
 import MovieListItem from "./MovieListItem";
 
-
+export type movie = {
+    id: number
+    title: string,
+    popularity: number,
+    poster: string,
+    vote_count: number,
+    overview: string,
+}
 
 function MovieList() {
-    const [movies, setMovies] = useState([])
+    const [movies, setMovies] = useState([] as movie[])
     const [areMoviesLoaded, setMoviesLoaded] = useState(false)
     const gradient = config.getGradient()
     const params = useParams()
@@ -50,7 +57,7 @@ function MovieList() {
             {areMoviesLoaded ? <div className="list-wrapper">
                 {movies.length > 0 ? <div className="list">
                     <Gradient className='list-results-num' gradients={gradient} property='text' angle='45deg'>{`Znaleziono ${movies.length} wyników`}</Gradient>
-                    {movies.map((movieData) => {return <MovieListItem data={movieData}/>})}
+                    {movies.map((movieData) => {return <MovieListItem key={movieData.id} data={movieData}/>})}
                 </div> : <Gradient className='list-empty-text' gradients={gradient} property='text' angle='45deg'>Brak wyników dla podanej frazy</Gradient>}
             </div> : <CircularProgress className="list-loading"/>}
 

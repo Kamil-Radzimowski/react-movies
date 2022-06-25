@@ -1,3 +1,10 @@
+%center-div{
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  cursor: pointer;
+}
+
 .item{
   display: flex;
   align-items: flex-start;
@@ -21,6 +28,7 @@
       justify-content: space-evenly;
       font-size: 18px;
       div{
+        @extend %center-div;
         color: rgb(60, 66, 77, 1);
         border: solid rgb(60, 66, 77, 1);
         border-radius: 10px;
@@ -36,7 +44,6 @@
 
       }
       .more{
-        cursor: pointer;
       }
     }
     .item-desc{
@@ -46,6 +53,7 @@
       padding: 8px;
       border: solid #4f5662;
       color: #4f5662;
+      overflow-y: auto;
       border-radius: 10px;
     }
   }

@@ -3,10 +3,13 @@ import { Gradient } from 'react-gradient';
 import '../assets/styleMovieListItem.scss';
 import config from "../Config";
 import {useNavigate} from "react-router-dom";
+import type { movie } from './MovieList';
 
+type property = {
+    data : movie;
+}
 
-
-function MovieListItem(props) {
+function MovieListItem(props: property) {
     const navigate = useNavigate()
     let desc = props.data.overview
     if(desc == ''){
