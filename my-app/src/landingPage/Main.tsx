@@ -67,7 +67,7 @@ function Main() {
             <div className="App-search">
                 <Gradient className='search-text' gradients={gradient} property='text' angle='45deg'>Szukaj Filmu</Gradient>
                 {/* <Autocomplete className='search' filterOptions={(x) => {return loadMovies(x)}} renderInput={(params) => <TextField {...params} label="Szukaj Filmu"></TextField>} options={searchedMovies}></Autocomplete>*/}
-                <OutlinedInput className='search' onChange={handleChange} value={searchInput} onKeyDown={key => onSearchKeyPressed(key)} color='primary' label="Szukaj Filmu" endAdornment={
+                <OutlinedInput sx={{color: 'secondary'}} className='search' onChange={handleChange} value={searchInput} onKeyDown={key => onSearchKeyPressed(key)} label="Szukaj Filmu" endAdornment={
                     <InputAdornment position="end">
                         <IconButton
                             aria-label="toggle password visibility"
@@ -80,7 +80,7 @@ function Main() {
             <div className="App-recommendations">
                 <Gradient className='recommendations-text' gradients={gradient} property='text' angle='45deg'>Nasze Rekomendacje</Gradient>
                 {recommendationsData.length > 0 ? (<div className="recommendations">
-                    {recommendationsData.map((e) => {return <RecommendedMovieCard data={e}/>})}
+                    {recommendationsData.map((e) => {return <RecommendedMovieCard key={e.id} data={e}/>})}
                 </div>) : (<CircularProgress className="recommendations-loading"/>)}
             </div>
         </div>

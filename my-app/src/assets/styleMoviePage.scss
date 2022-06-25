@@ -1,0 +1,43 @@
+.Page{
+  background: whitesmoke;
+  .page-nav{
+    padding: 25px;
+    background-color: #282c34;
+    display: flex;
+    img{
+      cursor: pointer;
+      height: 25px;
+    }
+    .page-nav-title{
+      color: white;
+      margin-left: 10px;
+    }
+  }
+  .page-content{
+    display: flex;
+    padding: 25px;
+    img{
+      height: 325px;
+      border-radius: 10px;
+    }
+    .text-content{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: center;
+      margin-left: 10px;
+      .genre{
+        color: white;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: indigo;
+        border-radius: 10px;
+      }
+      .desc{
+        padding: 10px;
+        color: #282c34;
+      }
+    }
+  }
+}

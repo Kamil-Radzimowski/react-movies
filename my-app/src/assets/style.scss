@@ -36,9 +36,13 @@
     .search {
       flex-basis: 100%;
       flex-grow: 1;
-      color: white;
+      color: #282c34;
+      background-color:white;
       width: 100%;
-      padding: 10px 0;
+      padding: 5px 0;
+    }
+    .search:focus{
+      color: #282c34;
     }
     .search-text {
       font-size: 25px;
@@ -46,6 +50,7 @@
     }
   }
   .App-recommendations {
+    margin: 15px 0;
     width: 100%;
     .recommendations-text {
       text-align: center;
