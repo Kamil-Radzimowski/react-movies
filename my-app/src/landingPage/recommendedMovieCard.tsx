@@ -1,6 +1,6 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
-import {movie} from "../types";
+import {movie} from "../Util/types";
 
 type cardProps = {
     data: movie

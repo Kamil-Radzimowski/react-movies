@@ -1,3 +1,5 @@
+import * as H from "history";
+
 export type movie = {
     id: number
     title: string,
@@ -9,11 +11,11 @@ export type movie = {
 
 export type detailedMovie = {
     title: string,
-    poster: string,
+    poster_path: string,
     overview: string,
     popularity: number,
     vote_count: number,
-    vote_avg: number,
+    vote_average: number,
     genres: genre[],
     production_countries: country[],
 }

@@ -3,11 +3,11 @@ import React, {useEffect, useState} from "react";
 import '../assets/styleMovieList.scss';
 import movie_logo from "../assets/the-movie-db-logo.svg";
 import axios from "axios";
-import config from "../Config";
+import config from "../Util/Config";
 import { Gradient } from 'react-gradient';
 import CircularProgress from "@mui/material/CircularProgress";
 import MovieListItem from "./MovieListItem";
-import {movie} from "../types";
+import {movie} from "../Util/types";
 
 
 function MovieList() {

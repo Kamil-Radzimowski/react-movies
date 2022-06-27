@@ -1,9 +1,9 @@
 import React from "react";
 import { Gradient } from 'react-gradient';
 import '../assets/styleMovieListItem.scss';
-import config from "../Config";
+import config from "../Util/Config";
 import {useNavigate} from "react-router-dom";
-import {movie} from "../types";
+import {movie} from "../Util/types";
 
 type property = {
     data : movie;

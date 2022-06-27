@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import config from "../Config";
+import config from "../Util/Config";
 import movie_logo from "../assets/the-movie-db-logo.svg";
 import RecommendedMovieCard from "./recommendedMovieCard";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -10,7 +10,7 @@ import {IconButton, InputAdornment, OutlinedInput} from "@mui/material";
 import { createTheme } from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
 import {Search} from "@mui/icons-material";
-import {movie} from "../types";
+import {movie} from "../Util/types";
 
 const theme = createTheme({
     palette: {
