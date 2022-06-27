@@ -22,27 +22,6 @@ function MovieList() {
     }
 
 
-    useEffect(() => {
-        /*
-        console.log(`https://api.themoviedb.org/3/search/movie?api_key=${config.getApiKey()}&query=${params.input}`)
-        axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${config.getApiKey()}&query=${params.input}&language=pl`).then(r => {
-            setMoviesLoaded(true)
-            const data = r.data.results.map((entry) => {
-                return {
-                    id: entry.id,
-                    title: entry.title,
-                    popularity: entry.popularity,
-                    poster: entry.poster_path,
-                    vote_count: entry.vote_count,
-                    overview: entry.overview
-                };
-            })
-            setMovies(data)
-        }).catch(e => {
-            console.log(e)})
-         */
-    }, [])
-
     return (
         <div className="Main">
             <div className="top-nav">

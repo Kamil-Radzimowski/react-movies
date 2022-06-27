@@ -5,20 +5,13 @@ import RecommendedMovieCard from "./recommendedMovieCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Gradient } from 'react-gradient';
 import '../assets/style.scss';
-import {IconButton, InputAdornment, OutlinedInput} from "@mui/material";
+import {FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput} from "@mui/material";
 import { createTheme } from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
 import {Search} from "@mui/icons-material";
 import {movie} from "../Util/types";
 import {useGetRecommendedMoviesQuery} from "../Util/MovieService";
-
-const theme = createTheme({
-    palette: {
-        primary: {
-            main: '#01b4e4',
-        },
-    },
-});
+import theme from "../Util/theme";
 
 
 function Main() {
@@ -50,29 +43,6 @@ function Main() {
     };
 
 
-    useEffect(() => {
-        /*
-        console.log("ok")
-        // Get 5 recommendations
-        axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${config.getApiKey()}&language=pl`).then((res) => {
-            const fiveRecommendations = res.data["results"].slice(0, 5).map((entry: any) => {
-                return {
-                    id: entry.id,
-                    title: entry.title,
-                    popularity: entry.popularity,
-                    poster: entry.poster_path,
-                    vote_count: entry.vote_count,
-                    overview: entry.overview
-                };
-            })
-            console.log(fiveRecommendations)
-            setRecommendationsData(fiveRecommendations)
-        }).catch((err) => {
-            console.log(err)
-        })
-         */
-    }, [])
-
     return (
         <div className="App">
             <header className="App-header">
@@ -85,16 +55,19 @@ function Main() {
             <div className="App-search">
                 <Gradient className='search-text' gradients={gradient} property='text' angle='45deg'>Szukaj Filmu</Gradient>
                 {/* <Autocomplete className='search' filterOptions={(x) => {return loadMovies(x)}} renderInput={(params) => <TextField {...params} label="Szukaj Filmu"></TextField>} options={searchedMovies}></Autocomplete>*/}
-                <OutlinedInput theme={theme} sx={{color: 'secondary'}} className='search' onChange={handleChange} value={searchInput} onKeyDown={key => onSearchKeyPressed(key)} label="Szukaj Filmu" endAdornment={
-                    <InputAdornment position="end">
-                        <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={() => {navigateToMovieList()}}
-                        >
-                            <Search/>
-                        </IconButton>
-                    </InputAdornment>
+                <FormControl className='search' variant="outlined">
+                    <InputLabel htmlFor='display-name'>Szukaj</InputLabel>
+                        <OutlinedInput  onChange={handleChange} value={searchInput} onKeyDown={key => onSearchKeyPressed(key)} label="Szukaj" endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="search"
+                                    onClick={() => {navigateToMovieList()}}
+                                >
+                                    <Search/>
+                                </IconButton>
+                            </InputAdornment>
                 }></OutlinedInput>
+                </FormControl>
             </div>
             <div className="App-recommendations">
                 <Gradient className='recommendations-text' gradients={gradient} property='text' angle='45deg'>Nasze Rekomendacje</Gradient>
