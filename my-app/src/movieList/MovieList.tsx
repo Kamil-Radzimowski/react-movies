@@ -7,15 +7,8 @@ import config from "../Config";
 import { Gradient } from 'react-gradient';
 import CircularProgress from "@mui/material/CircularProgress";
 import MovieListItem from "./MovieListItem";
+import {movie} from "../types";
 
-export type movie = {
-    id: number
-    title: string,
-    popularity: number,
-    poster: string,
-    vote_count: number,
-    overview: string,
-}
 
 function MovieList() {
     const [movies, setMovies] = useState([] as movie[])

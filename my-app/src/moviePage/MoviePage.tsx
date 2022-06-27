@@ -6,30 +6,12 @@ import '../assets/styleMoviePage.scss';
 import movie_logo from "../assets/the-movie-db-logo.svg";
 import { Gradient } from 'react-gradient';
 import {Rating} from "@mui/material";
+import {detailedMovie} from "../types";
 
-type data = {
-    title: string,
-    poster: string,
-    overview: string,
-    popularity: number,
-    vote_count: number,
-    vote_avg: number,
-    genres: genre[],
-    production_countries: country[],
-}
 
-type genre = {
-    id: number,
-    name: string,
-}
-
-type country = {
-    iso: string,
-    name: string,
-}
 
 function MoviePage(){
-    const [data, setData] = useState({} as data)
+    const [data, setData] = useState({} as detailedMovie)
     const [isDataLoading, setIsDataLoading] = useState(true)
     const params = useParams()
     const navigate = useNavigate()

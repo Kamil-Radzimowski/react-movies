@@ -1,5 +1,4 @@
-import React, {useEffect} from 'react';
-import ReactDOM from "react-dom/client";
+import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Main from "./landingPage/Main";
 import MoviePage from "./moviePage/MoviePage";

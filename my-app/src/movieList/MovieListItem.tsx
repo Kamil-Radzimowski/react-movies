@@ -3,7 +3,7 @@ import { Gradient } from 'react-gradient';
 import '../assets/styleMovieListItem.scss';
 import config from "../Config";
 import {useNavigate} from "react-router-dom";
-import type { movie } from './MovieList';
+import {movie} from "../types";
 
 type property = {
     data : movie;

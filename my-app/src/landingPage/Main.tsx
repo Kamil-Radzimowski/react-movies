@@ -6,11 +6,11 @@ import RecommendedMovieCard from "./recommendedMovieCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Gradient } from 'react-gradient';
 import '../assets/style.scss';
-import {IconButton, InputAdornment, OutlinedInput, TextField} from "@mui/material";
+import {IconButton, InputAdornment, OutlinedInput} from "@mui/material";
 import { createTheme } from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
-import Visibility from '@mui/icons-material/Visibility';
 import {Search} from "@mui/icons-material";
+import {movie} from "../types";
 
 const theme = createTheme({
     palette: {
@@ -20,18 +20,10 @@ const theme = createTheme({
     },
 });
 
-type movie = {
-    id: number
-    title: string,
-    popularity: number,
-    poster: string,
-    vote_count: number,
-    overview: string,
-}
 
 function Main() {
     const [recommendationsData, setRecommendationsData] = useState([] as movie[])
-    const [searchedMovies, setSearchedMovies] = useState([])
+    // const [searchedMovies, setSearchedMovies] = useState([])
     const [searchInput, setSearchInput] = useState("")
     const gradient = config.getGradient()
 

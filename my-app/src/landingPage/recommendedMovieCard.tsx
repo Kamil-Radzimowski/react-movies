@@ -1,15 +1,9 @@
 import React from "react";
 import {useNavigate} from "react-router-dom";
+import {movie} from "../types";
 
 type cardProps = {
-    data: {
-        id: number,
-        title: string,
-        popularity: number,
-        poster: string,
-        vote_count: number,
-        overview: string,
-    }
+    data: movie
 }
 
 function RecommendedMovieCard(props: cardProps) {
