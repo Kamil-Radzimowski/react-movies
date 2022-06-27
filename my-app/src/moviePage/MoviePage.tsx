@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import axios from "axios";
 import config from "../Util/Config";
 import {useNavigate, useParams} from "react-router-dom";
 import '../assets/styleMoviePage.scss';
@@ -36,7 +35,7 @@ const MoviePage = () => {
                 <div className="text-content">
                     <div className="top-content">
                         {data?.genres.map((genre) => {return (<Gradient className='genre' key={genre.id} gradients={gradient} property='background' angle='0deg'>{`${genre.name}`}</Gradient>)})}
-                        <Rating className='rating' readOnly value={data?.vote_average ?? 0 / 2} precision={0.25}></Rating>
+                        <Rating className='rating' readOnly value={(data?.vote_average ?? 0) / 2} precision={0.25}></Rating>
                     </div>
                     <div className="desc">{`${data?.overview}`}</div>
                     <div className='production-country'>{`Kraj Produkcji: ${data?.production_countries.reduce((acc, current, index) => {

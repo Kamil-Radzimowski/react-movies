@@ -116,8 +116,10 @@ body, html{
       }
     }
     .recommendations-loading {
-      width: 100%;
-      margin: 25px;
+      margin: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 }

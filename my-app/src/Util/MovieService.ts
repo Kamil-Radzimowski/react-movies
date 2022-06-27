@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import config from "./Config";
-import {detailedMovie, movie} from "../Util/types";
+import {detailedMovie, movie} from "./types";
 
 export const movieApi = createApi({
     reducerPath: 'movieApi',
@@ -8,8 +8,26 @@ export const movieApi = createApi({
     endpoints: (builder) => ({
         getMovieDetailsById: builder.query<detailedMovie, string>({
             query: (id) => `movie/${id}?api_key=${config.getApiKey()}&language=pl`,
+            transformResponse: (response: detailedMovie) => {
+                // console.log(response)
+                return response
+            }
         }),
+        getRecommendedMovies: builder.query<movie[], void>({
+            query: () => `discover/movie?api_key=${config.getApiKey()}&language=pl`,
+            transformResponse: (response: {results: movie[], page: number, total_pages: number, total_results: number}) => {
+                //console.log(response.results.slice(0, 5))
+                return response.results.slice(0, 5)
+            }
+        }),
+        getMovieByName: builder.query<movie[], string>({
+            query: (str: string) => `search/movie?api_key=${config.getApiKey()}&query=${str}`,
+            transformResponse: (response: {results: movie[], page: number, total_pages: number, total_results: number}) => {
+                // console.log(response)
+                return response.results
+            }
+        })
     }),
 })
 
-export const { useGetMovieDetailsByIdQuery } = movieApi
+export const { useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery } = movieApi

@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import axios from "axios";
 import config from "../Util/Config";
 import movie_logo from "../assets/the-movie-db-logo.svg";
 import RecommendedMovieCard from "./recommendedMovieCard";
@@ -11,6 +10,7 @@ import { createTheme } from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
 import {Search} from "@mui/icons-material";
 import {movie} from "../Util/types";
+import {useGetRecommendedMoviesQuery} from "../Util/MovieService";
 
 const theme = createTheme({
     palette: {
@@ -22,8 +22,9 @@ const theme = createTheme({
 
 
 function Main() {
-    const [recommendationsData, setRecommendationsData] = useState([] as movie[])
+    // const [recommendationsData, setRecommendationsData] = useState([] as movie[])
     // const [searchedMovies, setSearchedMovies] = useState([])
+    const { data, isLoading } = useGetRecommendedMoviesQuery()
     const [searchInput, setSearchInput] = useState("")
     const gradient = config.getGradient()
 
@@ -50,6 +51,7 @@ function Main() {
 
 
     useEffect(() => {
+        /*
         console.log("ok")
         // Get 5 recommendations
         axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${config.getApiKey()}&language=pl`).then((res) => {
@@ -68,6 +70,7 @@ function Main() {
         }).catch((err) => {
             console.log(err)
         })
+         */
     }, [])
 
     return (
@@ -95,9 +98,9 @@ function Main() {
             </div>
             <div className="App-recommendations">
                 <Gradient className='recommendations-text' gradients={gradient} property='text' angle='45deg'>Nasze Rekomendacje</Gradient>
-                {recommendationsData.length > 0 ? (<div className="recommendations">
-                    {recommendationsData.map((e) => {return <RecommendedMovieCard key={e.id} data={e}/>})}
-                </div>) : (<CircularProgress className="recommendations-loading"/>)}
+                {isLoading ? (<div className="recommendations-loading"><CircularProgress/></div>) : (<div className="recommendations">
+                    {data?.map((e: movie) => {return <RecommendedMovieCard key={e.id} data={e}/>})}
+                </div>)}
             </div>
         </div>
     );

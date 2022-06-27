@@ -4,7 +4,7 @@ export type movie = {
     id: number
     title: string,
     popularity: number,
-    poster: string,
+    poster_path: string,
     vote_count: number,
     overview: string,
 }
