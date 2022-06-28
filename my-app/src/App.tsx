@@ -1,20 +1,23 @@
-import React, {useEffect} from 'react';
-import ReactDOM from "react-dom/client";
+import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Main from "./landingPage/Main";
 import MoviePage from "./moviePage/MoviePage";
 import MovieList from "./movieList/MovieList";
+import {store} from "./Util/store";
+import {Provider} from "react-redux";
 
 
 function App() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Main/>}/>
-                <Route path="/movie/:movieId" element={<MoviePage/>}/>
-                <Route path="/movieList/:input" element={<MovieList/>}/>
-            </Routes>
-        </BrowserRouter>
+        <Provider store={store}>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Main/>}/>
+                    <Route path="/movie/:movieId" element={<MoviePage/>}/>
+                    <Route path="/movieList/:input/:page" element={<MovieList/>}/>
+                </Routes>
+            </BrowserRouter>
+        </Provider>
     )
 }
 
