@@ -8,6 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import MovieListItem from "./MovieListItem";
 import {useGetMovieByNameQuery} from "../Util/MovieService";
 import {Pagination, PaginationItem} from "@mui/material";
+import MovieItemCard from "./MovieItemCard";
 
 
 function MovieList() {
@@ -32,7 +33,7 @@ function MovieList() {
             {isLoading ?  <CircularProgress className="list-loading"/> : <div className="list-wrapper">
                 {(data || []).length > 0 ? <div className="list">
                     <Gradient className='list-results-num' gradients={gradient} property='text' angle='45deg'>{`Znaleziono ${(data || []).length} wyników`}</Gradient>
-                    {data?.map((movieData) => {return <MovieListItem key={movieData.id} data={movieData}/>})}
+                    {data?.map((movieData) => {return <MovieItemCard key={movieData.id} data={movieData}/>})}
                 </div> : <Gradient className='list-empty-text' gradients={gradient} property='text' angle='45deg'>Brak wyników dla podanej frazy</Gradient>}
             </div> }
             <Pagination className="page-nav" page={parseInt(params.page as string)} count={10} renderItem={(item) => (
