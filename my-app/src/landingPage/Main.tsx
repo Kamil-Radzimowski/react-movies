@@ -9,8 +9,8 @@ import '../assets/style.scss';
 import {IconButton, InputAdornment, OutlinedInput, TextField} from "@mui/material";
 import { createTheme } from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
-import Visibility from '@mui/icons-material/Visibility';
 import {Search} from "@mui/icons-material";
+
 
 const theme = createTheme({
     palette: {
@@ -90,7 +90,7 @@ function Main() {
             <div className="App-search">
                 <Gradient className='search-text' gradients={gradient} property='text' angle='45deg'>Szukaj Filmu</Gradient>
                 {/* <Autocomplete className='search' filterOptions={(x) => {return loadMovies(x)}} renderInput={(params) => <TextField {...params} label="Szukaj Filmu"></TextField>} options={searchedMovies}></Autocomplete>*/}
-                <OutlinedInput theme={theme} sx={{color: 'secondary'}} className='search' onChange={handleChange} value={searchInput} onKeyDown={key => onSearchKeyPressed(key)} label="Szukaj Filmu" endAdornment={
+                <OutlinedInput theme={theme}  className='search' onChange={handleChange} value={searchInput} onKeyDown={key => onSearchKeyPressed(key)} label="Szukaj Filmu" endAdornment={
                     <InputAdornment position="end">
                         <IconButton
                             aria-label="toggle password visibility"
