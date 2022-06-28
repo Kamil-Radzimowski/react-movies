@@ -1,5 +1,3 @@
-import * as H from "history";
-
 export type movie = {
     id: number
     title: string,

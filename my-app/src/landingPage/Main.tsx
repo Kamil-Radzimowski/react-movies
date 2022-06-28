@@ -6,12 +6,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Gradient } from 'react-gradient';
 import '../assets/style.scss';
 import {FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput} from "@mui/material";
-import { createTheme } from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
 import {Search} from "@mui/icons-material";
 import {movie} from "../Util/types";
 import {useGetRecommendedMoviesQuery} from "../Util/MovieService";
-import theme from "../Util/theme";
 
 
 function Main() {

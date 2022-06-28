@@ -16,10 +16,6 @@ const MoviePage = () => {
 
     const { data, error, isLoading} = useGetMovieDetailsByIdQuery(movieId || "")
 
-    useEffect(() => {
-        // console.log(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${config.getApiKey()}&language=pl`)
-    }, [])
-
     function navigateToMainPage() {
         navigate('/')
     }
