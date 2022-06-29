@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import config from "./Config";
-import {detailedMovie, movie} from "./types";
+import {detailedMovie, movie, searchResult} from "./types";
 
 export const movieApi = createApi({
     reducerPath: 'movieApi',
@@ -20,11 +20,14 @@ export const movieApi = createApi({
                 return response.results.slice(0, 5)
             }
         }),
-        getMovieByName: builder.query<movie[], {str: string, page: string}>({
-            query: ({str,  page}) => `search/movie?api_key=${config.getApiKey()}&query=${str}&page=${page}`,
+        getMovieByName: builder.query<searchResult, {str: string, page: string}>({
+            query: ({str,  page}) => `search/movie?api_key=${config.getApiKey()}&query=${str}&page=${page}&language=pl`,
             transformResponse: (response: {results: movie[], page: number, total_pages: number, total_results: number}) => {
                 // console.log(response)
-                return response.results
+                return {
+                    total_results: response.total_results,
+                    results: response.results
+                }
             }
         })
     }),

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import config from "../Util/Config";
 import movie_logo from "../assets/the-movie-db-logo.svg";
 import RecommendedMovieCard from "./recommendedMovieCard";
@@ -15,18 +15,11 @@ import {useGetRecommendedMoviesQuery} from "../Util/MovieService";
 
 
 function Main() {
-    // const [recommendationsData, setRecommendationsData] = useState([] as movie[])
-    // const [searchedMovies, setSearchedMovies] = useState([])
     const { data, isLoading } = useGetRecommendedMoviesQuery()
     const [searchInput, setSearchInput] = useState("")
     const gradient = config.getGradient()
 
     const navigate = useNavigate()
-
-    function loadMovies(s: unknown[]){
-        console.log(s)
-        return s;
-    }
 
     function onSearchKeyPressed(key){
         if(key.keyCode == 13){

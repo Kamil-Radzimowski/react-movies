@@ -7,6 +7,11 @@ export type movie = {
     overview: string,
 }
 
+export type searchResult = {
+    total_results: number,
+    results: movie[]
+}
+
 export type detailedMovie = {
     title: string,
     poster_path: string,
