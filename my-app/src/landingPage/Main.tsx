@@ -5,11 +5,12 @@ import RecommendedMovieCard from "./recommendedMovieCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Gradient } from 'react-gradient';
 import '../assets/style.scss';
-import {FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput} from "@mui/material";
+import {FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, ThemeProvider} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {Search} from "@mui/icons-material";
 import {movie} from "../Util/types";
 import {useGetRecommendedMoviesQuery} from "../Util/MovieService";
+import theme from "../Util/theme";
 
 
 
@@ -48,8 +49,9 @@ function Main() {
             <div className="App-search">
                 <Gradient className='search-text' gradients={gradient} property='text' angle='45deg'>Szukaj Filmu</Gradient>
                 {/* <Autocomplete className='search' filterOptions={(x) => {return loadMovies(x)}} renderInput={(params) => <TextField {...params} label="Szukaj Filmu"></TextField>} options={searchedMovies}></Autocomplete>*/}
-                <FormControl className='search' variant="outlined">
-                    <InputLabel htmlFor='display-name'>Szukaj</InputLabel>
+                <ThemeProvider theme={theme}>
+                    <FormControl className='search' variant="outlined">
+                        <InputLabel htmlFor='display-name'>Szukaj</InputLabel>
                         <OutlinedInput  onChange={handleChange} value={searchInput} onKeyDown={key => onSearchKeyPressed(key)} label="Szukaj" endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
@@ -59,8 +61,9 @@ function Main() {
                                     <Search/>
                                 </IconButton>
                             </InputAdornment>
-                }></OutlinedInput>
-                </FormControl>
+                        }></OutlinedInput>
+                    </FormControl>
+                </ThemeProvider>
             </div>
             <div className="App-recommendations">
                 <Gradient className='recommendations-text' gradients={gradient} property='text' angle='45deg'>Nasze Rekomendacje</Gradient>

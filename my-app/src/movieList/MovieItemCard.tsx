@@ -1,7 +1,8 @@
 import React from "react";
 import {movie} from "../Util/types";
-import {Box, Button, Card, CardActions, CardContent, CardMedia, Typography} from "@mui/material";
+import {Box, Button, Card, CardActions, CardContent, CardMedia, ThemeProvider, Typography} from "@mui/material";
 import {useNavigate} from "react-router-dom";
+import theme from "../Util/theme";
 
 type property = {
     data : movie;
@@ -33,11 +34,13 @@ function MovieItemCard(prop: property) {
                             <Typography sx={{padding: 2}}>{`Popularność: ${prop.data.popularity}`}</Typography>
                             <Typography sx={{padding: 2}}>{`Liczba głosów ${prop.data.vote_count}`}</Typography>
                             <CardActions sx={{padding: 2}}>
-                                <Button size="medium" color="primary" onClick={() => {
-                                    navigateToMovieDetails(prop.data.id)
-                                }}>
-                                    Więcej
-                                </Button>
+                                <ThemeProvider theme={theme}>
+                                    <Button size="medium" color="primary" onClick={() => {
+                                        navigateToMovieDetails(prop.data.id)
+                                    }}>
+                                        Więcej
+                                    </Button>
+                                </ThemeProvider>
                             </CardActions>
                         </CardContent>
                     </CardContent>
