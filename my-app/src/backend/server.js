@@ -22,13 +22,25 @@ app.get('/recommendation', (req, res) => {
 app.get('/search', (req, res) => {
     const query = req.query.query
     const page = req.query.page
+    const chunk = 10;
     const matchingMovies = database.data.reduce((acc, current) => {
         if(current.title.includes(query)){
             acc.push(simplifyMovie(current))
         }
         return acc;
     }, [])
-    res.send({results: matchingMovies})
+    const result = matchingMovies.reduce((resultArray, item, index) => {
+        const chunkIndex = Math.floor(index/chunk)
+
+        if(!resultArray[chunkIndex]) {
+            resultArray[chunkIndex] = [] // start a new chunk
+        }
+
+        resultArray[chunkIndex].push(item)
+
+        return resultArray
+    }, [])
+    res.send({results: result[page - 1]})
 })
 
 app.listen(port)
