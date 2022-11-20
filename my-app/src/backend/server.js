@@ -1,5 +1,5 @@
 import express from 'express'
-import data from "my-app/src/backend/backendAssets/data.json"
+import data from "./backendAssets/data.json" assert { type: "json" }
 const app = express()
 const port = 3000
 
@@ -26,7 +26,7 @@ app.get('/search', (req, res) => {
     const page = req.query.page
     const chunk = 10;
     const matchingMovies = database.data.reduce((acc, current) => {
-        if(current.title.includes(query)){
+        if(current.title.toLowerCase().includes(query)){
             acc.push(simplifyMovie(current))
         }
         return acc;
@@ -49,13 +49,13 @@ app.get('/search', (req, res) => {
 app.get('/movie/:id' , (req, res) => {
     const id = req.params.id
     const movie = database.data.reduce((acc, current) => {
-        if(current.id === id){
+        if(current.id === parseInt(id)){
             return current
         } else {
             return acc
         }
     }, {})
-    res.send(movie)
+    res.send({movie: movie})
 })
 
 app.listen(port)
