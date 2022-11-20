@@ -14,11 +14,13 @@ const simplifyMovie = (movie) => {
     }
 }
 
+// get five recommended movies
 app.get('/recommendation', (req, res) => {
     const result = database.data.slice(0, 5).map((entry) => {return simplifyMovie(entry)})
     res.send({results: result})
 })
 
+// search for movie by title
 app.get('/search', (req, res) => {
     const query = req.query.query
     const page = req.query.page
@@ -41,6 +43,19 @@ app.get('/search', (req, res) => {
         return resultArray
     }, [])
     res.send({results: result[page - 1]})
+})
+
+// get movie details
+app.get('/movie/:id' , (req, res) => {
+    const id = req.params.id
+    const movie = database.data.reduce((acc, current) => {
+        if(current.id === id){
+            return current
+        } else {
+            return acc
+        }
+    }, {})
+    res.send(movie)
 })
 
 app.listen(port)
