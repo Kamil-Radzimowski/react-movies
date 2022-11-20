@@ -1,7 +1,11 @@
 import express from 'express'
 import data from "./backendAssets/data.json" assert { type: "json" }
+import bcrypt from "bcrypt";
+
 const app = express()
 const port = 3000
+
+const saltRounds = 10
 
 const database = {
     users: [],
@@ -56,6 +60,43 @@ app.get('/movie/:id' , (req, res) => {
         }
     }, {})
     res.send({movie: movie})
+})
+
+// get movie poster
+app.get("/movie/poster/:name", (req, res) => {
+    const fileName = req.params.fileName
+    res.sendFile(`./backendAssets/img/${fileName}`)
+})
+
+// register
+app.post('/register', (req, res) => {
+    const login = req.query.login
+    const pword = req.query.password
+    const email = req.query.email
+
+    const isLoginOrEmailTaken = database.users.some((user) => {
+        return user.login === login || user.email === email
+    })
+    if(isLoginOrEmailTaken){
+        return res.status(409).render("User already exists")
+    } else {
+        bcrypt.genSalt(saltRounds, function(err, salt) {
+            bcrypt.hash(pword, salt, function(err, hash) {
+                const newUserInstance = {
+                    login: login,
+                    email: email,
+                    password: hash
+                }
+                database.users.push(newUserInstance)
+                res.send("User created successfully")
+            });
+        });
+    }
+})
+
+// todo login
+app.get('/login', (req, res) => {
+    // todo
 })
 
 app.listen(port)
