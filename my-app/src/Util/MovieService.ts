@@ -16,7 +16,7 @@ export const movieApi = createApi({
         getRecommendedMovies: builder.query<movie[], void>({
             query: () => `discover/movie?api_key=${config.getApiKey()}&language=pl`,
             transformResponse: (response: {results: movie[], page: number, total_pages: number, total_results: number}) => {
-                //console.log(response.results.slice(0, 5))
+                // console.log(response.results.slice(0, 5))
                 return response.results.slice(0, 5)
             }
         }),
