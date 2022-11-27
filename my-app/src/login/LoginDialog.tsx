@@ -12,6 +12,12 @@ function LoginDialog(props: property){
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
 
+    function attemptLogin(){
+        if(validateInput()){
+            // test
+        }
+    }
+
     function validateInput(){
         if(email.length === 0){
             setEmailError("Email is required!")
@@ -25,6 +31,7 @@ function LoginDialog(props: property){
         if(password.length === 0){
             setPasswordError('Password is required!')
         }
+        return passwordError.length === 0 && emailError.length === 0
     }
 
     const validateEmail = (email) => {
@@ -82,7 +89,7 @@ function LoginDialog(props: property){
         </DialogContent>
         <DialogActions>
             <Button variant="outlined">Zarejestruj się</Button>
-            <Button variant="contained" onClick={validateInput}>Zaloguj się</Button>
+            <Button variant="contained" onClick={attemptLogin}>Zaloguj się</Button>
         </DialogActions>
     </Dialog>
 }
