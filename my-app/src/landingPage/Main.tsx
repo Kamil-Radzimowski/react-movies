@@ -11,6 +11,7 @@ import {Search} from "@mui/icons-material";
 import {movie} from "../Util/types";
 import {useGetRecommendedMoviesQuery} from "../Util/MovieService";
 import theme from "../Util/theme";
+import LoginDialog from "../login/LoginDialog";
 
 
 
@@ -18,9 +19,18 @@ import theme from "../Util/theme";
 function Main() {
     const { data, isLoading } = useGetRecommendedMoviesQuery()
     const [searchInput, setSearchInput] = useState("")
+    const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false)
     const gradient = config.getGradient()
 
     const navigate = useNavigate()
+
+    function openLoginDialog(){
+        setIsLoginDialogOpen(true)
+    }
+
+    function closeLoginDialog(){
+        setIsLoginDialogOpen(false)
+    }
 
     function onSearchKeyPressed(key){
         if(key.keyCode == 13){
@@ -44,7 +54,8 @@ function Main() {
                     <img src={movie_logo} alt='movie database logo'/>
                     <div>Filmy</div>
                 </div>
-                <div>Zaloguj się</div>
+                <div onClick={openLoginDialog}>Zaloguj się</div>
+                <LoginDialog open={isLoginDialogOpen} onClose={closeLoginDialog}></LoginDialog>
             </header>
             <div className="App-search">
                 <Gradient className='search-text' gradients={gradient} property='text' angle='45deg'>Szukaj Filmu</Gradient>
