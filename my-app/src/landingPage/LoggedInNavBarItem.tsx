@@ -1,5 +1,5 @@
 import React from 'react'
-import {Icon, Stack, Typography} from "@mui/material";
+import {Stack, Typography} from "@mui/material";
 import {AccountCircle} from "@mui/icons-material";
 
 type property = {
