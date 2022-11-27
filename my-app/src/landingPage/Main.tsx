@@ -12,6 +12,7 @@ import {movie} from "../Util/types";
 import {useGetRecommendedMoviesQuery} from "../Util/MovieService";
 import theme from "../Util/theme";
 import NotLoggedInNavBarItem from "./NotLoggedInNavBarItem";
+import LoggedInNavBarItem from "./LoggedInNavBarItem";
 
 
 
@@ -48,7 +49,7 @@ function Main() {
                     <img src={movie_logo} alt='movie database logo'/>
                     <div>Filmy</div>
                 </div>
-                {user === null ? <NotLoggedInNavBarItem></NotLoggedInNavBarItem> : <div>Logged in</div>}
+                {user === null ? <NotLoggedInNavBarItem></NotLoggedInNavBarItem> : <LoggedInNavBarItem></LoggedInNavBarItem>}
             </header>
             <div className="App-search">
                 <Gradient className='search-text' gradients={gradient} property='text' angle='45deg'>Szukaj Filmu</Gradient>
