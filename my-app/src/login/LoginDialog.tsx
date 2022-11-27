@@ -4,6 +4,7 @@ import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextFi
 type property = {
     open: boolean
     onClose: () => void
+    onRegisterClick: () => void
 }
 
 function LoginDialog(props: property){
@@ -58,6 +59,9 @@ function LoginDialog(props: property){
         setEmailError('')
     }
 
+    const handleOnRegisterClick = () => {
+        props.onRegisterClick()
+    }
     return <Dialog open={props.open} onClose={handleClose} fullWidth={true}
                    maxWidth={'md'}>
         <DialogTitle>Zaloguj się</DialogTitle>
@@ -88,7 +92,7 @@ function LoginDialog(props: property){
             </Stack>
         </DialogContent>
         <DialogActions>
-            <Button variant="outlined">Zarejestruj się</Button>
+            <Button variant="outlined" onClick={handleOnRegisterClick}>Zarejestruj się</Button>
             <Button variant="contained" onClick={attemptLogin}>Zaloguj się</Button>
         </DialogActions>
     </Dialog>
