@@ -23,6 +23,16 @@ export type detailedMovie = {
     production_countries: country[],
 }
 
+export type loginResponse = {
+    username: string
+    api_key: string
+}
+
+export type loginCredentials = {
+    email: string,
+    password: string
+}
+
 type genre = {
     id: number,
     name: string,

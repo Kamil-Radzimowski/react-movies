@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField} from "@mui/material";
+import {useLoginMutation} from "../Util/MovieService";
 
 type property = {
     open: boolean
@@ -11,10 +12,11 @@ function LoginDialog(props: property){
     const [password, setPassword] = useState('')
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
+    const [login, {isLoading, error}] = useLoginMutation()
 
     function attemptLogin(){
         if(validateInput()){
-            // test
+
         }
     }
 
