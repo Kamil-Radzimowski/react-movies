@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import config from "./Config";
-import {detailedMovie, loginCredentials, loginResponse, movie, searchResult} from "./types";
+import {detailedMovie, loginCredentials, loginResponse, movie, registerCredentials, searchResult} from "./types";
 
 export const movieApi = createApi({
     reducerPath: 'movieApi',
@@ -41,6 +41,17 @@ export const movieApi = createApi({
                 return response
             }
         }),
+        register: builder.mutation<loginResponse, registerCredentials>({
+            query(credentials) {
+                return {
+                    url: `/register?email=${credentials.email}&password=${credentials.password}&name=${credentials.name}`,
+                    method: 'POST',
+                };
+            },
+            transformResponse: (response: loginResponse) =>{
+                return response
+            }
+        })
     }),
 })
 

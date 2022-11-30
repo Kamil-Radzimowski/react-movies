@@ -33,6 +33,12 @@ export type loginCredentials = {
     password: string
 }
 
+export type registerCredentials = {
+    name: string,
+    email: string,
+    password: string
+}
+
 type genre = {
     id: number,
     name: string,
