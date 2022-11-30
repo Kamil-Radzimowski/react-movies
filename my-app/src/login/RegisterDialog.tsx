@@ -1,49 +1,30 @@
 import React, {useState} from "react";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField} from "@mui/material";
-import {useLoginMutation} from "../Util/MovieService";
 
 type property = {
     open: boolean
     onClose: () => void
-    onRegisterClick: () => void
+    onLoginClick: () => void
 }
 
-function LoginDialog(props: property){
+function RegisterDialog(props: property){
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
-    const [login, {isLoading, error}] = useLoginMutation()
+    const [name, setName] = useState('')
+    const [nameError, setNameError] = useState('')
 
-    function attemptLogin(){
-        if(validateInput()){
 
-        }
+    const validate = () => {
+        return true
     }
 
-    function validateInput(){
-        if(email.length === 0){
-            setEmailError("Email is required!")
+    const attemptRegister = () => {
+        if(validate()){
+            // test
         }
-        else if(!validateEmail(email)){
-            setEmailError("Invalid Email!")
-        } else {
-            setEmailError("")
-        }
-
-        if(password.length === 0){
-            setPasswordError('Password is required!')
-        }
-        return passwordError.length === 0 && emailError.length === 0
     }
-
-    const validateEmail = (email) => {
-        return String(email)
-            .toLowerCase()
-            .match(
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            );
-    };
 
     const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value)
@@ -53,22 +34,40 @@ function LoginDialog(props: property){
         setPassword(event.target.value)
     }
 
+    const handleName = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setName(event.target.value)
+    }
+
+    const handleOnLoginClick = () => {
+        props.onLoginClick
+    }
+
     const handleClose = () => {
         props.onClose()
         setPassword('')
         setEmail('')
         setPasswordError('')
         setEmailError('')
+        setName('')
+        setNameError('')
     }
 
-    const handleOnRegisterClick = () => {
-        props.onRegisterClick()
-    }
     return <Dialog open={props.open} onClose={handleClose} fullWidth={true}
                    maxWidth={'md'}>
-        <DialogTitle>Zaloguj się</DialogTitle>
+        <DialogTitle>Zarejestruj się</DialogTitle>
         <DialogContent>
             <Stack spacing={2}>
+                <TextField
+                    autoFocus
+                    error={nameError.length !== 0}
+                    margin="dense"
+                    id="name"
+                    label="Nazwa użytkownika"
+                    type="text"
+                    value={name}
+                    onChange={handleName}
+                    helperText={nameError}
+                />
                 <TextField
                     autoFocus
                     error={emailError.length !== 0}
@@ -94,10 +93,10 @@ function LoginDialog(props: property){
             </Stack>
         </DialogContent>
         <DialogActions>
-            <Button variant="outlined" onClick={handleOnRegisterClick}>Zarejestruj się</Button>
-            <Button variant="contained" onClick={attemptLogin}>Zaloguj się</Button>
+            <Button variant="outlined" onClick={handleOnLoginClick}>Zaloguj się</Button>
+            <Button variant="contained" onClick={attemptRegister}>Zarejestruj się</Button>
         </DialogActions>
     </Dialog>
 }
 
-export default LoginDialog;
+export default RegisterDialog
