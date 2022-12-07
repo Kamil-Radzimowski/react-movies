@@ -15,7 +15,7 @@ export const movieApi = createApi({
         getRecommendedMovies: builder.query<movie[], void>({
             query: () => `recommendation`,
             transformResponse: (response: {results: movie[], page: number, total_pages: number, total_results: number}) => {
-                // console.log(response.results.slice(0, 5))
+                console.log(response.results.slice(0, 5))
                 return response.results.slice(0, 5)
             }
         }),
