@@ -1,6 +1,7 @@
 import express from 'express'
 import data from "./backendAssets/data.json" assert { type: "json" }
 import bcrypt from "bcrypt";
+import cors from 'cors'
 
 const app = express()
 const port = 3000
@@ -11,6 +12,9 @@ const database = {
     users: [],
     data: data
 }
+
+app.use(cors())
+
 
 const simplifyMovie = (movie) => {
     return {

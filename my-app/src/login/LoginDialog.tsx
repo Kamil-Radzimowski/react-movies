@@ -17,7 +17,7 @@ function LoginDialog(props: property){
 
     function attemptLogin(){
         if(validateInput()){
-
+            //test
         }
     }
 
