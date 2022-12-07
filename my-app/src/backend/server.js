@@ -79,7 +79,12 @@ app.get('/movie/:id' , (req, res) => {
 // get movie poster
 app.get("/movie/poster/:name", (req, res) => {
     const fileName = req.params.fileName
-    res.sendFile(`./backendAssets/img/${fileName}`)
+    console.log(fileName)
+    if(fileName === undefined){
+        res.sendFile(`/Users/uczelnia/WebstormProjects/react-movies/my-app/src/backend/backendAssets/img/bialy_kruk.jpg`)
+    } else {
+        res.sendFile(`/Users/uczelnia/WebstormProjects/react-movies/my-app/src/backend/backendAssets/img/${fileName}`)
+    }
 })
 
 // register
