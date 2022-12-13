@@ -34,19 +34,23 @@ function LoginDialog(props: property){
     }
 
     function validateInput(){
+        let tmpEmailError: string
         if(email.length === 0){
-            setEmailError("Email is required!")
+            tmpEmailError = "Email is required!"
         }
         else if(!validateEmail(email)){
-            setEmailError("Invalid Email!")
+            tmpEmailError = "Invalid Email!"
         } else {
-            setEmailError("")
+            tmpEmailError = ''
         }
+        setEmailError(tmpEmailError)
 
+        let tmpPasswordError = ''
         if(password.length === 0){
-            setPasswordError('Password is required!')
+            tmpPasswordError = 'Password is required!'
         }
-        return passwordError.length === 0 && emailError.length === 0
+        setPasswordError(tmpPasswordError)
+        return tmpPasswordError.length === 0 && tmpEmailError.length === 0
     }
 
     const validateEmail = (email) => {
