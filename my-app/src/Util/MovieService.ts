@@ -29,16 +29,6 @@ export const movieApi = createApi({
                 }
             }
         }),
-        /*
-        login: builder.query<loginResponse, loginCredentials>({
-            query: ({email, password}) => `login?email=${email}&password=${password}`,
-            transformResponse: (response: loginResponse) => {
-                console.log(response)
-                return response
-            }
-        }),
-         */
-
         login: builder.mutation<loginResponse, loginCredentials>({
             query(credentials) {
                 return {
@@ -65,5 +55,5 @@ export const movieApi = createApi({
     }),
 })
 
-export const { useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useLoginMutation } = movieApi
+export const { useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useLoginMutation, useRegisterMutation} = movieApi
 // useLoginMutation

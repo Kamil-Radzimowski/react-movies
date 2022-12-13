@@ -1,5 +1,18 @@
 import React, {useState} from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField} from "@mui/material";
+import {
+    Alert,
+    Button,
+    Collapse,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Stack,
+    TextField
+} from "@mui/material";
+import {useLoginMutation, useRegisterMutation} from "../Util/MovieService";
+import {SerializedError} from "@reduxjs/toolkit";
+import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
 
 type property = {
     open: boolean
@@ -14,6 +27,7 @@ function RegisterDialog(props: property){
     const [passwordError, setPasswordError] = useState('')
     const [name, setName] = useState('')
     const [nameError, setNameError] = useState('')
+    const [register, {isLoading, error, isError}] = useRegisterMutation()
 
 
     const validate = () => {
@@ -22,7 +36,7 @@ function RegisterDialog(props: property){
 
     const attemptRegister = () => {
         if(validate()){
-            // test
+            register({password: password, email: email, name: name})
         }
     }
 
@@ -52,11 +66,31 @@ function RegisterDialog(props: property){
         setNameError('')
     }
 
+    const handleError = (error: SerializedError | undefined | FetchBaseQueryError): String => {
+        if(error){
+            if('status' in error){
+                return 'error' in error ? error.error : JSON.stringify(error.data)
+            } else {
+                return error.message || ""
+            }
+        } else {
+            return ""
+        }
+    }
+
     return <Dialog open={props.open} onClose={handleClose} fullWidth={true}
                    maxWidth={'md'}>
         <DialogTitle>Zarejestruj się</DialogTitle>
         <DialogContent>
             <Stack spacing={2}>
+                <Collapse in={isError}>
+                    <Alert
+                        severity="error"
+                        sx={{ mb: 2 }}
+                    >
+                        {handleError(error)}
+                    </Alert>
+                </Collapse>
                 <TextField
                     autoFocus
                     error={nameError.length !== 0}

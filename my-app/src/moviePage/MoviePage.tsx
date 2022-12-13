@@ -28,7 +28,7 @@ const MoviePage = () => {
                     <CardMedia
                         sx = {{width: 250}}
                         component="img"
-                        image={`https://image.tmdb.org/t/p/original/${data?.poster_path}`}
+                        image={`http://localhost:3000/movie/poster/${data?.poster_path}`}
                     />
                     <Box sx={{display: 'flex', flexDirection: 'column', flex: '1'}}>
                         <Box sx={{display: 'flex', flexDirection: 'column'}}>
