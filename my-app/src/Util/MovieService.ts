@@ -32,7 +32,7 @@ export const movieApi = createApi({
         login: builder.mutation<loginResponse, loginCredentials>({
             query(credentials) {
                 return {
-                    url: `/login?email=${credentials.email}&password=${credentials.password}`,
+                    url: `login?email=${credentials.email}&password=${credentials.password}`,
                     method: 'GET',
                 };
             },
@@ -49,6 +49,7 @@ export const movieApi = createApi({
                 };
             },
             transformResponse: (response: loginResponse) =>{
+                console.log(response)
                 return response
             }
         })

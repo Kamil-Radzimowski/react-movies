@@ -105,7 +105,8 @@ app.post('/register', (req, res) => {
                 const newUserInstance = {
                     login: login,
                     email: email,
-                    password: hash
+                    password: hash,
+                    isAdmin: true
                 }
                 database.users.push(newUserInstance)
                 res.send("User created successfully")
@@ -123,7 +124,8 @@ app.get('/login', async (req, res) => {
     if (user !== null) {
         const areEqual = await bcrypt.compare(pword, user.password)
         if(areEqual){
-            res.status(200).json({username: user.username, api_key: user.api_key});
+            res.send({username: user.username, isAdmin: user.isAdmin})
+            // res.status(200).json({username: user.username, api_key: user.api_key});
         } else {
             res.status(400).json({ error: "Invalid Password" });
         }

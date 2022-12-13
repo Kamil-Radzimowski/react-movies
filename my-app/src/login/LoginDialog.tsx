@@ -25,7 +25,7 @@ function LoginDialog(props: property){
     const [password, setPassword] = useState('')
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
-    const [login, {isLoading, error, isError}] = useLoginMutation()
+    const [login, {isLoading, error, isError, isSuccess}] = useLoginMutation()
 
     function attemptLogin(){
         if(validateInput()){
@@ -93,18 +93,22 @@ function LoginDialog(props: property){
         }
     }
 
+    const handleSuccess = () => {
+        return "Success"
+    }
+
     return <><Dialog open={props.open} onClose={handleClose} fullWidth={true}
                    maxWidth={'md'}>
         <DialogTitle>Zaloguj się
         </DialogTitle>
         <DialogContent>
             <Stack spacing={2}>
-                <Collapse in={isError}>
+                <Collapse in={isError || isSuccess}>
                     <Alert
-                        severity="error"
+                        severity={isSuccess ? 'success' : 'error'}
                         sx={{ mb: 2 }}
                     >
-                        {handleError(error)}
+                        {isSuccess ? handleSuccess() : handleError(error)}
                     </Alert>
                 </Collapse>
                 <TextField
