@@ -7,6 +7,7 @@ import {store} from "./Util/store";
 import {Provider} from "react-redux";
 import theme from "./Util/theme";
 import {ThemeProvider} from "@mui/material";
+import AdminPanel  from "./Admin/AdminPanel";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
                     <Route path="/" element={<Main/>}/>
                     <Route path="/movie/:movieId" element={<MoviePage/>}/>
                     <Route path="/movieList/:input/:page" element={<MovieList/>}/>
+                    <Route path="/admin" element={<AdminPanel/>} />
                 </Routes>
             </BrowserRouter>
             </ThemeProvider>

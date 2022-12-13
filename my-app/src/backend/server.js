@@ -2,9 +2,29 @@ import express from 'express'
 import data from "./backendAssets/data.json" assert { type: "json" }
 import bcrypt from "bcrypt";
 import cors from 'cors'
+import * as fs from "fs";
+import * as https from "https";
+
+/*
+const options = {
+    key: fs.readFileSync('./ssl/privatekey'),
+    cert: fs.readFileSync('./ssl/certificate'),
+    passphrase: 'kamil'
+};
+ */
+
+const options = {}
 
 const app = express()
 const port = 3000
+
+app.use(cors())
+
+/*
+const server = https.createServer(options, app).listen(port, function () {
+    console.log("Express server listening on port " + port);
+});
+ */
 
 const saltRounds = 10
 
@@ -12,9 +32,6 @@ const database = {
     users: [],
     data: data
 }
-
-app.use(cors())
-
 
 const simplifyMovie = (movie) => {
     return {
@@ -61,7 +78,7 @@ app.get('/search', (req, res) => {
 
         return resultArray
     }, [])
-    res.send({results: result[page - 1]})
+    res.send({results: result[page - 1], total_results: matchingMovies.length})
 })
 
 // get movie details
