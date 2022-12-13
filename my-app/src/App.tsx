@@ -7,7 +7,7 @@ import {store} from "./Util/store";
 import {Provider} from "react-redux";
 import theme from "./Util/theme";
 import {ThemeProvider} from "@mui/material";
-import AdminPanel  from "./Admin/AdminPanel";
+import AdminPanel  from "./admin/AdminPanel";
 
 
 function App() {
