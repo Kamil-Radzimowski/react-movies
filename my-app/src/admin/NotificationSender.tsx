@@ -15,7 +15,7 @@ function NotificationSender() {
 
     useEffect(() => {
         const client  = mqtt.connect('mqtt://localhost:1883', options)
-    })
+    }, [])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setText(event.target.value)
