@@ -7,9 +7,9 @@ export const movieApi = createApi({
     endpoints: (builder) => ({
         getMovieDetailsById: builder.query<detailedMovie, string>({
             query: (id) => `movie/${id}`,
-            transformResponse: (response: detailedMovie) => {
+            transformResponse: (response: {movie: detailedMovie}) => {
                 // console.log(response)
-                return response
+                return response.movie
             }
         }),
         getRecommendedMovies: builder.query<movie[], void>({

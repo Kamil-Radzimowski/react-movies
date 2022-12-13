@@ -19,7 +19,7 @@ export type detailedMovie = {
     popularity: number,
     vote_count: number,
     vote_average: number,
-    genres: genre[],
+    genres: string[],
     production_countries: country[],
 }
 
@@ -37,11 +37,6 @@ export type registerCredentials = {
     name: string,
     email: string,
     password: string
-}
-
-type genre = {
-    id: number,
-    name: string,
 }
 
 type country = {
