@@ -1,0 +1,7 @@
+GET http://localhost:3000/movie/1
+
+###
+GET http://localhost:3000/recommendation
+
+###
+GET http://localhost:3000/search?query=a&page=1

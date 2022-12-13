@@ -34,8 +34,8 @@ const MoviePage = () => {
                         <Box sx={{display: 'flex', flexDirection: 'column'}}>
                             <CardContent sx={{display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flex: '1', flexWrap: 'wrap'}}>
                                 {data?.genres.map((genre) => {return (
-                                    <Paper sx={{marginRight: 2, padding: 1}} key={genre.id}>
-                                        <Typography>{`${genre.name}`}</Typography>
+                                    <Paper sx={{marginRight: 2, padding: 1}} key={genre}>
+                                        <Typography>{`${genre}`}</Typography>
                                     </Paper>
                                 )})}
                                 <Rating sx={{paddingLeft: 2}} className='rating' readOnly value={(data?.vote_average ?? 0) / 2} precision={0.25}></Rating>
@@ -46,6 +46,7 @@ const MoviePage = () => {
                                 </Typography>
                             </CardContent>
                             <CardContent>
+                                {/*
                                 <Typography>{`Kraj Produkcji: ${data?.production_countries.reduce((acc, current, index) => {
                                     if(index == 0) {
                                         return acc.concat(current.name)
@@ -54,6 +55,7 @@ const MoviePage = () => {
                                         return acc.concat(', ').concat(current.name)
                                     }
                                 }, "")}`}</Typography>
+                                */}
                             </CardContent>
                         </Box>
                     </Box>

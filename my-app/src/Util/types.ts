@@ -19,13 +19,24 @@ export type detailedMovie = {
     popularity: number,
     vote_count: number,
     vote_average: number,
-    genres: genre[],
+    genres: string[],
     production_countries: country[],
 }
 
-type genre = {
-    id: number,
+export type loginResponse = {
+    username: string
+    api_key: string
+}
+
+export type loginCredentials = {
+    email: string,
+    password: string
+}
+
+export type registerCredentials = {
     name: string,
+    email: string,
+    password: string
 }
 
 type country = {

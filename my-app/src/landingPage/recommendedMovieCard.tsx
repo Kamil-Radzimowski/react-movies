@@ -18,7 +18,7 @@ function RecommendedMovieCard(props: cardProps) {
             <div className="movie-card-details-title">{props.data.title}</div>
             <div className="movie-card-details-desc">{props.data.overview.substring(0, 200).concat("...")}</div>
         </div>
-        <img alt={`${props.data.title} movie poster`} className="movie-card-img" src={`https://image.tmdb.org/t/p/original/${props.data.poster_path}`}></img>
+        <img alt={`${props.data.title} movie poster`} className="movie-card-img" src={`http://localhost:3000/movie/poster/${props.data.poster_path}`}></img>
     </div>
 }
 
