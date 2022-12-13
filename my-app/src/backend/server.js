@@ -35,6 +35,7 @@ const getUserByEmail = (email) => {
 // get five recommended movies
 app.get('/recommendation', (req, res) => {
     const result = database.data.slice(0, 5).map((entry) => {return simplifyMovie(entry)})
+    console.log(res)
     res.send({results: result})
 })
 
@@ -44,7 +45,7 @@ app.get('/search', (req, res) => {
     const page = req.query.page
     const chunk = 10;
     const matchingMovies = database.data.reduce((acc, current) => {
-        if(current.title.toLowerCase().includes(query)){
+        if(current.title.toLowerCase().includes(query.toLowerCase())){
             acc.push(simplifyMovie(current))
         }
         return acc;
