@@ -21,8 +21,6 @@ type property = {
 }
 
 function LoginDialog(props: property){
-    const [isPopUpOpen, setIsOpen] = useState(false)
-    const [snackMessage, setSnackMessage] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [emailError, setEmailError] = useState('')
@@ -94,17 +92,17 @@ function LoginDialog(props: property){
     return <><Dialog open={props.open} onClose={handleClose} fullWidth={true}
                    maxWidth={'md'}>
         <DialogTitle>Zaloguj się
-            <Collapse in={isError}>
-                <Alert
-                    severity="error"
-                    sx={{ mb: 2 }}
-                >
-                    {handleError(error)}
-                </Alert>
-            </Collapse>
         </DialogTitle>
         <DialogContent>
             <Stack spacing={2}>
+                <Collapse in={isError}>
+                    <Alert
+                        severity="error"
+                        sx={{ mb: 2 }}
+                    >
+                        {handleError(error)}
+                    </Alert>
+                </Collapse>
                 <TextField
                     autoFocus
                     error={emailError.length !== 0}
