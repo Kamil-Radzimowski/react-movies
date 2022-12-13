@@ -29,21 +29,32 @@ export const movieApi = createApi({
                 }
             }
         }),
+        /*
+        login: builder.query<loginResponse, loginCredentials>({
+            query: ({email, password}) => `login?email=${email}&password=${password}`,
+            transformResponse: (response: loginResponse) => {
+                console.log(response)
+                return response
+            }
+        }),
+         */
+
         login: builder.mutation<loginResponse, loginCredentials>({
             query(credentials) {
                 return {
                     url: `/login?email=${credentials.email}&password=${credentials.password}`,
-                    method: 'POST',
+                    method: 'GET',
                 };
             },
             transformResponse: (response: loginResponse) =>{
+                console.log(response)
                 return response
             }
         }),
         register: builder.mutation<loginResponse, registerCredentials>({
             query(credentials) {
                 return {
-                    url: `/register?email=${credentials.email}&password=${credentials.password}&name=${credentials.name}`,
+                    url: `register?email=${credentials.email}&password=${credentials.password}&name=${credentials.name}`,
                     method: 'POST',
                 };
             },
@@ -55,3 +66,4 @@ export const movieApi = createApi({
 })
 
 export const { useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useLoginMutation } = movieApi
+// useLoginMutation

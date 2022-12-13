@@ -1,6 +1,18 @@
 import React, {useState} from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField} from "@mui/material";
+import {
+    Alert,
+    Button,
+    Collapse,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Stack,
+    TextField
+} from "@mui/material";
 import {useLoginMutation} from "../Util/MovieService";
+import {SerializedError} from "@reduxjs/toolkit";
+import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
 
 type property = {
     open: boolean
@@ -9,15 +21,17 @@ type property = {
 }
 
 function LoginDialog(props: property){
+    const [isPopUpOpen, setIsOpen] = useState(false)
+    const [snackMessage, setSnackMessage] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
-    const [login, {isLoading, error}] = useLoginMutation()
+    const [login, {isLoading, error, isError}] = useLoginMutation()
 
     function attemptLogin(){
         if(validateInput()){
-            //test
+            login({email: email, password: password})
         }
     }
 
@@ -64,9 +78,31 @@ function LoginDialog(props: property){
     const handleOnRegisterClick = () => {
         props.onRegisterClick()
     }
-    return <Dialog open={props.open} onClose={handleClose} fullWidth={true}
+
+    const handleError = (error: SerializedError | undefined | FetchBaseQueryError): String => {
+        if(error){
+            if('status' in error){
+                return 'error' in error ? error.error : JSON.stringify(error.data)
+            } else {
+                return error.message || ""
+            }
+        } else {
+            return ""
+        }
+    }
+
+    return <><Dialog open={props.open} onClose={handleClose} fullWidth={true}
                    maxWidth={'md'}>
-        <DialogTitle>Zaloguj się</DialogTitle>
+        <DialogTitle>Zaloguj się
+            <Collapse in={isError}>
+                <Alert
+                    severity="error"
+                    sx={{ mb: 2 }}
+                >
+                    {handleError(error)}
+                </Alert>
+            </Collapse>
+        </DialogTitle>
         <DialogContent>
             <Stack spacing={2}>
                 <TextField
@@ -98,6 +134,7 @@ function LoginDialog(props: property){
             <Button variant="contained" onClick={attemptLogin}>Zaloguj się</Button>
         </DialogActions>
     </Dialog>
+    </>
 }
 
 export default LoginDialog;

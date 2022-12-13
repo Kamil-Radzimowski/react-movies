@@ -23,7 +23,7 @@ const simplifyMovie = (movie) => {
 }
 
 const getUserByEmail = (email) => {
-    return database.users.red((acc, current) => {
+    return database.users.reduce((acc, current) => {
         if(current.email === email){
             return current;
         } else {
@@ -114,7 +114,7 @@ app.post('/register', (req, res) => {
     }
 })
 
-// todo login
+// login
 app.get('/login', async (req, res) => {
     const email = req.query.email
     const pword = req.query.password
