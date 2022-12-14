@@ -12,9 +12,10 @@ const options = {
 
 function NotificationSender() {
     const [text, setText] = useState('')
+    let client;
 
     useEffect(() => {
-        const client  = mqtt.connect('mqtt://localhost:1883', options)
+        client  = mqtt.connect('mqtt://localhost:1883', options)
     }, [])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,7 +23,7 @@ function NotificationSender() {
     }
 
     const sendNotification = () => {
-        // client.publish("notification", text)
+        client.publish("notification", text)
     }
 
     return <>

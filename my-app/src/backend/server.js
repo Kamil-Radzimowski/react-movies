@@ -2,6 +2,7 @@ import express from 'express'
 import data from "./backendAssets/data.json" assert { type: "json" }
 import bcrypt from "bcrypt";
 import cors from 'cors'
+import {LogToFile} from "./FileLogger.js";
 import * as fs from "fs";
 import * as https from "https";
 
@@ -52,7 +53,7 @@ const getUserByEmail = (email) => {
 // get five recommended movies
 app.get('/recommendation', (req, res) => {
     const result = database.data.slice(0, 5).map((entry) => {return simplifyMovie(entry)})
-    console.log(res)
+    LogToFile(result)
     res.send({results: result})
 })
 
@@ -78,6 +79,7 @@ app.get('/search', (req, res) => {
 
         return resultArray
     }, [])
+    LogToFile(result)
     res.send({results: result[page - 1], total_results: matchingMovies.length})
 })
 
@@ -91,13 +93,14 @@ app.get('/movie/:id' , (req, res) => {
             return acc
         }
     }, {})
+    LogToFile(movie)
     res.send({movie: movie})
 })
 
 // get movie poster
 app.get("/movie/poster/:name", (req, res) => {
     const fileName = req.params.name
-    console.log(fileName)
+    LogToFile(fileName)
     if(fileName === undefined){
         res.sendFile(`/Users/uczelnia/WebstormProjects/react-movies/my-app/src/backend/backendAssets/img/bialy_kruk.jpg`)
     } else {
@@ -126,6 +129,7 @@ app.post('/register', (req, res) => {
                     isAdmin: true
                 }
                 database.users.push(newUserInstance)
+                LogToFile(newUserInstance)
                 res.send("User created successfully")
             });
         });
@@ -141,9 +145,11 @@ app.get('/login', async (req, res) => {
     if (user !== null) {
         const areEqual = await bcrypt.compare(pword, user.password)
         if(areEqual){
+            LogToFile(user.username)
             res.send({username: user.username, isAdmin: user.isAdmin})
             // res.status(200).json({username: user.username, api_key: user.api_key});
         } else {
+            LogToFile()
             res.status(400).json({ error: "Invalid Password" });
         }
     } else {
