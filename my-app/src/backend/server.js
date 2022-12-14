@@ -3,8 +3,10 @@ import data from "./backendAssets/data.json" assert { type: "json" }
 import bcrypt from "bcrypt";
 import cors from 'cors'
 import {LogToFile} from "./FileLogger.js";
+import mongoose from 'mongoose'
 import * as fs from "fs";
 import * as https from "https";
+
 
 /*
 const options = {
@@ -19,7 +21,21 @@ const options = {}
 const app = express()
 const port = 3000
 
+const uri = "mongodb://localhost:27017/"
+
+const contactSchema = {
+    email: String,
+    query: String,
+};
+
+// const Contact = mongoose.model("Contact", contactSchema);
+
 app.use(cors())
+
+mongoose.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
 /*
 const server = https.createServer(options, app).listen(port, function () {

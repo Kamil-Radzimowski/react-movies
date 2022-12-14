@@ -15,3 +15,5 @@ const formatAction = (action) => {
     return `${currentTime} ${JSON.stringify(action)} \n`
 }
 
+export const ACTION_USER_ALREADY_EXISTS = "USER_ALREADY_EXISTS"
+
