@@ -3,7 +3,7 @@ import data from "./backendAssets/data.json" assert { type: "json" }
 import bcrypt from "bcrypt";
 import cors from 'cors'
 import {LogToFile} from "./FileLogger.js";
-import mongoose from 'mongoose'
+// import mongoose from 'mongoose'
 import * as fs from "fs";
 import * as https from "https";
 
@@ -32,10 +32,12 @@ const contactSchema = {
 
 app.use(cors())
 
+/*
 mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
+ */
 
 /*
 const server = https.createServer(options, app).listen(port, function () {
