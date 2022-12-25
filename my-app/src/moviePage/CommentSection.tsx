@@ -10,12 +10,17 @@ type commentSection = {
 const CommentSection = (props: commentSection) => {
 
     const { data, isLoading} = useGetCommentsForMovieQuery(props.id || "")
+    
+    const onAdd = (text: string) => {
+        console.log("onAdd")
+        // pass
+    }
 
     return <>
         {!isLoading && data != undefined ? data?.map((comment) => {
             return <Comment key={comment.id} id={comment.id} name={comment.user} text={comment.comment} ></Comment>
         }) : null}
-        <AddComment id={props.id || ""}></AddComment>
+        <AddComment id={props.id || ""} onAdd={onAdd}></AddComment>
     </>
 }
 

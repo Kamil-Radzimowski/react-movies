@@ -3,16 +3,24 @@ import {Button, Card, CardActions, CardContent, CardHeader, TextField} from "@mu
 import {useAddCommentMutation} from "../Util/MovieService";
 
 type addCommentProps = {
-    id: string
+    id: string,
+    onAdd: (comment: string) => void
 }
+
 
 const AddComment = (props: addCommentProps) => {
 
     const [comment, setComment] = useState('')
     const [addHook] = useAddCommentMutation()
 
-    const add = () => {
-        addHook({id: props.id, text: comment, user: undefined})
+    const add = async () => {
+        const query = await addHook({id: props.id, text: comment, user: undefined})
+        if('error' in query){
+            console.log("error")
+            // pass
+        } else {
+            props.onAdd(comment)
+        }
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
