@@ -30,7 +30,7 @@ export const movieApi = createApi({
                 }
             }
         }),
-        getCommentsForMovie: builder.query<comment[], {id: string}>({
+        getCommentsForMovie: builder.query<comment[], string>({
             query: (id) => `comments?id=${id}`,
             transformResponse: (response: comment[]) => {
                 return response

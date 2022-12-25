@@ -9,7 +9,7 @@ type commentSection = {
 
 const CommentSection = (props: commentSection) => {
 
-    const { data, isLoading} = useGetCommentsForMovieQuery({id: props.id || ""})
+    const { data, isLoading} = useGetCommentsForMovieQuery(props.id || "")
 
     return <>
         {!isLoading && data != undefined ? data?.map((comment) => {

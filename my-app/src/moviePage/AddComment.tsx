@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 import {Button, Card, CardActions, CardContent, CardHeader, TextField} from "@mui/material";
-import {useAddCommentMutation, useLoginMutation} from "../Util/MovieService";
+import {useAddCommentMutation} from "../Util/MovieService";
 
 
 
 const AddComment = (props: any) => {
 
     const [comment, setComment] = useState('')
-    const [addHook, {isLoading}] = useAddCommentMutation()
+    const [addHook] = useAddCommentMutation()
 
     const add = () => {
         addHook({text: comment, user: undefined})
