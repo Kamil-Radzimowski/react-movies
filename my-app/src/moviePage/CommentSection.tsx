@@ -13,7 +13,7 @@ const CommentSection = (props: commentSection) => {
 
     return <>
         {!isLoading && data != undefined ? data?.map((comment) => {
-            return <Comment key={comment.id} id={comment.id} name={comment.name} text={comment.comment} ></Comment>
+            return <Comment key={comment.id} id={comment.id} name={comment.user} text={comment.comment} ></Comment>
         }) : null}
         <AddComment></AddComment>
     </>

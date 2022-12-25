@@ -175,4 +175,15 @@ app.get('/login', async (req, res) => {
     }
 })
 
+app.get("/comments", (req, res) => {
+    const id = req.query.id
+
+    const comments = database.data.reduce((acc, current) => {
+        if(current.id === parseInt(id)){
+            return current.comments
+        } else return acc
+    }, [])
+    res.send(comments)
+})
+
 app.listen(port)

@@ -41,7 +41,7 @@ export type registerCredentials = {
 
 export type comment = {
     id: string,
-    name: string,
+    user: string,
     comment: string
 }
 
