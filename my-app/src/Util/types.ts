@@ -39,6 +39,12 @@ export type registerCredentials = {
     password: string
 }
 
+export type comment = {
+    id: string,
+    name: string,
+    comment: string
+}
+
 type country = {
     iso: string,
     name: string,

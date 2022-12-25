@@ -6,6 +6,7 @@ import movie_logo from "../assets/the-movie-db-logo.svg";
 import {Box, Card, CardContent, CardMedia, Paper, Rating, Typography} from "@mui/material";
 import { useGetMovieDetailsByIdQuery } from "../Util/MovieService";
 import config from "../Util/Config";
+import CommentSection from "./CommentSection";
 
 
 
@@ -64,6 +65,7 @@ const MoviePage = () => {
                     </Box>
                 </Card>
                 <Gradient className='search-text' gradients={gradient} property='text' angle='45deg'>Komentarze</Gradient>
+                <CommentSection id={movieId}></CommentSection>
             </div>}
         </div>
     )

@@ -1,5 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
-import {detailedMovie, loginCredentials, loginResponse, movie, registerCredentials, searchResult} from "./types";
+import {detailedMovie, loginCredentials, loginResponse, movie, registerCredentials, searchResult, comment} from "./types";
+import {teal} from "@mui/material/colors";
 
 export const movieApi = createApi({
     reducerPath: 'movieApi',
@@ -26,6 +27,20 @@ export const movieApi = createApi({
                 return {
                     total_results: response.total_results,
                     results: response.results
+                }
+            }
+        }),
+        getCommentsForMovie: builder.query<comment[], {id: string}>({
+            query: (id) => `comments?id=${id}`,
+            transformResponse: (response: comment[]) => {
+                return response
+            }
+        }),
+        addComment: builder.mutation<void, {text: string, user: string | undefined}>({
+            query({text, user}) {
+                return {
+                    url: `comments?text=${text}&user=${user}`,
+                    method: 'POST'
                 }
             }
         }),
@@ -56,5 +71,5 @@ export const movieApi = createApi({
     }),
 })
 
-export const { useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useLoginMutation, useRegisterMutation} = movieApi
+export const { useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useLoginMutation, useRegisterMutation, useGetCommentsForMovieQuery, useAddCommentMutation} = movieApi
 // useLoginMutation
