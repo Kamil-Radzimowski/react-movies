@@ -1,15 +1,18 @@
 import React from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import '../assets/styleMoviePage.scss';
+import { Gradient } from 'react-gradient';
 import movie_logo from "../assets/the-movie-db-logo.svg";
 import {Box, Card, CardContent, CardMedia, Paper, Rating, Typography} from "@mui/material";
 import { useGetMovieDetailsByIdQuery } from "../Util/MovieService";
+import config from "../Util/Config";
 
 
 
 const MoviePage = () => {
     const {movieId} = useParams<{ movieId: string }>()
     const navigate = useNavigate()
+    const gradient = config.getGradient()
 
     const { data, isLoading} = useGetMovieDetailsByIdQuery(movieId || "")
 
@@ -60,6 +63,7 @@ const MoviePage = () => {
                         </Box>
                     </Box>
                 </Card>
+                <Gradient className='search-text' gradients={gradient} property='text' angle='45deg'>Komentarze</Gradient>
             </div>}
         </div>
     )
