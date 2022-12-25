@@ -3,9 +3,11 @@ import data from "./backendAssets/data.json" assert { type: "json" }
 import bcrypt from "bcrypt";
 import cors from 'cors'
 import {LogToFile} from "./FileLogger.js";
+import { uuid } from 'uuidv4';
 // import mongoose from 'mongoose'
 import * as fs from "fs";
 import * as https from "https";
+
 
 
 /*
@@ -175,6 +177,7 @@ app.get('/login', async (req, res) => {
     }
 })
 
+//get comments
 app.get("/comments", (req, res) => {
     const id = req.query.id
 
@@ -184,6 +187,26 @@ app.get("/comments", (req, res) => {
         } else return acc
     }, [])
     res.send(comments)
+})
+
+// add comment
+app.post("/comments/:id", (req, res) => {
+    const movieId = req.params.id
+    const comment = req.query.text
+    let user = req.query.user
+
+    if(user === undefined || user === "undefined"){
+        user = "Anonim"
+    }
+
+    const update = database.data.map((current) => {
+        if(current.id === parseInt(movieId)){
+            current.comments.push({id: uuid(), user: user, comment: comment})
+        }
+        return current
+    })
+    database.data = update
+    res.send("Comment added")
 })
 
 app.listen(port)
