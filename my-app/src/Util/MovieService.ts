@@ -28,14 +28,14 @@ export const movieApi = createApi({
             }
         }),
         getRecommendedMovies: builder.query<movie[], void>({
-            query: () => `recommendation`,
+            query: () => `movie/recommendation`,
             transformResponse: (response: {results: movie[], page: number, total_pages: number, total_results: number}) => {
                 console.log(response.results.slice(0, 5))
                 return response.results.slice(0, 5)
             }
         }),
         getMovieByName: builder.query<searchResult, {str: string, page: string}>({
-            query: ({str,  page}) => `search?query=${str}&page=${page}`,
+            query: ({str,  page}) => `movie/search?query=${str}&page=${page}`,
             transformResponse: (response: {results: movie[], page: number, total_pages: number, total_results: number}) => {
                 // console.log(response)
                 return {
@@ -45,7 +45,7 @@ export const movieApi = createApi({
             }
         }),
         getCommentsForMovie: builder.query<comment[], string>({
-            query: (id) => `comments?id=${id}`,
+            query: (id) => `comment/comments?id=${id}`,
             transformResponse: (response: comment[]) => {
                 return response
             }
@@ -53,7 +53,7 @@ export const movieApi = createApi({
         addComment: builder.mutation<void, {id: string, text: string, user: string | undefined}>({
             query({id, text, user}) {
                 return {
-                    url: `comments/${id}?text=${text}&user=${user}`,
+                    url: `comment/comments/${id}?text=${text}&user=${user}`,
                     method: 'POST'
                 }
             }
@@ -61,7 +61,7 @@ export const movieApi = createApi({
         login: builder.mutation<loginResponse, loginCredentials>({
             query(credentials) {
                 return {
-                    url: `login?email=${credentials.email}&password=${credentials.password}`,
+                    url: `user/login?email=${credentials.email}&password=${credentials.password}`,
                     method: 'GET',
                 };
             },
@@ -73,7 +73,7 @@ export const movieApi = createApi({
         register: builder.mutation<loginResponse, registerCredentials>({
             query(credentials) {
                 return {
-                    url: `register?email=${credentials.email}&password=${credentials.password}&name=${credentials.name}`,
+                    url: `user/register?email=${credentials.email}&password=${credentials.password}&name=${credentials.name}`,
                     method: 'POST',
                 };
             },
@@ -83,15 +83,23 @@ export const movieApi = createApi({
             }
         }),
         getAllUsers: builder.query<user[], void>({
-            query: () => `users/all`,
+            query: () => `user/all`,
             transformResponse: (response: user[]) => {
                 return response
             }
         }),
+        deleteUser: builder.mutation<void, string>({
+            query(id) {
+                return {
+                    url : `user/${id}/ban`,
+                    method: "DELETE"
+                }
+            },
+        }),
         updateUserIsAdmin: builder.mutation<void, {id: string, isAdmin: boolean}>({
             query({id, isAdmin}) {
                 return {
-                    url: `users/${id}/update?isAdmin=${isAdmin}`,
+                    url: `user/${id}/update?isAdmin=${isAdmin}`,
                     method: 'PATCH',
                 };
             }
@@ -99,5 +107,5 @@ export const movieApi = createApi({
     }),
 })
 
-export const {useGetAllMoviesQuery, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useLoginMutation, useRegisterMutation, useGetCommentsForMovieQuery, useAddCommentMutation, useGetAllUsersQuery, useUpdateUserIsAdminMutation} = movieApi
+export const {useGetAllMoviesQuery, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useLoginMutation, useRegisterMutation, useGetCommentsForMovieQuery, useAddCommentMutation, useGetAllUsersQuery, useUpdateUserIsAdminMutation, useDeleteUserMutation} = movieApi
 // useLoginMutation

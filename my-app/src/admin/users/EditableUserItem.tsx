@@ -1,7 +1,7 @@
 import React from "react";
 import {user} from "../../Util/types";
-import {Divider, FormControlLabel, FormGroup, Stack, Switch, TextField, Typography} from "@mui/material";
-import {useUpdateUserIsAdminMutation} from "../../Util/MovieService";
+import {Button, Divider, FormControlLabel, FormGroup, Stack, Switch, TextField, Typography} from "@mui/material";
+import {useDeleteUserMutation, useUpdateUserIsAdminMutation} from "../../Util/MovieService";
 
 type EditableUserItemProps = {
     user: user
@@ -11,11 +11,16 @@ const EditableUserItem = (props: EditableUserItemProps) => {
     const [checked, setChecked] = React.useState(props.user.isAdmin);
 
     const [update] = useUpdateUserIsAdminMutation()
+    const [ban] = useDeleteUserMutation()
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setChecked(event.target.checked);
         update({id: props.user.id, isAdmin: checked})
     };
+
+    const banUser = () => {
+        ban(props.user.id)
+    }
 
     return <>
         <Stack sx={{margin: 2, mb: 4, mt: 4}} spacing={2}>
@@ -23,6 +28,7 @@ const EditableUserItem = (props: EditableUserItemProps) => {
             <FormGroup>
                 <FormControlLabel control={<Switch checked={checked} onChange={handleChange}/>} label="Prawa Administratora" />
             </FormGroup>
+            <Button variant='outlined' onClick={banUser}>Zbanuj</Button>
             <Divider/>
         </Stack>
     </>
