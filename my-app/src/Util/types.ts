@@ -13,6 +13,7 @@ export type searchResult = {
 }
 
 export type detailedMovie = {
+    id: number
     title: string,
     poster_path: string,
     overview: string,

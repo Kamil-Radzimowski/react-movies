@@ -70,6 +70,11 @@ const getUserByEmail = (email) => {
     }, null)
 }
 
+// get all movies
+app.get('/movie/all', (req, res) => {
+    res.send(database.data)
+})
+
 // get five recommended movies
 app.get('/recommendation', (req, res) => {
     const result = database.data.slice(0, 5).map((entry) => {return simplifyMovie(entry)})

@@ -4,7 +4,7 @@ import movie_logo from "../assets/the-movie-db-logo.svg";
 import RecommendedMovieCard from "./recommendedMovieCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Gradient } from 'react-gradient';
-import '../assets/style.scss';
+import './style.scss';
 import {FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, ThemeProvider} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {Search} from "@mui/icons-material";

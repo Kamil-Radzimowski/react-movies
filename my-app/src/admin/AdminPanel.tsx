@@ -2,10 +2,10 @@ import React from "react";
 import movie_logo from "../assets/the-movie-db-logo.svg";
 import {useNavigate} from "react-router-dom";
 import NotificationSender from "./NotificationSender";
-import AdminMovieList from "./AdminMovieList";
+import AdminMovieList from "./movie/AdminMovieList";
 import './styleAdmin.scss';
-import AdminUsersList from "./AdminUserList";
-import AdminNewsList from "./AdminNewsList";
+import AdminUsersList from "./users/AdminUserList";
+import AdminNewsList from "./news/AdminNewsList";
 
 function AdminPanel() {
     const navigate = useNavigate()

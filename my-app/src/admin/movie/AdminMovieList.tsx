@@ -2,9 +2,13 @@ import React, {useState} from "react";
 import {Collapse, List, ListItemButton, ListItemText} from "@mui/material";
 import {ExpandLess, ExpandMore} from "@mui/icons-material";
 import './styleAdminMovieList.scss';
+import {useGetAllMoviesQuery} from "../../Util/MovieService";
+import EditableMovieItem from "./EditableMovieItem";
 
 const AdminMovieList = () => {
     const [isMovieListOpen, setIsMovieListOpen] = useState(false)
+
+    const {data, isLoading} = useGetAllMoviesQuery()
 
     const handleMovieListClick = () => {
         setIsMovieListOpen(!isMovieListOpen)
@@ -17,9 +21,9 @@ const AdminMovieList = () => {
                 {isMovieListOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={isMovieListOpen}>
-                <List>
-
-                </List>
+                    {!isLoading && data != undefined ? data.map((movie) => {
+                        return <EditableMovieItem key={movie.id} movie={movie}></EditableMovieItem>
+                    }) : null}
             </Collapse>
         </List>
     </>

@@ -5,6 +5,12 @@ export const movieApi = createApi({
     reducerPath: 'movieApi',
     baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/' }),
     endpoints: (builder) => ({
+        getAllMovies: builder.query<detailedMovie[], void>({
+            query: () => `movie/all`,
+            transformResponse: (response: detailedMovie[]) => {
+                return response
+            }
+        }),
         getMovieDetailsById: builder.query<detailedMovie, string>({
             query: (id) => `movie/${id}`,
             transformResponse: (response: {movie: detailedMovie}) => {
@@ -70,5 +76,5 @@ export const movieApi = createApi({
     }),
 })
 
-export const { useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useLoginMutation, useRegisterMutation, useGetCommentsForMovieQuery, useAddCommentMutation} = movieApi
+export const {useGetAllMoviesQuery, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useLoginMutation, useRegisterMutation, useGetCommentsForMovieQuery, useAddCommentMutation} = movieApi
 // useLoginMutation

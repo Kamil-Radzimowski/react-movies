@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Card, Collapse, List, ListItemButton, ListItemIcon, ListItemText, Typography} from "@mui/material";
 import {ExpandLess, ExpandMore} from "@mui/icons-material";
-import './styleAdminMovieList.scss';
+import '../movie/styleAdminMovieList.scss';
 
 const AdminNewsList = () => {
     const [isNewsListOpen, setIsNewsListOpen] = useState(false)
