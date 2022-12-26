@@ -1,6 +1,6 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
 import React from "react";
-import '../assets/styleMovieList.scss';
+import './styleMovieList.scss';
 import movie_logo from "../assets/the-movie-db-logo.svg";
 import config from "../Util/Config";
 import { Gradient } from 'react-gradient';

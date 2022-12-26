@@ -1,7 +1,8 @@
 import React from "react";
 import {useGetCommentsForMovieQuery} from "../Util/MovieService";
-import Comment from './Comment';
 import AddComment from "./AddComment";
+import Comment from './Comment'
+
 
 type commentSection = {
     id: string | undefined

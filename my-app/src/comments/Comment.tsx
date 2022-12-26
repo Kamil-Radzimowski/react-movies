@@ -1,6 +1,6 @@
 import React from "react";
 import {Avatar, Card, CardContent, CardHeader} from "@mui/material";
-import '../assets/styleComment.scss';
+import './styleComment.scss';
 
 type commentProps = {
     id: string | undefined

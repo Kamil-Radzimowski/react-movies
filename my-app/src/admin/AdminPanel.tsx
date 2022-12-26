@@ -2,6 +2,10 @@ import React from "react";
 import movie_logo from "../assets/the-movie-db-logo.svg";
 import {useNavigate} from "react-router-dom";
 import NotificationSender from "./NotificationSender";
+import AdminMovieList from "./AdminMovieList";
+import './styleAdmin.scss';
+import AdminUsersList from "./AdminUserList";
+import AdminNewsList from "./AdminNewsList";
 
 function AdminPanel() {
     const navigate = useNavigate()
@@ -18,6 +22,9 @@ function AdminPanel() {
             </div>
             <div className="page-content">
                 <NotificationSender></NotificationSender>
+                <AdminMovieList></AdminMovieList>
+                <AdminUsersList></AdminUsersList>
+                <AdminNewsList></AdminNewsList>
             </div>
         </div>
     </>

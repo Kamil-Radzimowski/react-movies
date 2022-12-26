@@ -1,12 +1,12 @@
 import React from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import '../assets/styleMoviePage.scss';
+import './styleMoviePage.scss';
 import { Gradient } from 'react-gradient';
 import movie_logo from "../assets/the-movie-db-logo.svg";
 import {Box, Card, CardContent, CardMedia, Paper, Rating, Typography} from "@mui/material";
 import { useGetMovieDetailsByIdQuery } from "../Util/MovieService";
 import config from "../Util/Config";
-import CommentSection from "./CommentSection";
+import CommentSection from "../comments/CommentSection";
 
 
 
