@@ -1,5 +1,14 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
-import {detailedMovie, loginCredentials, loginResponse, movie, registerCredentials, searchResult, comment} from "./types";
+import {
+    detailedMovie,
+    loginCredentials,
+    loginResponse,
+    movie,
+    registerCredentials,
+    searchResult,
+    comment,
+    user
+} from "./types";
 
 export const movieApi = createApi({
     reducerPath: 'movieApi',
@@ -72,9 +81,23 @@ export const movieApi = createApi({
                 console.log(response)
                 return response
             }
-        })
+        }),
+        getAllUsers: builder.query<user[], void>({
+            query: () => `users/all`,
+            transformResponse: (response: user[]) => {
+                return response
+            }
+        }),
+        updateUserIsAdmin: builder.mutation<void, {id: string, isAdmin: boolean}>({
+            query({id, isAdmin}) {
+                return {
+                    url: `users/${id}/update?isAdmin=${isAdmin}`,
+                    method: 'PATCH',
+                };
+            }
+        }),
     }),
 })
 
-export const {useGetAllMoviesQuery, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useLoginMutation, useRegisterMutation, useGetCommentsForMovieQuery, useAddCommentMutation} = movieApi
+export const {useGetAllMoviesQuery, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useLoginMutation, useRegisterMutation, useGetCommentsForMovieQuery, useAddCommentMutation, useGetAllUsersQuery, useUpdateUserIsAdminMutation} = movieApi
 // useLoginMutation

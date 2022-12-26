@@ -148,6 +148,7 @@ app.post('/register', (req, res) => {
         bcrypt.genSalt(saltRounds, function(err, salt) {
             bcrypt.hash(pword, salt, function(err, hash) {
                 const newUserInstance = {
+                    id: uuid(),
                     login: login,
                     email: email,
                     password: hash,
@@ -182,7 +183,29 @@ app.get('/login', async (req, res) => {
     }
 })
 
-//get comments
+// get all users
+app.get('/users/all', (req, res) => {
+    const users = database.users.map((user) => {
+        return {id: user.id, username: user.login, isAdmin: user.isAdmin}
+    })
+    res.send(users)
+})
+
+app.patch('users/:id/update', (req, res) => {
+    const userId = req.params.id
+    const isAdmin = req.query.isAdmin
+
+    const update = database.users.map((user) => {
+        if(user.id === userId){
+            user.isAdmin = isAdmin
+        }
+        return user
+    })
+    database.users = update
+    res.send("Updated")
+})
+
+// get comments
 app.get("/comments", (req, res) => {
     const id = req.query.id
 

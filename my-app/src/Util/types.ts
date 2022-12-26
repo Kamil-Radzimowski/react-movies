@@ -46,6 +46,12 @@ export type comment = {
     comment: string
 }
 
+export type user = {
+    id: string,
+    username: string,
+    isAdmin: boolean
+}
+
 type country = {
     iso: string,
     name: string,
