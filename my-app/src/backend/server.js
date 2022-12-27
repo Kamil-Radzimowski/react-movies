@@ -5,6 +5,7 @@ import movieRoutes from "./routes/movies/movieRoutes.js";
 // import mongoose from 'mongoose'
 import usersRoutes from "./routes/user/usersRoutes.js";
 import commentRoutes from "./routes/comments/commentRoutes.js";
+import {connectToServer} from "./mongo.js";
 
 
 
@@ -20,8 +21,6 @@ const options = {}
 
 const app = express()
 const port = 3000
-
-const uri = "mongodb://localhost:27017/"
 
 const contactSchema = {
     email: String,
@@ -56,5 +55,9 @@ app.use('/movie', movieRoutes)
 app.use('/user', usersRoutes)
 
 app.use('/comment', commentRoutes)
+
+connectToServer(() => {
+    console.log("ok")
+})
 
 app.listen(port)
