@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Autocomplete, Button, Chip, Divider, IconButton, ListItem, Stack, TextField} from "@mui/material";
-import {detailedMovie} from "../../Util/types";
+import {detailedMovie} from "../../../Util/types";
 import {Delete} from "@mui/icons-material";
 
 type EditableMovieItemProps = {

@@ -20,12 +20,12 @@ function NotLoggedInNavBarItem(props: NotLoggedInNavBarItemProps){
     function closeLoginDialog(){
         setIsLoginDialogOpen(false)
         console.log("callback bar")
-        props.callback
+        props.callback()
     }
 
     function closeRegisterDialog(){
         setIsRegisterDialogOpen(false)
-        props.callback
+        props.callback()
     }
 
     function openRegisterDialog(){

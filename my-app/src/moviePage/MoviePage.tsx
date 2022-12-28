@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import './styleMoviePage.scss';
 import { Gradient } from 'react-gradient';
@@ -7,10 +7,14 @@ import {Box, Card, CardContent, CardMedia, Paper, Rating, Typography} from "@mui
 import {useGetMovieDetailsByIdQuery, useVoteOnMovieMutation} from "../Util/MovieService";
 import config from "../Util/Config";
 import CommentSection from "../comments/CommentSection";
+import NavBar from "../navBar/NavBar";
+import Cookies from 'js-cookie'
+
 
 
 
 const MoviePage = () => {
+    const [user, setUser] = useState(Cookies.get("username"))
     const [vote, setVote] = React.useState<number | null>(null)
     const {movieId} = useParams<{ movieId: string }>()
     const navigate = useNavigate()
@@ -39,12 +43,14 @@ const MoviePage = () => {
         voteQuery({id: movieId || "1", vote: newValue || 0})
     }
 
+    const handleNavBarCallback = () => {
+        // pass
+    }
+
+
     return (
         <div className="Page">
-            <div className="page-nav">
-                <img src={movie_logo} onClick={() => {navigateToMainPage()}} alt='movie database logo'/>
-                {isLoading ? null : <div className="page-nav-title">{`${data?.title}`}</div>}
-            </div>
+            <NavBar text={isLoading ? "" : `${data?.title}`} user={user} callback={handleNavBarCallback}/>
             {isLoading ? null : <div className="page-content">
                 <Card sx={{display: 'flex', flex: '1'}}>
                     <CardMedia

@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import config from "../Util/Config";
-import movie_logo from "../assets/the-movie-db-logo.svg";
 import RecommendedMovieCard from "./recommendedMovieCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Gradient } from 'react-gradient';
@@ -11,9 +10,8 @@ import {Search} from "@mui/icons-material";
 import {movie} from "../Util/types";
 import {useGetRecommendedMoviesQuery} from "../Util/MovieService";
 import theme from "../Util/theme";
-import NotLoggedInNavBarItem from "./navBar/NotLoggedInNavBarItem";
-import LoggedInNavBarItem from "./navBar/LoggedInNavBarItem";
 import Cookies from 'js-cookie'
+import NavBar from "../navBar/NavBar";
 
 
 
@@ -42,19 +40,14 @@ function Main() {
     };
 
     const loginOrRegisterAction = () => {
+        console.log("action")
         setUser(Cookies.get("username"))
     }
 
 
     return (
         <div className="App">
-            <header className="App-header">
-                <div className="Header-left">
-                    <img src={movie_logo} alt='movie database logo'/>
-                    <div>Filmy</div>
-                </div>
-                {user === undefined ? <NotLoggedInNavBarItem callback={loginOrRegisterAction}></NotLoggedInNavBarItem> : <LoggedInNavBarItem></LoggedInNavBarItem>}
-            </header>
+            <NavBar text={"Filmy"} user={user} callback={loginOrRegisterAction}></NavBar>
             <div className="App-search">
                 <Gradient className='search-text' gradients={gradient} property='text' angle='45deg'>Szukaj Filmu</Gradient>
                 {/* <Autocomplete className='search' filterOptions={(x) => {return loadMovies(x)}} renderInput={(params) => <TextField {...params} label="Szukaj Filmu"></TextField>} options={searchedMovies}></Autocomplete>*/}

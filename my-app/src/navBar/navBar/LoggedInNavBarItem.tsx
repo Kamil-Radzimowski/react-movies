@@ -11,7 +11,7 @@ function LoggedInNavBarItem(){
     const user = Cookies.get("username")
 
     const handleUserNameClick = () => {
-       navigate("/admin")
+       navigate("/profile")
     }
 
     return <Stack onClick={handleUserNameClick} className="nav-user" direction='row' spacing={2}>
