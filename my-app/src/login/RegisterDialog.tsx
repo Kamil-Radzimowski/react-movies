@@ -10,9 +10,10 @@ import {
     Stack,
     TextField
 } from "@mui/material";
-import {useLoginMutation, useRegisterMutation} from "../Util/MovieService";
+import {useRegisterMutation} from "../Util/MovieService";
 import {SerializedError} from "@reduxjs/toolkit";
 import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
+import Cookies from 'js-cookie'
 
 type property = {
     open: boolean
@@ -27,16 +28,21 @@ function RegisterDialog(props: property){
     const [passwordError, setPasswordError] = useState('')
     const [name, setName] = useState('')
     const [nameError, setNameError] = useState('')
-    const [register, {isLoading, error, isError}] = useRegisterMutation()
+    const [register, {data, isLoading, error, isError, isSuccess}] = useRegisterMutation()
 
 
     const validate = () => {
         return true
     }
 
-    const attemptRegister = () => {
+    const attemptRegister = async () => {
         if(validate()){
-            register({password: password, email: email, name: name})
+            const result = await register({password: password, email: email, name: name})
+            if("data" in result){
+                Cookies.set("username", result.data.username)
+                Cookies.set("isAdmin", result.data.isAdmin)
+                handleClose()
+            }
         }
     }
 
@@ -66,16 +72,29 @@ function RegisterDialog(props: property){
         setNameError('')
     }
 
-    const handleError = (error: SerializedError | undefined | FetchBaseQueryError): String => {
+    const handleError = (error: SerializedError | undefined | FetchBaseQueryError): string => {
         if(error){
             if('status' in error){
-                return 'error' in error ? error.error : JSON.stringify(error.data)
+                if(error.status == 409) {
+                    return "User already exists"
+                } else {
+                    return 'error' in error ? error.error : JSON.stringify(error.data)
+                }
             } else {
-                return error.message || ""
+                if(error.code == "409"){
+                    return "User already exists"
+                }
+                else {
+                    return error.message || ""
+                }
             }
         } else {
             return ""
         }
+    }
+
+    const handleSuccess = (): string => {
+        return "Zarejestrowano pomyślnie"
     }
 
     return <Dialog open={props.open} onClose={handleClose} fullWidth={true}
@@ -83,12 +102,12 @@ function RegisterDialog(props: property){
         <DialogTitle>Zarejestruj się</DialogTitle>
         <DialogContent>
             <Stack spacing={2}>
-                <Collapse in={isError}>
+                <Collapse in={isError || isSuccess}>
                     <Alert
-                        severity="error"
+                        severity={isSuccess ? 'success' : 'error'}
                         sx={{ mb: 2 }}
                     >
-                        {handleError(error)}
+                        {isSuccess ? handleSuccess() : handleError(error)}
                     </Alert>
                 </Collapse>
                 <TextField

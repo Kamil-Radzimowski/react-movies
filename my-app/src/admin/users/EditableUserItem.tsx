@@ -1,6 +1,6 @@
 import React from "react";
 import {user} from "../../Util/types";
-import {Button, Divider, FormControlLabel, FormGroup, Stack, Switch, TextField, Typography} from "@mui/material";
+import {Button, Divider, FormControlLabel, FormGroup, Stack, Switch, TextField} from "@mui/material";
 import {useDeleteUserMutation, useUpdateUserIsAdminMutation} from "../../Util/MovieService";
 
 type EditableUserItemProps = {

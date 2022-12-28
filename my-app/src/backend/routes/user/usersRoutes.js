@@ -19,7 +19,7 @@ export default router
         const isLoginOrEmailTaken = await getDb().collection(usersCollection).find({$or: [{login: login}, {email: email}]}).toArray()
 
         if(isLoginOrEmailTaken.length !== 0){
-            return res.status(409).render("User already exists")
+            return res.status(409).send({message: "User already exists"})
         } else {
             bcrypt.genSalt(saltRounds, function(err, salt) {
                 bcrypt.hash(pword, salt, function(err, hash) {
@@ -34,7 +34,7 @@ export default router
                         if(err){
                             res.status(400).send(err)
                         } else{
-                            res.send("User User created successfully")
+                            res.json({username: login, isAdmin: newUserInstance.isAdmin})
                         }
                     })
                 });
@@ -74,7 +74,7 @@ export default router
         const userId = req.params.id
         const isAdmin = req.query.isAdmin
 
-        getDb().collection(usersCollection).updateOne({id: parseInt(userId)}, {$set: {isAdmin: isAdmin}},  function(err, result){
+        getDb().collection(usersCollection).updateOne({id: userId}, {$set: {isAdmin: isAdmin}},  function(err, result){
             if(err){
                 res.status(400).send(err)
             } else {
@@ -85,10 +85,12 @@ export default router
     .delete('/:id/ban', (req, res) => {
         const userId = req.params.id
 
-        getDb().collection(usersCollection).deleteOne({id: parseInt(userId)}, function(err, result){
+        getDb().collection(usersCollection).deleteOne({id: userId}, function(err, result){
             if(err){
+                console.log(err)
                 res.status(400).send(err)
             } else {
+                console.log("ok")
                 res.send("Deleted")
             }
         })

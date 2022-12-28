@@ -13,6 +13,8 @@ import {
 import {useLoginMutation} from "../Util/MovieService";
 import {SerializedError} from "@reduxjs/toolkit";
 import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
+import Cookies from 'js-cookie'
+
 
 type property = {
     open: boolean
@@ -27,9 +29,14 @@ function LoginDialog(props: property){
     const [passwordError, setPasswordError] = useState('')
     const [login, {isLoading, error, isError, isSuccess}] = useLoginMutation()
 
-    function attemptLogin(){
+    async function attemptLogin(){
         if(validateInput()){
-            login({email: email, password: password})
+            const result = await login({email: email, password: password})
+            if("data" in result){
+                Cookies.set("username", result.data.username)
+                Cookies.set("isAdmin", result.data.isAdmin)
+                handleClose()
+            }
         }
     }
 
@@ -81,7 +88,7 @@ function LoginDialog(props: property){
         props.onRegisterClick()
     }
 
-    const handleError = (error: SerializedError | undefined | FetchBaseQueryError): String => {
+    const handleError = (error: SerializedError | undefined | FetchBaseQueryError): string => {
         if(error){
             if('status' in error){
                 return 'error' in error ? error.error : JSON.stringify(error.data)
@@ -94,7 +101,7 @@ function LoginDialog(props: property){
     }
 
     const handleSuccess = () => {
-        return "Success"
+        return "Zalogowano pomyślnie"
     }
 
     return <><Dialog open={props.open} onClose={handleClose} fullWidth={true}

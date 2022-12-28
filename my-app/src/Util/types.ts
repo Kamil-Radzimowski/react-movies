@@ -26,7 +26,7 @@ export type detailedMovie = {
 
 export type loginResponse = {
     username: string
-    api_key: string
+    isAdmin: boolean
 }
 
 export type loginCredentials = {

@@ -13,6 +13,7 @@ import {useGetRecommendedMoviesQuery} from "../Util/MovieService";
 import theme from "../Util/theme";
 import NotLoggedInNavBarItem from "./NotLoggedInNavBarItem";
 import LoggedInNavBarItem from "./LoggedInNavBarItem";
+import Cookies from 'js-cookie'
 
 
 
@@ -20,9 +21,8 @@ import LoggedInNavBarItem from "./LoggedInNavBarItem";
 function Main() {
     const { data, isLoading } = useGetRecommendedMoviesQuery()
     const [searchInput, setSearchInput] = useState("")
+    const [user, setUser] = useState(Cookies.get("username"))
     const gradient = config.getGradient()
-
-    const user = localStorage.getItem("user")
 
     const navigate = useNavigate()
 
@@ -41,6 +41,10 @@ function Main() {
         setSearchInput(event.target.value);
     };
 
+    const loginOrRegisterAction = () => {
+        setUser(Cookies.get("username"))
+    }
+
 
     return (
         <div className="App">
@@ -49,7 +53,7 @@ function Main() {
                     <img src={movie_logo} alt='movie database logo'/>
                     <div>Filmy</div>
                 </div>
-                {user === null ? <NotLoggedInNavBarItem></NotLoggedInNavBarItem> : <LoggedInNavBarItem></LoggedInNavBarItem>}
+                {user === undefined ? <NotLoggedInNavBarItem callback={loginOrRegisterAction}></NotLoggedInNavBarItem> : <LoggedInNavBarItem></LoggedInNavBarItem>}
             </header>
             <div className="App-search">
                 <Gradient className='search-text' gradients={gradient} property='text' angle='45deg'>Szukaj Filmu</Gradient>

@@ -1,16 +1,13 @@
 import React from 'react'
 import {Stack, Typography} from "@mui/material";
 import {AccountCircle} from "@mui/icons-material";
+import Cookies from 'js-cookie'
 
-type property = {
+function LoggedInNavBarItem(){
 
-}
+    const user = Cookies.get("username")
 
-function LoggedInNavBarItem(props: unknown){
-
-    const user = localStorage.getItem("user")
-
-    return <Stack direction='row'>
+    return <Stack direction='row' spacing={2}>
         <Typography>{`Witaj, ${user}!`}</Typography>
         <AccountCircle></AccountCircle>
     </Stack>
