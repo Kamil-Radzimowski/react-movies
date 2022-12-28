@@ -1,24 +1,42 @@
-import React from "react";
+import React, {useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import './styleMoviePage.scss';
 import { Gradient } from 'react-gradient';
 import movie_logo from "../assets/the-movie-db-logo.svg";
 import {Box, Card, CardContent, CardMedia, Paper, Rating, Typography} from "@mui/material";
-import { useGetMovieDetailsByIdQuery } from "../Util/MovieService";
+import {useGetMovieDetailsByIdQuery, useVoteOnMovieMutation} from "../Util/MovieService";
 import config from "../Util/Config";
 import CommentSection from "../comments/CommentSection";
 
 
 
 const MoviePage = () => {
+    const [vote, setVote] = React.useState<number | null>(null)
     const {movieId} = useParams<{ movieId: string }>()
     const navigate = useNavigate()
     const gradient = config.getGradient()
 
+    const [voteQuery] = useVoteOnMovieMutation()
     const { data, isLoading} = useGetMovieDetailsByIdQuery(movieId || "")
 
     function navigateToMainPage() {
         navigate('/')
+    }
+
+    const isVotingDisabled = () => {
+        return vote != null
+    }
+
+    const getVote = () => {
+        if(vote == null){
+            return (data?.vote_average ?? 0) / 2
+        } else {
+            return vote
+        }
+    }
+
+    const postVote = (newValue: number | null) => {
+        voteQuery({id: movieId || "1", vote: newValue || 0})
     }
 
     return (
@@ -42,7 +60,9 @@ const MoviePage = () => {
                                         <Typography>{`${genre}`}</Typography>
                                     </Paper>
                                 )})}
-                                <Rating sx={{paddingLeft: 2}} className='rating' readOnly value={(data?.vote_average ?? 0) / 2} precision={0.25}></Rating>
+                                <Rating sx={{paddingLeft: 2}} className='rating' disabled={isVotingDisabled()} onChange={(event, newValue) => {
+                                    postVote(newValue)
+                                }} value={getVote()} precision={0.25}></Rating>
                             </CardContent>
                             <CardContent>
                                 <Typography>

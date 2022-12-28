@@ -77,6 +77,20 @@ export default router
             res.sendFile(`/Users/uczelnia/WebstormProjects/react-movies/my-app/src/backend/backendAssets/img/${fileName}`)
         }
     })
+    .post('/vote/:id/:rating', async (req, res) => {
+        const movieId = req.params.id
+        const rating = req.params.rating
+        let user = req.query.user
+
+        if(user === undefined || user === "undefined"){
+            user = "Anonim"
+        }
+
+        const vote = {user: user, rate: rating}
+
+        const result = await getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$push: {votes: vote}})
+        res.send(result)
+    })
     .patch('update/:id', (req, res) => {
 
     })

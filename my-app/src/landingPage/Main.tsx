@@ -76,6 +76,10 @@ function Main() {
                     {data?.map((e: movie) => {return <RecommendedMovieCard key={e.id} data={e}/>})}
                 </div>)}
             </div>
+            <div className='App-news'>
+                <Gradient className='news-text' gradients={gradient} property='text' angle='45deg'>Newsy</Gradient>
+
+            </div>
         </div>
     );
 }

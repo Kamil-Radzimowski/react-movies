@@ -20,6 +20,14 @@ export const movieApi = createApi({
                 return response
             }
         }),
+        voteOnMovie: builder.mutation<void, {id: string, vote: number}>({
+            query({id, vote}){
+                return{
+                    url: `movie/vote/${id}/${vote}`,
+                    method: "POST"
+                }
+            }
+        }),
         getMovieDetailsById: builder.query<detailedMovie, string>({
             query: (id) => `movie/${id}`,
             transformResponse: (response: {movie: detailedMovie}) => {
@@ -107,5 +115,5 @@ export const movieApi = createApi({
     }),
 })
 
-export const {useGetAllMoviesQuery, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useLoginMutation, useRegisterMutation, useGetCommentsForMovieQuery, useAddCommentMutation, useGetAllUsersQuery, useUpdateUserIsAdminMutation, useDeleteUserMutation} = movieApi
+export const {useGetAllMoviesQuery, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useLoginMutation, useRegisterMutation, useGetCommentsForMovieQuery, useAddCommentMutation, useGetAllUsersQuery, useUpdateUserIsAdminMutation, useDeleteUserMutation, useVoteOnMovieMutation} = movieApi
 // useLoginMutation
