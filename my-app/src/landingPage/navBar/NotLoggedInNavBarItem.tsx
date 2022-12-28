@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import LoginDialog from "../login/LoginDialog";
-import RegisterDialog from "../login/RegisterDialog";
+import LoginDialog from "../../login/LoginDialog";
+import RegisterDialog from "../../login/RegisterDialog";
 import {Button, Stack} from "@mui/material";
 
 type NotLoggedInNavBarItemProps = {

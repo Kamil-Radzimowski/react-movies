@@ -11,8 +11,8 @@ import {Search} from "@mui/icons-material";
 import {movie} from "../Util/types";
 import {useGetRecommendedMoviesQuery} from "../Util/MovieService";
 import theme from "../Util/theme";
-import NotLoggedInNavBarItem from "./NotLoggedInNavBarItem";
-import LoggedInNavBarItem from "./LoggedInNavBarItem";
+import NotLoggedInNavBarItem from "./navBar/NotLoggedInNavBarItem";
+import LoggedInNavBarItem from "./navBar/LoggedInNavBarItem";
 import Cookies from 'js-cookie'
 
 
