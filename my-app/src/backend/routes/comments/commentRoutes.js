@@ -32,3 +32,13 @@ export default router
         const result = await getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$push: { comments: comment}})
         res.send(result)
     })
+    .delete('/comments/delete/:id', async(req, res) => {
+        const movieId = req.params.id
+        getDb().collection(moviesCollection).deleteOne({id: parseInt(movieId)}, function(err, result){
+            if(err){
+                res.status(400).send(err)
+            } else {
+                res.send("Komentarz usuniety")
+            }
+        })
+    })

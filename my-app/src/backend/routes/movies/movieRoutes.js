@@ -77,7 +77,16 @@ export default router
             res.sendFile(`/Users/uczelnia/WebstormProjects/react-movies/my-app/src/backend/backendAssets/img/${fileName}`)
         }
     })
+    .patch('update/:id', (req, res) => {
+
+    })
     .delete('/delete/:id', (req, res) => {
         const id = req.params.id
-
+        getDb().collection(moviesCollection).deleteOne({id: parseInt(id)}, function (err, result){
+            if(err){
+                res.status(400).send(err)
+            } else {
+                res.send("Deleted")
+            }
+        })
     })
