@@ -8,16 +8,18 @@ import {FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Them
 import {useNavigate} from "react-router-dom";
 import {Search} from "@mui/icons-material";
 import {movie} from "../Util/types";
-import {useGetRecommendedMoviesQuery} from "../Util/MovieService";
+import {useGetAllNewsQuery, useGetRecommendedMoviesQuery} from "../Util/MovieService";
 import theme from "../Util/theme";
 import Cookies from 'js-cookie'
 import NavBar from "../navBar/NavBar";
+import NewsCard from "./newsCard";
 
 
 
 
 function Main() {
     const { data, isLoading } = useGetRecommendedMoviesQuery()
+    const {data: news = [], isLoading: areNewsLoading} = useGetAllNewsQuery()
     const [searchInput, setSearchInput] = useState("")
     const [user, setUser] = useState(Cookies.get("username"))
     const gradient = config.getGradient()
@@ -75,7 +77,9 @@ function Main() {
             </div>
             <div className='App-news'>
                 <Gradient className='news-text' gradients={gradient} property='text' angle='45deg'>Newsy</Gradient>
-
+                {areNewsLoading ? null : news.map((item) => {
+                    return <NewsCard key={item.id} title={item.title} desc={item.desc} date={item.date}/>
+                })}
             </div>
         </div>
     );

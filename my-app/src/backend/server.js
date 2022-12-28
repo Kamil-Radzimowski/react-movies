@@ -2,9 +2,9 @@ import express from 'express'
 import data from "./backendAssets/data.json" assert { type: "json" }
 import cors from 'cors'
 import movieRoutes from "./routes/movies/movieRoutes.js";
-// import mongoose from 'mongoose'
 import usersRoutes from "./routes/user/usersRoutes.js";
 import commentRoutes from "./routes/comments/commentRoutes.js";
+import newsRoutes from "./routes/news/newsRoutes.js";
 import {connectToServer} from "./mongo.js";
 
 
@@ -55,6 +55,8 @@ app.use('/movie', movieRoutes)
 app.use('/user', usersRoutes)
 
 app.use('/comment', commentRoutes)
+
+app.use('/news', newsRoutes)
 
 connectToServer(() => {
     console.log("ok")

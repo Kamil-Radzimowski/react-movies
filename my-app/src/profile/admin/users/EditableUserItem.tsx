@@ -15,7 +15,7 @@ const EditableUserItem = (props: EditableUserItemProps) => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setChecked(event.target.checked);
-        update({id: props.user.id, isAdmin: checked})
+        update({id: props.user.id, isAdmin: event.target.checked})
     };
 
     const banUser = () => {

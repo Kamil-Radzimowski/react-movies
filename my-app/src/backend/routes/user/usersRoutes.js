@@ -72,7 +72,9 @@ export default router
     })
     .patch('/:id/update', (req, res) => {
         const userId = req.params.id
-        const isAdmin = req.query.isAdmin
+        let isAdmin = req.query.isAdmin
+
+        isAdmin = isAdmin === 'true';
 
         getDb().collection(usersCollection).updateOne({id: userId}, {$set: {isAdmin: isAdmin}},  function(err, result){
             if(err){
@@ -87,10 +89,8 @@ export default router
 
         getDb().collection(usersCollection).deleteOne({id: userId}, function(err, result){
             if(err){
-                console.log(err)
                 res.status(400).send(err)
             } else {
-                console.log("ok")
                 res.send("Deleted")
             }
         })

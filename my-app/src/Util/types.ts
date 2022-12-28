@@ -52,6 +52,13 @@ export type user = {
     isAdmin: boolean
 }
 
+export type news = {
+    id: string,
+    title: string,
+    desc: string,
+    date: string
+}
+
 type country = {
     iso: string,
     name: string,

@@ -7,7 +7,7 @@ import {
     registerCredentials,
     searchResult,
     comment,
-    user
+    user, news
 } from "./types";
 
 export const movieApi = createApi({
@@ -112,8 +112,38 @@ export const movieApi = createApi({
                 };
             }
         }),
+        getAllNews: builder.query<news[], void>({
+            query: () => `news/all`,
+            transformResponse: (response: news[]) => {
+                return response
+            }
+        }),
+        addNews: builder.mutation<void, {title: string, desc: string}>({
+            query({title, desc}) {
+                return {
+                    url: `news/${title}/${desc}`,
+                    method: 'POST'
+                }
+            }
+        }),
+        deleteNews: builder.mutation<void, {id: string}>({
+            query({id}) {
+                return {
+                    url: `news/${id}`,
+                    method: 'DELETE'
+                }
+            }
+        }),
+        updateNews: builder.mutation<void, {id: string, title: string, desc: string}>({
+            query({id, title, desc}) {
+                return {
+                    url: `news/${id}/${title}/${desc}`,
+                    method: 'PATCH'
+                }
+            }
+        }),
     }),
 })
 
-export const {useGetAllMoviesQuery, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useLoginMutation, useRegisterMutation, useGetCommentsForMovieQuery, useAddCommentMutation, useGetAllUsersQuery, useUpdateUserIsAdminMutation, useDeleteUserMutation, useVoteOnMovieMutation} = movieApi
+export const {useGetAllMoviesQuery, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useLoginMutation, useRegisterMutation, useGetCommentsForMovieQuery, useAddCommentMutation, useGetAllUsersQuery, useUpdateUserIsAdminMutation, useDeleteUserMutation, useVoteOnMovieMutation, useAddNewsMutation, useGetAllNewsQuery, useDeleteNewsMutation, useUpdateNewsMutation} = movieApi
 // useLoginMutation

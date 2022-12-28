@@ -91,8 +91,14 @@ export default router
         const result = await getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$push: {votes: vote}})
         res.send(result)
     })
-    .patch('update/:id', (req, res) => {
+    .patch('/update/:id', async (req, res) => {
+        const movieId = req.params.id
+        const title = req.query.title
+        const desc = req.query.desc
+        const genres = req.query.genres
 
+        const result = await getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$set: {title: title, overview: desc, genres: genres}})
+        res.send(result)
     })
     .delete('/delete/:id', (req, res) => {
         const id = req.params.id

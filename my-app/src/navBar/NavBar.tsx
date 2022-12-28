@@ -21,7 +21,7 @@ const NavBar = (props: NavBarProps) => {
     return <header className="App-header">
         <div className="Header-left">
             <img src={movie_logo} onClick={() => {navigateToMainPage()}} alt='movie database logo'/>
-            <div>Filmy</div>
+            <div>{props.text}</div>
         </div>
         {props.user === undefined ? <NotLoggedInNavBarItem callback={props.callback}></NotLoggedInNavBarItem> : <LoggedInNavBarItem></LoggedInNavBarItem>}
     </header>

@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Card, Collapse, List, ListItemButton, ListItemIcon, ListItemText, Typography} from "@mui/material";
 import {ExpandLess, ExpandMore} from "@mui/icons-material";
 import '../movie/styleAdminMovieList.scss';
+import AddNews from "./AddNews";
 
 const AdminNewsList = () => {
     const [isNewsListOpen, setIsNewsListOpen] = useState(false)
@@ -18,7 +19,7 @@ const AdminNewsList = () => {
             </ListItemButton>
             <Collapse in={isNewsListOpen}>
                 <List>
-
+                    <AddNews/>
                 </List>
             </Collapse>
         </List>
