@@ -12,7 +12,7 @@ import {useGetAllNewsQuery, useGetRecommendedMoviesQuery} from "../Util/MovieSer
 import theme from "../Util/theme";
 import Cookies from 'js-cookie'
 import NavBar from "../navBar/NavBar";
-import NewsCard from "./newsCard";
+import NewsCard from "./NewsCard";
 
 
 

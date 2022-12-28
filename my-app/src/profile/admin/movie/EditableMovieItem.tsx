@@ -1,5 +1,16 @@
 import React, {useState} from "react";
-import {Autocomplete, Button, Chip, Divider, IconButton, ListItem, Stack, TextField} from "@mui/material";
+import {
+    Autocomplete,
+    Button,
+    Card, CardActions,
+    CardContent,
+    Chip,
+    Divider,
+    IconButton,
+    ListItem,
+    Stack,
+    TextField
+} from "@mui/material";
 import {detailedMovie} from "../../../Util/types";
 import {Delete} from "@mui/icons-material";
 
@@ -26,42 +37,46 @@ const EditableMovieItem = (props: EditableMovieItemProps) => {
 
 
     return <>
-        <Stack sx={{margin: 2, mb: 4, mt: 4}} spacing={2}>
-            <TextField fullWidth label='Tytuł' value={title} onChange={handleTitleChange}></TextField>
-            <TextField fullWidth label='Opis' value={desc} onChange={handleDescChange}></TextField>
-            <Autocomplete
-                multiple
-                fullWidth
-                value={genres}
-                id="tags-filled"
-                options={["Horror", "Akcja", "Fabularny"]}
-                defaultValue={["Horror"]}
-                freeSolo
-                onChange={(event, newValue) => {
-                    handleGenresChange(newValue)
-                }
-                }
-                renderTags={(value: readonly string[], getTagProps) =>
-                    value.map((option: string, index: number) => (
-                        // eslint-disable-next-line react/jsx-key
-                        <Chip variant="outlined" label={option} {...getTagProps({ index })} />
-                    ))
-                }
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        variant="filled"
-                        label="Gatunki"
-                        placeholder="Gatunek"
-                    />
-                )}
-            />
-            <Button>Zmień</Button>
-            <IconButton>
-                <Delete/>
-            </IconButton>
-            <Divider/>
-        </Stack>
+        <Card sx={{margin: 2, mb: 4, mt: 4}} >
+            <CardContent>
+                <TextField sx={{mb: 2}} fullWidth label='Tytuł' value={title} onChange={handleTitleChange}></TextField>
+                <TextField sx={{mb: 2}} fullWidth label='Opis' value={desc} onChange={handleDescChange}></TextField>
+                <Autocomplete
+                    sx={{mb: 2}}
+                    multiple
+                    fullWidth
+                    value={genres}
+                    id="tags-filled"
+                    options={["Horror", "Akcja", "Fabularny"]}
+                    defaultValue={["Horror"]}
+                    freeSolo
+                    onChange={(event, newValue) => {
+                        handleGenresChange(newValue)
+                    }
+                    }
+                    renderTags={(value: readonly string[], getTagProps) =>
+                        value.map((option: string, index: number) => (
+                            // eslint-disable-next-line react/jsx-key
+                            <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                        ))
+                    }
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            variant="filled"
+                            label="Gatunki"
+                            placeholder="Gatunek"
+                        />
+                    )}
+                />
+            </CardContent>
+            <CardActions>
+                <Button>Zmień</Button>
+                <IconButton>
+                    <Delete/>
+                </IconButton>
+            </CardActions>
+        </Card>
     </>
 }
 

@@ -22,7 +22,7 @@ const AddNews = () => {
     }
 
     return <>
-        <Card>
+        <Card sx={{ml: 5, mr: 5, mt: 2, mb: 2}}>
             <CardContent>
                 <TextField sx={{mb: 2}} label="Tytuł" fullWidth value={title} onChange={handleTitleChange}/>
                 <TextField label="Treść" fullWidth value={desc} onChange={handleDescChange}/>

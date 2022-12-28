@@ -1,6 +1,15 @@
 import React from "react";
 import {user} from "../../../Util/types";
-import {Button, Divider, FormControlLabel, FormGroup, Stack, Switch, TextField} from "@mui/material";
+import {
+    Button,
+    Card,
+    CardActions,
+    CardContent,
+    FormControlLabel,
+    FormGroup,
+    Switch,
+    TextField
+} from "@mui/material";
 import {useDeleteUserMutation, useUpdateUserIsAdminMutation} from "../../../Util/MovieService";
 
 type EditableUserItemProps = {
@@ -23,14 +32,17 @@ const EditableUserItem = (props: EditableUserItemProps) => {
     }
 
     return <>
-        <Stack sx={{margin: 2, mb: 4, mt: 4}} spacing={2}>
-            <TextField disabled fullWidth label='Nazwa użytkownika' value={props.user.username}/>
-            <FormGroup>
-                <FormControlLabel control={<Switch checked={checked} onChange={handleChange}/>} label="Prawa Administratora" />
-            </FormGroup>
-            <Button variant='outlined' onClick={banUser}>Zbanuj</Button>
-            <Divider/>
-        </Stack>
+        <Card sx={{ml: 5, mr: 5, mt: 2, mb: 2}}>
+            <CardContent>
+                <TextField sx={{mb: 2}} disabled fullWidth label='Nazwa użytkownika' value={props.user.username}/>
+                <FormGroup>
+                    <FormControlLabel control={<Switch checked={checked} onChange={handleChange}/>} label="Prawa Administratora" />
+                </FormGroup>
+            </CardContent>
+            <CardActions>
+                <Button variant='outlined' onClick={banUser}>Zbanuj</Button>
+            </CardActions>
+        </Card>
     </>
 }
 

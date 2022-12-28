@@ -3,8 +3,11 @@ import {Card, Collapse, List, ListItemButton, ListItemIcon, ListItemText, Typogr
 import {ExpandLess, ExpandMore} from "@mui/icons-material";
 import '../movie/styleAdminMovieList.scss';
 import AddNews from "./AddNews";
+import {useGetAllNewsQuery} from "../../../Util/MovieService";
+import EditableNewsItem from "./EditableNewsItem";
 
 const AdminNewsList = () => {
+    const {data, isLoading} = useGetAllNewsQuery()
     const [isNewsListOpen, setIsNewsListOpen] = useState(false)
 
     const handleNewsListClick = () => {
@@ -19,6 +22,9 @@ const AdminNewsList = () => {
             </ListItemButton>
             <Collapse in={isNewsListOpen}>
                 <List>
+                    {!isLoading && data !== undefined ? data.map((item) => {
+                        return <EditableNewsItem key={item.id} title={item.title} desc={item.desc} date={item.date} id={item.id}/>
+                    }) : null}
                     <AddNews/>
                 </List>
             </Collapse>
