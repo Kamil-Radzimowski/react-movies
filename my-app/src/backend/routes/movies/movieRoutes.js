@@ -1,5 +1,4 @@
 import express from "express";
-import {database} from "../../server.js";
 import {LogToFile} from "../../logs/FileLogger.js";
 import {getDb} from "../../mongo.js";
 
@@ -39,7 +38,7 @@ export default router
         const page = req.query.page
         const chunk = 10;
 
-        getDb().collection(moviesCollection).find({title: `/.*${query}.*/i`}).toArray(function (err, result){
+        getDb().collection(moviesCollection).find({'title' : { '$regex' : query, '$options' : 'i' } }).toArray(function (err, result){
             if(err){
                 res.status(400).error("error")
             } else {
@@ -58,17 +57,16 @@ export default router
             }
         })
     })
-    .get('/:id' , (req, res) => {
+    .get('/:id' , async (req, res) => {
         const id = req.params.id
-        const movie = database.data.reduce((acc, current) => {
-            if(current.id === parseInt(id)){
-                return current
+
+        getDb().collection(moviesCollection).findOne({id: parseInt(id)}, function (err, result){
+            if(err){
+                res.status(400).send(err)
             } else {
-                return acc
+                res.json({movie: result})
             }
-        }, {})
-        LogToFile(movie)
-        res.send({movie: movie})
+        })
     })
     .get("/poster/:name", (req, res) => {
         const fileName = req.params.name
@@ -78,4 +76,8 @@ export default router
         } else {
             res.sendFile(`/Users/uczelnia/WebstormProjects/react-movies/my-app/src/backend/backendAssets/img/${fileName}`)
         }
+    })
+    .delete('/delete/:id', (req, res) => {
+        const id = req.params.id
+
     })

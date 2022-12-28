@@ -24,7 +24,7 @@ function MovieListItem(props: property) {
 
     return (
         <div className="item">
-            <img alt={`${props.data.title} movie poster`} className="item-img" src={`https://image.tmdb.org/t/p/original/${props.data.poster_path}`}></img>
+            <img alt={`${props.data.title} movie poster`} className="item-img" src={`http://localhost:3000/movie/poster/${props.data.poster_path}`}></img>
             <div className="item-data">
                 <div className="item-title">
                     <div className="title">{`${props.data.title}`}</div>
