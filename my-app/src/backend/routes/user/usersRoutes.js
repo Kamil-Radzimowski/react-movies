@@ -3,45 +3,40 @@ import {database} from "../../server.js";
 import {LogToFile} from "../../logs/FileLogger.js";
 import bcrypt from "bcrypt";
 import {uuid} from "uuidv4";
+import {getDb} from "../../mongo.js";
 
 const router = express.Router();
 
+const usersCollection = "users"
+
 const saltRounds = 10
-
-const getUserByEmail = (email) => {
-    return database.users.reduce((acc, current) => {
-        if(current.email === email){
-            return current;
-        } else {
-            return acc;
-        }
-    }, null)
-}
-
 export default router
-    .post('/register', (req, res) => {
+    .post('/register', async (req, res) => {
         const login = req.query.name
         const pword = req.query.password
         const email = req.query.email
 
-        const isLoginOrEmailTaken = database.users.some((user) => {
-            return user.login === login || user.email === email
-        })
-        if(isLoginOrEmailTaken){
+        const isLoginOrEmailTaken = await getDb().collection(usersCollection).find({$or: [{login: login}, {email: email}]}).toArray()
+
+        if(isLoginOrEmailTaken.length !== 0){
             return res.status(409).render("User already exists")
         } else {
             bcrypt.genSalt(saltRounds, function(err, salt) {
                 bcrypt.hash(pword, salt, function(err, hash) {
                     const newUserInstance = {
                         id: uuid(),
-                        login: login,
+                        username: login,
                         email: email,
                         password: hash,
                         isAdmin: true
                     }
-                    database.users.push(newUserInstance)
-                    LogToFile(newUserInstance)
-                    res.send("User created successfully")
+                    getDb().collection(usersCollection).insertOne(newUserInstance, function(err, result){
+                        if(err){
+                            res.status(400).send(err)
+                        } else{
+                            res.send("User User created successfully")
+                        }
+                    })
                 });
             });
         }
@@ -50,7 +45,8 @@ export default router
         const email = req.query.email
         const pword = req.query.password
 
-        const user = getUserByEmail(email)
+        const userBase = await getDb().collection(usersCollection).find({email: email}).toArray()
+        const user = userBase[0]
         if (user !== null) {
             const areEqual = await bcrypt.compare(pword, user.password)
             if(areEqual){
@@ -65,22 +61,35 @@ export default router
             res.status(401).json({ error: "User does not exist" });
         }
     })
-    .get('/all', (req, res) => {
-        const users = database.users.map((user) => {
-            return {id: user.id, username: user.login, isAdmin: user.isAdmin}
-        })
-        res.send(users)
+    .get('/all', async (req, res) => {
+        const options = {
+            projection: {_id: 0, id: 1, username: 1, isAdmin: 1}
+        }
+
+        const result = await getDb().collection(usersCollection).find({}, options).toArray()
+        console.log(result)
+        res.send(result)
     })
     .patch('/:id/update', (req, res) => {
         const userId = req.params.id
         const isAdmin = req.query.isAdmin
 
-        const update = database.users.map((user) => {
-            if(user.id === userId){
-                user.isAdmin = isAdmin
+        getDb().collection(usersCollection).updateOne({id: parseInt(userId)}, {$set: {isAdmin: isAdmin}},  function(err, result){
+            if(err){
+                res.status(400).send(err)
+            } else {
+                res.send("Updated")
             }
-            return user
         })
-        database.users = update
-        res.send("Updated")
+    })
+    .delete('/:id/ban', (req, res) => {
+        const userId = req.params.id
+
+        getDb().collection(usersCollection).deleteOne({id: parseInt(userId)}, function(err, result){
+            if(err){
+                res.status(400).send(err)
+            } else {
+                res.send("Deleted")
+            }
+        })
     })
