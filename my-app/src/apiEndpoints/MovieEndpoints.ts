@@ -20,7 +20,7 @@ const extendedApi = movieApi.injectEndpoints({
         voteOnMovie: builder.mutation<void, {id: string, vote: number}>({
             query({id, vote}){
                 return{
-                    url: `movie/vote/${id}/${vote}`,
+                    url: `movie/vote/${id}/${vote * 2}`,
                     method: "POST"
                 }
             }
@@ -49,8 +49,20 @@ const extendedApi = movieApi.injectEndpoints({
                 }
             }
         }),
+        addMovie: builder.mutation<void, {title: string, desc: string, genres: string[], image: FormData}>({
+            query({title, desc, genres, image}){
+                return{
+                    url: `movie/add/${title}/${desc}/${genres}`,
+                    method: "POST",
+                    body: image,
+                    headers: {
+                        "Content-Type": "multipart/form-data;",
+                    },
+                }
+            }
+        }),
     }),
     overrideExisting: false,
 })
 
-export const {useGetAllMoviesQuery, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useVoteOnMovieMutation, useUpdateMovieMutation} = extendedApi
+export const {useGetAllMoviesQuery, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useVoteOnMovieMutation, useUpdateMovieMutation, useAddMovieMutation} = extendedApi

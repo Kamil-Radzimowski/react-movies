@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import config from "../Util/Config";
 import RecommendedMovieCard from "./recommendedMovieCard";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -14,8 +14,7 @@ import theme from "../Util/theme";
 import Cookies from 'js-cookie'
 import NavBar from "../navBar/NavBar";
 import NewsCard from "./NewsCard";
-
-
+import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 
 function Main() {
@@ -27,6 +26,16 @@ function Main() {
 
     const navigate = useNavigate()
 
+    useEffect(() => {
+        const client = new W3CWebSocket('ws://127.0.0.1:8080');
+        client.onopen = () => {
+            console.log('WebSocket Client Connected');
+        };
+        client.onmessage = (message) => {
+            console.log(message);
+        };
+        // pass
+    }, [])
 
     function onSearchKeyPressed(key){
         if(key.keyCode == 13){

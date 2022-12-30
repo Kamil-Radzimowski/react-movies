@@ -1,10 +1,15 @@
 import express from "express";
 import {LogToFile} from "../../logs/FileLogger.js";
 import {getDb} from "../../mongo.js";
+import multer from "multer";
 
 const router = express.Router();
 
 const moviesCollection = "movies"
+
+const upload = multer({
+    dest: "../../backendAssets/img"
+});
 
 const simplifyMovie = (movie) => {
     return {
@@ -98,7 +103,6 @@ export default router
         let genres = req.query.genres
 
         genres = genres.split(",")
-        console.log(genres)
 
         const result = await getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$set: {title: title, overview: desc, genres: genres}})
         res.send(result)
@@ -112,4 +116,18 @@ export default router
                 res.send("Deleted")
             }
         })
+    })
+    .post('/add/:title/:desc/:genres', upload.single("image"), (req, res) => {
+        const title = req.params.title
+        const desc = req.params.desc
+        const genres = req.params.desc
+
+        const tempPath = req.file;
+        const test = req.body
+
+        console.log(test)
+
+        console.log(title)
+        console.log(tempPath)
+
     })
