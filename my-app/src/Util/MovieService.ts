@@ -20,6 +20,9 @@ export const movieApi = createApi({
                 return response
             }
         }),
+        updateMovie: builder.query<void, {id: string, title: string, desc: string, genres: string[]}>({
+            query: ({id, title, desc, genres}) => `movie/update/${id}?title=${title}&desc=${desc}&genres=${genres}`,
+        }),
         voteOnMovie: builder.mutation<void, {id: string, vote: number}>({
             query({id, vote}){
                 return{
