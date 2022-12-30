@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import {detailedMovie} from "../../../Util/types";
 import {Delete} from "@mui/icons-material";
+import {useUpdateMovieMutation} from "../../../apiEndpoints/MovieEndpoints";
 
 type EditableMovieItemProps = {
     movie: detailedMovie
@@ -22,6 +23,8 @@ const EditableMovieItem = (props: EditableMovieItemProps) => {
     const [title, setTitle] = useState(props.movie.title)
     const [desc, setDesc] = useState(props.movie.overview)
     const [genres, setGenre] = useState(props.movie.genres)
+
+    const [apply] = useUpdateMovieMutation()
 
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(event.target.value)
@@ -35,6 +38,11 @@ const EditableMovieItem = (props: EditableMovieItemProps) => {
         setGenre(genres)
     }
 
+    const applyChanges = () => {
+        const update = {id: props.movie.id, title: title, desc:desc, genres: genres}
+        console.log(update)
+        apply(update)
+    }
 
     return <>
         <Card sx={{margin: 2, mb: 4, mt: 4}} >
@@ -71,7 +79,7 @@ const EditableMovieItem = (props: EditableMovieItemProps) => {
                 />
             </CardContent>
             <CardActions>
-                <Button>Zmień</Button>
+                <Button onClick={applyChanges}>Zmień</Button>
                 <IconButton>
                     <Delete/>
                 </IconButton>

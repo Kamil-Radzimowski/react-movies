@@ -9,8 +9,13 @@ const extendedApi = movieApi.injectEndpoints({
                 return response
             }
         }),
-        updateMovie: builder.query<void, {id: string, title: string, desc: string, genres: string[]}>({
-            query: ({id, title, desc, genres}) => `movie/update/${id}?title=${title}&desc=${desc}&genres=${genres}`,
+        updateMovie: builder.mutation<void, {id: number, title: string, desc: string, genres: string[]}>({
+            query({id, title, desc, genres}) {
+                return {
+                    url: `movie/update/${id}?title=${title}&desc=${desc}&genres=${genres}`,
+                    method: 'PATCH'
+                }
+            }
         }),
         voteOnMovie: builder.mutation<void, {id: string, vote: number}>({
             query({id, vote}){
@@ -48,4 +53,4 @@ const extendedApi = movieApi.injectEndpoints({
     overrideExisting: false,
 })
 
-export const {useGetAllMoviesQuery, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useVoteOnMovieMutation} = extendedApi
+export const {useGetAllMoviesQuery, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useVoteOnMovieMutation, useUpdateMovieMutation} = extendedApi

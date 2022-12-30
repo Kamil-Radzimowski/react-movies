@@ -95,7 +95,10 @@ export default router
         const movieId = req.params.id
         const title = req.query.title
         const desc = req.query.desc
-        const genres = req.query.genres
+        let genres = req.query.genres
+
+        genres = genres.split(",")
+        console.log(genres)
 
         const result = await getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$set: {title: title, overview: desc, genres: genres}})
         res.send(result)
