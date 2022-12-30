@@ -2,11 +2,13 @@ import React, {useState} from "react";
 import {Button, Card, CardActions, CardContent, CardHeader, TextField} from "@mui/material";
 import {useAddCommentMutation} from "../Util/MovieService";
 import Cookies from 'js-cookie'
+import {comment} from "../Util/types";
+import uuid from 'react-uuid';
 
 
 type addCommentProps = {
     id: string,
-    onAdd: (comment: string) => void
+    onAdd: (comment: comment) => void
 }
 
 
@@ -18,10 +20,9 @@ const AddComment = (props: addCommentProps) => {
     const add = async () => {
         const query = await addHook({id: props.id, text: comment, user: user || undefined})
         if('error' in query){
-            console.log("error")
             // pass
         } else {
-            props.onAdd(comment)
+            props.onAdd({id: uuid(), comment: comment, user: user})
         }
     }
 

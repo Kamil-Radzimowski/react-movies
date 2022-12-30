@@ -38,7 +38,6 @@ export default router
             if(err){
                 res.status(400).send(err)
             } else {
-                console.log(result)
                 res.send(result)
             }
         })

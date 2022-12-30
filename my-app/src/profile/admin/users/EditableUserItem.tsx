@@ -13,7 +13,8 @@ import {
 import {useDeleteUserMutation, useUpdateUserIsAdminMutation} from "../../../Util/MovieService";
 
 type EditableUserItemProps = {
-    user: user
+    user: user,
+    removalCallback: (id: string) => void
 }
 
 const EditableUserItem = (props: EditableUserItemProps) => {
@@ -29,6 +30,7 @@ const EditableUserItem = (props: EditableUserItemProps) => {
 
     const banUser = () => {
         ban(props.user.id)
+        props.removalCallback(props.user.id)
     }
 
     return <>

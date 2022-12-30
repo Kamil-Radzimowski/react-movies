@@ -5,7 +5,7 @@ import './styleComment.scss';
 type commentProps = {
     id: string | undefined
     name: string
-    text: string
+    text: string,
 }
 
 const Comment = (props: commentProps) => {
