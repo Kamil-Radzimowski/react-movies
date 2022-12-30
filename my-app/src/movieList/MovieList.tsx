@@ -4,7 +4,7 @@ import './styleMovieList.scss';
 import config from "../Util/Config";
 import { Gradient } from 'react-gradient';
 import CircularProgress from "@mui/material/CircularProgress";
-import {useGetMovieByNameQuery} from "../Util/MovieService";
+import {useGetMovieByNameQuery} from "../apiEndpoints/MovieEndpoints";
 import {Pagination, PaginationItem} from "@mui/material";
 import MovieItemCard from "./MovieItemCard";
 import NavBar from "../navBar/NavBar";

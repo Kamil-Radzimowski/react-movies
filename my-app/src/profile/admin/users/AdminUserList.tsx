@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Collapse, List, ListItemButton, ListItemText} from "@mui/material";
 import {ExpandLess, ExpandMore} from "@mui/icons-material";
-import {useGetAllUsersQuery} from "../../../Util/MovieService";
+import {useGetAllUsersQuery} from "../../../apiEndpoints/UserEndpoints";
 import EditableUserItem from "./EditableUserItem";
 import {user} from "../../../Util/types";
 

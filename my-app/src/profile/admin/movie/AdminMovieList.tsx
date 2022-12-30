@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Collapse, List, ListItemButton, ListItemText} from "@mui/material";
 import {ExpandLess, ExpandMore} from "@mui/icons-material";
 import './styleAdminMovieList.scss';
-import {useGetAllMoviesQuery} from "../../../Util/MovieService";
+import {useGetAllMoviesQuery} from "../../../apiEndpoints/MovieEndpoints";
 import EditableMovieItem from "./EditableMovieItem";
 
 const AdminMovieList = () => {

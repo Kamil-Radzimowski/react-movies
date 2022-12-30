@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Button, Card, CardActions, CardContent, CardHeader, TextField} from "@mui/material";
-import {useAddCommentMutation} from "../Util/MovieService";
+import {useAddCommentMutation} from "../apiEndpoints/CommentEndpoints";
 import Cookies from 'js-cookie'
 import {comment} from "../Util/types";
 import uuid from 'react-uuid';

@@ -3,7 +3,7 @@ import {Card, Collapse, List, ListItemButton, ListItemIcon, ListItemText, Typogr
 import {ExpandLess, ExpandMore} from "@mui/icons-material";
 import '../movie/styleAdminMovieList.scss';
 import AddNews from "./AddNews";
-import {useGetAllNewsQuery} from "../../../Util/MovieService";
+import {useGetAllNewsQuery} from "../../../apiEndpoints/NewsEndpoints";
 import EditableNewsItem from "./EditableNewsItem";
 import {news} from "../../../Util/types";
 

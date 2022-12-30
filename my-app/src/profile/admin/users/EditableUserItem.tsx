@@ -10,7 +10,7 @@ import {
     Switch,
     TextField
 } from "@mui/material";
-import {useDeleteUserMutation, useUpdateUserIsAdminMutation} from "../../../Util/MovieService";
+import {useDeleteUserMutation, useUpdateUserIsAdminMutation} from "../../../apiEndpoints/UserEndpoints";
 
 type EditableUserItemProps = {
     user: user,

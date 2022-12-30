@@ -4,7 +4,7 @@ import './styleMoviePage.scss';
 import { Gradient } from 'react-gradient';
 import movie_logo from "../assets/the-movie-db-logo.svg";
 import {Box, Card, CardContent, CardMedia, Paper, Rating, Typography} from "@mui/material";
-import {useGetMovieDetailsByIdQuery, useVoteOnMovieMutation} from "../Util/MovieService";
+import {useGetMovieDetailsByIdQuery, useVoteOnMovieMutation} from "../apiEndpoints/MovieEndpoints";
 import config from "../Util/Config";
 import CommentSection from "../comments/CommentSection";
 import NavBar from "../navBar/NavBar";

@@ -8,7 +8,8 @@ import {FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Them
 import {useNavigate} from "react-router-dom";
 import {Search} from "@mui/icons-material";
 import {movie} from "../Util/types";
-import {useGetAllNewsQuery, useGetRecommendedMoviesQuery} from "../Util/MovieService";
+import { useGetRecommendedMoviesQuery} from "../apiEndpoints/MovieEndpoints";
+import {useGetAllNewsQuery} from "../apiEndpoints/NewsEndpoints";
 import theme from "../Util/theme";
 import Cookies from 'js-cookie'
 import NavBar from "../navBar/NavBar";

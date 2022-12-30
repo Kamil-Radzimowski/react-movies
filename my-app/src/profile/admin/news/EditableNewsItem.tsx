@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {news} from "../../../Util/types";
 import {Button, Card, CardActions, CardContent, IconButton, TextField} from "@mui/material";
-import {useDeleteNewsMutation, useUpdateNewsMutation} from "../../../Util/MovieService";
+import {useDeleteNewsMutation, useUpdateNewsMutation} from "../../../apiEndpoints/NewsEndpoints";
 import {Delete} from "@mui/icons-material";
 
 type EditableNewsItemProps = {

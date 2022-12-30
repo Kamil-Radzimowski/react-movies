@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {Button, Card, CardActions, CardContent, TextField} from "@mui/material";
-import {useAddNewsMutation} from "../../../Util/MovieService";
+import {useAddNewsMutation} from "../../../apiEndpoints/NewsEndpoints";
 
 const AddNews = () => {
     const [add] = useAddNewsMutation()

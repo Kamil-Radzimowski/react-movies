@@ -10,7 +10,7 @@ import {
     TextField
 } from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {useDeleteCommentMutation} from "../../../Util/MovieService";
+import {useDeleteCommentMutation} from "../../../apiEndpoints/CommentEndpoints";
 
 type EditableCommentItemProps = {
     comment: comment,
