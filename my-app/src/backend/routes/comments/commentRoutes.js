@@ -1,6 +1,7 @@
 import express from "express";
 import {uuid} from "uuidv4";
 import {getDb} from "../../mongo.js";
+import {notifyCommentAdded} from "../../websocket/wsComment.js";
 
 const router = express.Router();
 
@@ -30,6 +31,8 @@ export default router
         const comment = {id: uuid(), user: user, comment: text}
 
         const result = await getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$push: { comments: comment}})
+
+        notifyCommentAdded(comment)
         res.send(result)
     })
     .delete('/comments/delete/:movieid/:commentid', async(req, res) => {

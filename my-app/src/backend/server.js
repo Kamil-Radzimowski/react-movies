@@ -78,19 +78,16 @@ app.listen(port)
 const server = http.createServer(app);
 
 //initialize the WebSocket server instance
-const wss = new WebSocketServer({ port:  wsport});
+export const wss = new WebSocketServer({ port:  wsport});
+export let socket
 
 wss.on('connection', (ws) => {
-
+    socket = ws
     console.log("connection")
-    //connection is up, let's add a simple simple event
+
     ws.on('message', (message) => {
 
-        //log the received message and send it back to the client
         console.log('received: %s', message);
         ws.send(`Hello, you sent -> ${message}`);
     });
-
-    //send immediatly a feedback to the incoming connection
-    ws.send('Hi there, I am a WebSocket server');
 });

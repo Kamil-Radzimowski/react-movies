@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useLayoutEffect, useState} from "react";
 import {useGetCommentsForMovieQuery} from "../apiEndpoints/CommentEndpoints";
 import AddComment from "./AddComment";
 import Comment from './Comment'
 import {comment} from "../Util/types";
-
+import {getClient} from "../Util/WebSocket";
 
 type commentSection = {
     id: string | undefined
@@ -15,11 +15,28 @@ const CommentSection = (props: commentSection) => {
 
     useEffect(() => {
         setComments(data)
+
+        const client = getClient()
+
+        client.onmessage = (message) => {
+            const obj = JSON.parse(message.data)
+            if(obj.type === "COMMENT"){
+                const comment: comment = obj.comment
+                onAdd(comment)
+            }
+        };
     }, [data])
     
     const onAdd = (comment: comment) => {
-        const newComments = comments?.concat(comment)
-        setComments(newComments);
+            setComments(oldArray => {
+                if(oldArray != undefined){
+                    console.log("dodano")
+                    return [...oldArray, comment]
+                } else {
+                    return oldArray
+                }
+            });
+
     }
 
     return <>
