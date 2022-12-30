@@ -38,10 +38,8 @@ export default router
 
         getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$pull: {comments: {id: commentId}}}, function(err, result){
             if(err){
-                console.log(err)
                 res.status(400).send(err)
             } else {
-                console.log(result)
                 res.send("Komentarz usuniety")
             }
         })

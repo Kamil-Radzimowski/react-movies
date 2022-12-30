@@ -16,7 +16,9 @@ const EditableGroupedCommentItem = (props: groupedComments) => {
     }
 
     const updateCommentList = (id: string) => {
+        console.log(id)
         const newList = commentList.filter((comm) => {return comm.id != id})
+        console.log(newList)
         setCommentList(newList)
     }
 
@@ -27,7 +29,7 @@ const EditableGroupedCommentItem = (props: groupedComments) => {
                 {isCommentListOpen ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={isCommentListOpen}>
-                {props.comments.map((comment) => {
+                {commentList.map((comment) => {
                     return <EditableCommentItem key={comment.id} comment={comment} movieId={props.id} removeCallback={updateCommentList}/>
                 })}
             </Collapse>
