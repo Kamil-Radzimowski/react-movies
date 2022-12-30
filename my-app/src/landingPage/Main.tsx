@@ -78,7 +78,7 @@ function Main() {
             <div className='App-news'>
                 <Gradient className='news-text' gradients={gradient} property='text' angle='45deg'>Newsy</Gradient>
                 {areNewsLoading ? null : news.map((item) => {
-                    return <NewsCard key={item.id} title={item.title} desc={item.desc} date={item.date}/>
+                    return <NewsCard key={item._id} title={item.title} desc={item.desc} date={item.date}/>
                 })}
             </div>
         </div>

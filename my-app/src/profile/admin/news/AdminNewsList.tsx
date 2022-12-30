@@ -1,17 +1,28 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Card, Collapse, List, ListItemButton, ListItemIcon, ListItemText, Typography} from "@mui/material";
 import {ExpandLess, ExpandMore} from "@mui/icons-material";
 import '../movie/styleAdminMovieList.scss';
 import AddNews from "./AddNews";
 import {useGetAllNewsQuery} from "../../../Util/MovieService";
 import EditableNewsItem from "./EditableNewsItem";
+import {news} from "../../../Util/types";
 
 const AdminNewsList = () => {
+    const [news, setNews] = useState<news[] | undefined>(undefined)
     const {data, isLoading} = useGetAllNewsQuery()
     const [isNewsListOpen, setIsNewsListOpen] = useState(false)
 
+    useEffect(() => {
+        setNews(data)
+    }, [data])
+
     const handleNewsListClick = () => {
         setIsNewsListOpen(!isNewsListOpen)
+    }
+
+    const filterDataAfterRemoval = (id: string) => {
+        const updatedNewsArray = news?.filter((news) => {return news._id != id})
+        setNews(updatedNewsArray)
     }
 
     return <>
@@ -22,8 +33,8 @@ const AdminNewsList = () => {
             </ListItemButton>
             <Collapse in={isNewsListOpen}>
                 <List>
-                    {!isLoading && data !== undefined ? data.map((item) => {
-                        return <EditableNewsItem key={item.id} title={item.title} desc={item.desc} date={item.date} id={item.id}/>
+                    {!isLoading && news !== undefined ? news.map((item) => {
+                        return <EditableNewsItem key={item._id} news={item} removeCallback={filterDataAfterRemoval}/>
                     }) : null}
                     <AddNews/>
                 </List>

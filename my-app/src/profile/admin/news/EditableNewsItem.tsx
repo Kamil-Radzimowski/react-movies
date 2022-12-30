@@ -1,14 +1,19 @@
 import React, {useState} from 'react'
 import {news} from "../../../Util/types";
 import {Button, Card, CardActions, CardContent, IconButton, TextField} from "@mui/material";
-import {useDeleteNewsMutation, useDeleteUserMutation, useUpdateNewsMutation} from "../../../Util/MovieService";
+import {useDeleteNewsMutation, useUpdateNewsMutation} from "../../../Util/MovieService";
 import {Delete} from "@mui/icons-material";
 
-const EditableNewsItem = (props: news) => {
+type EditableNewsItemProps = {
+    news: news,
+    removeCallback: (id: string) => void
+}
+
+const EditableNewsItem = (props: EditableNewsItemProps) => {
     const [change] = useUpdateNewsMutation()
     const [newsDeletion] = useDeleteNewsMutation()
-    const [title, setTitle] = useState(props.title)
-    const [desc, setDesc] = useState(props.desc)
+    const [title, setTitle] = useState(props.news.title)
+    const [desc, setDesc] = useState(props.news.desc)
 
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(event.target.value)
@@ -19,11 +24,13 @@ const EditableNewsItem = (props: news) => {
     }
 
     const changeNews = () => {
-        change({id: props.id, title: title, desc: desc})
+        change({id: props.news._id, title: title, desc: desc})
     }
 
     const deleteNews = () => {
-        newsDeletion({id: props.id})
+        console.log(props.news._id)
+        newsDeletion({id: props.news._id})
+        props.removeCallback(props.news._id)
     }
 
     return <>

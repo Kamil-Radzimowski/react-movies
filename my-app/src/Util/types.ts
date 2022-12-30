@@ -53,7 +53,7 @@ export type user = {
 }
 
 export type news = {
-    id: string,
+    _id: string,
     title: string,
     desc: string,
     date: string

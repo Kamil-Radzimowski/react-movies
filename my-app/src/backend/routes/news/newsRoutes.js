@@ -1,5 +1,6 @@
 import express from "express";
 import {getDb} from "../../mongo.js";
+import {ObjectId} from "mongodb";
 
 const router = express.Router();
 
@@ -32,10 +33,12 @@ export default router
     })
     .delete("/:id", (req, res) => {
         const newsId = req.params.id
-        getDb().collection(newsCollection).deleteOne({_id: newsId}, function(err, result){
+        console.log(newsId)
+        getDb().collection(newsCollection).deleteOne({_id: new ObjectId(newsId)}, function(err, result){
             if(err){
                 res.status(400).send(err)
             } else {
+                console.log(result)
                 res.send(result)
             }
         })
@@ -45,7 +48,7 @@ export default router
         const title = req.params.title
         const desc = req.params.desc
 
-        getDb().collection(newsCollection).updateOne({_id: newsId}, {$set: {title: title, desc: desc}}, function (err, result){
+        getDb().collection(newsCollection).updateOne({_id: new ObjectId(newsId)}, {$set: {title: title, desc: desc}}, function (err, result){
             if(err){
                 res.status(400).send(err)
             } else {

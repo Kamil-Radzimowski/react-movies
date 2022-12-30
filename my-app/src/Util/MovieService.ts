@@ -66,6 +66,14 @@ export const movieApi = createApi({
                 }
             }
         }),
+        deleteComment: builder.mutation<void, {id: string}>({
+            query({id}) {
+                return {
+                    url: `comment/comments/delete/${id}`,
+                    method: 'DELETE'
+                }
+            }
+        }),
         login: builder.mutation<loginResponse, loginCredentials>({
             query(credentials) {
                 return {
