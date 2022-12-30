@@ -59,6 +59,12 @@ export type news = {
     date: string
 }
 
+export type groupedComments = {
+    title: string
+    id: string
+    comments: comment[]
+}
+
 type country = {
     iso: string,
     name: string,

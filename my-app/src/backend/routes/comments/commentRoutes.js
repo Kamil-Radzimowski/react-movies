@@ -32,13 +32,35 @@ export default router
         const result = await getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$push: { comments: comment}})
         res.send(result)
     })
-    .delete('/comments/delete/:id', async(req, res) => {
+    .delete('/comments/delete/:movieid/:commentid', async(req, res) => {
+        const movieId = req.params.movieid
+        const commentId = req.params.commentid
+
+        getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$pull: {comments: {id: commentId}}}, function(err, result){
+            if(err){
+                console.log(err)
+                res.status(400).send(err)
+            } else {
+                console.log(result)
+                res.send("Komentarz usuniety")
+            }
+        })
+    })
+    .patch('/comments/:id/:commentid/:comment', async (req, res) => {
         const movieId = req.params.id
-        getDb().collection(moviesCollection).deleteOne({id: parseInt(movieId)}, function(err, result){
+        const commentId = req.params.commentid
+        const comment = req.params.comment
+
+        const result = await getDb().collection(moviesCollection).updateOne({id: parseInt(movieId), "comments.id": commentId}, {$set: {"comments.$.comment": comment}})
+        res.send(result)
+    })
+    .get('/comments/grouped', (req, res) => {
+
+        getDb().collection(moviesCollection).find({}).project({_id: 0, title: 1, id:1, comments: 1}).toArray(function (err, result){
             if(err){
                 res.status(400).send(err)
             } else {
-                res.send("Komentarz usuniety")
+                res.send(result)
             }
         })
     })

@@ -7,10 +7,12 @@ import AdminUsersList from "./users/AdminUserList";
 import AdminNewsList from "./news/AdminNewsList";
 import Cookies from 'js-cookie'
 import NavBar from "../../navBar/NavBar";
+import AdminCommentList from "./comments/AdminCommentList";
 
 function AdminPanel() {
     const user = Cookies.get("username")
     useNavigate();
+
     const handleNavBarChange = () => {
         // pass
     }
@@ -23,6 +25,7 @@ function AdminPanel() {
                 <AdminMovieList></AdminMovieList>
                 <AdminUsersList></AdminUsersList>
                 <AdminNewsList></AdminNewsList>
+                <AdminCommentList></AdminCommentList>
             </div>
         </div>
     </>

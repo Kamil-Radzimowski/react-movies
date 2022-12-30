@@ -7,7 +7,7 @@ import {
     registerCredentials,
     searchResult,
     comment,
-    user, news
+    user, news, groupedComments
 } from "./types";
 
 export const movieApi = createApi({
@@ -66,10 +66,10 @@ export const movieApi = createApi({
                 }
             }
         }),
-        deleteComment: builder.mutation<void, {id: string}>({
-            query({id}) {
+        deleteComment: builder.mutation<void, {id: string, commentId: string}>({
+            query({id, commentId}) {
                 return {
-                    url: `comment/comments/delete/${id}`,
+                    url: `comment/comments/delete/${id}/${commentId}`,
                     method: 'DELETE'
                 }
             }
@@ -150,8 +150,15 @@ export const movieApi = createApi({
                 }
             }
         }),
+        getCommentsGroupedByMovie: builder.query<groupedComments[], void>({
+            query: () => `comment/comments/grouped`,
+            transformResponse: (response: groupedComments[]) => {
+                console.log(response)
+                return response
+            }
+        }),
     }),
 })
 
-export const {useGetAllMoviesQuery, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useLoginMutation, useRegisterMutation, useGetCommentsForMovieQuery, useAddCommentMutation, useGetAllUsersQuery, useUpdateUserIsAdminMutation, useDeleteUserMutation, useVoteOnMovieMutation, useAddNewsMutation, useGetAllNewsQuery, useDeleteNewsMutation, useUpdateNewsMutation} = movieApi
+export const {useGetAllMoviesQuery, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useLoginMutation, useRegisterMutation, useGetCommentsForMovieQuery, useAddCommentMutation, useGetAllUsersQuery, useUpdateUserIsAdminMutation, useDeleteUserMutation, useVoteOnMovieMutation, useAddNewsMutation, useGetAllNewsQuery, useDeleteNewsMutation, useUpdateNewsMutation, useGetCommentsGroupedByMovieQuery, useDeleteCommentMutation} = movieApi
 // useLoginMutation
