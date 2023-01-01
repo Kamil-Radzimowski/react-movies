@@ -7,7 +7,7 @@ import './style.scss';
 import {FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, ThemeProvider} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {Search} from "@mui/icons-material";
-import {movie} from "../Util/types";
+import {movie, news} from "../Util/types";
 import { useGetRecommendedMoviesQuery} from "../apiEndpoints/MovieEndpoints";
 import {useGetAllNewsQuery} from "../apiEndpoints/NewsEndpoints";
 import theme from "../Util/theme";
@@ -19,6 +19,7 @@ import {getClient} from "../Util/WebSocket";
 
 function Main() {
     const { data, isLoading } = useGetRecommendedMoviesQuery()
+    const [newsState, setNewsState] = useState<news[] | undefined>(undefined)
     const {data: news = [], isLoading: areNewsLoading} = useGetAllNewsQuery()
     const [searchInput, setSearchInput] = useState("")
     const [user, setUser] = useState(Cookies.get("username"))
@@ -27,15 +28,29 @@ function Main() {
     const navigate = useNavigate()
 
     useEffect(() => {
+        setNewsState(news)
         const client = getClient()
 
         client.onmessage = (message) => {
             const obj = JSON.parse(message.data)
             if(obj.type === "NEWS"){
+                const newItem: news = obj.news
+                addNews(newItem)
                 //pass
             }
         }
-    }, [])
+    }, [data])
+
+    const addNews = (news: news) => {
+        setNewsState(oldArray => {
+            if(oldArray != undefined){
+                return [...oldArray, news]
+            } else {
+                return oldArray
+            }
+        });
+    }
+
 
     function onSearchKeyPressed(key){
         if(key.keyCode == 13){
@@ -87,9 +102,9 @@ function Main() {
             </div>
             <div className='App-news'>
                 <Gradient className='news-text' gradients={gradient} property='text' angle='45deg'>Newsy</Gradient>
-                {areNewsLoading ? null : news.map((item) => {
+                {!areNewsLoading && newsState != undefined ? newsState.map((item) => {
                     return <NewsCard key={item._id} title={item.title} desc={item.desc} date={item.date}/>
-                })}
+                }) : null}
             </div>
         </div>
     );

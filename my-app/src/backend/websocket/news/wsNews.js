@@ -1,11 +1,10 @@
-import {wss} from "../server.js";
-import WebSocket from 'ws';
+import {wss} from "../../server.js";
+import WebSocket from "ws";
 
-
-export const notifyCommentAdded = (comment) => {
+export const notifyNewsAdded = (news) => {
     const wrapper = {
-        type: "COMMENT",
-        comment: comment
+        type: "NEWS",
+        news: news
     }
 
     wss.clients.forEach((client) => {

@@ -82,6 +82,8 @@ function LoginDialog(props: property){
         setEmail('')
         setPasswordError('')
         setEmailError('')
+        setPasswordError('')
+        setEmailError('')
     }
 
     const handleOnRegisterClick = () => {
@@ -91,8 +93,15 @@ function LoginDialog(props: property){
     const handleError = (error: SerializedError | undefined | FetchBaseQueryError): string => {
         if(error){
             if('status' in error){
+                if(error.status === 401){
+                    return "User does not exist"
+                }
+                if(error.status === 400){
+                    return "Invalid password"
+                }
                 return 'error' in error ? error.error : JSON.stringify(error.data)
             } else {
+                console.log(error)
                 return error.message || ""
             }
         } else {

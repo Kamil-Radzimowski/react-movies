@@ -47,7 +47,7 @@ export default router
 
         const userBase = await getDb().collection(usersCollection).find({email: email}).toArray()
         const user = userBase[0]
-        if (user !== null) {
+        if (user !== undefined) {
             const areEqual = await bcrypt.compare(pword, user.password)
             if(areEqual){
                 LogToFile(user.username)
@@ -67,7 +67,6 @@ export default router
         }
 
         const result = await getDb().collection(usersCollection).find({}, options).toArray()
-        console.log(result)
         res.send(result)
     })
     .patch('/:id/update', (req, res) => {

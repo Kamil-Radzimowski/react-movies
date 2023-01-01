@@ -23,3 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 /src/backend/logs/logs.txt
 /my-app/src/backend/logs.txt
+src/backend/logs.txt
+/src/backend/logs.txt

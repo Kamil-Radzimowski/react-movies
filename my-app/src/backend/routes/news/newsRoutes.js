@@ -1,6 +1,7 @@
 import express from "express";
 import {getDb} from "../../mongo.js";
 import {ObjectId} from "mongodb";
+import {notifyNewsAdded} from "../../websocket/news/wsNews.js";
 
 const router = express.Router();
 
@@ -28,6 +29,7 @@ export default router
             date: date
         }
         const result = await getDb().collection(newsCollection).insertOne(doc)
+        notifyNewsAdded(doc)
         res.send(result)
 
     })

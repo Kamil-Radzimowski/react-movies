@@ -1,7 +1,7 @@
 import express from "express";
 import {uuid} from "uuidv4";
 import {getDb} from "../../mongo.js";
-import {notifyCommentAdded} from "../../websocket/wsComment.js";
+import {notifyCommentAdded} from "../../websocket/comments/wsComment.js";
 
 const router = express.Router();
 
