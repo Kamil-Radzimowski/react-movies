@@ -39,13 +39,14 @@ const extendedApi = movieApi.injectEndpoints({
                 return response.results.slice(0, 5)
             }
         }),
-        getMovieByName: builder.query<searchResult, {str: string, page: string}>({
-            query: ({str,  page}) => `movie/search?query=${str}&page=${page}`,
-            transformResponse: (response: {results: movie[], page: number, total_pages: number, total_results: number}) => {
+        getMovieByName: builder.query<searchResult, {str: string, page: string, sortOption: string}>({
+            query: ({str,  page, sortOption}) => `movie/search?query=${str}&page=${page}&sort=${sortOption}`,
+            transformResponse: (response: {results: movie[], page: number, number_of_pages: number, total_results: number}) => {
                 // console.log(response)
                 return {
                     total_results: response.total_results,
-                    results: response.results
+                    results: response.results,
+                    number_of_pages: response.number_of_pages
                 }
             }
         }),

@@ -41,9 +41,20 @@ export default router
     .get('/search', (req, res) => {
         const query = req.query.query
         const page = req.query.page
+        const sortOption = req.query.sort
         const chunk = 10;
 
-        getDb().collection(moviesCollection).find({'title' : { '$regex' : query, '$options' : 'i' } }).toArray(function (err, result){
+        const sortObj = {}
+
+        if(sortOption === "default"){
+            sortObj._id = 1
+        } else if (sortOption === "popularity"){
+            sortObj.popularity = -1
+        } else if (sortOption === "votes"){
+            sortObj.vote_count = -1
+        }
+
+        getDb().collection(moviesCollection).find({'title' : { '$regex' : query, '$options' : 'i' } }).sort(sortObj).toArray(function (err, result){
             if(err){
                 res.status(400).error("error")
             } else {
@@ -58,7 +69,7 @@ export default router
 
                     return resultArray
                 }, [])
-                res.send({results: data[page - 1], total_results: result.length})
+                res.send({results: data[page - 1], total_results: result.length, number_of_pages: data.length})
             }
         })
     })

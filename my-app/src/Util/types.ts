@@ -9,7 +9,8 @@ export type movie = {
 
 export type searchResult = {
     total_results: number,
-    results: movie[]
+    results: movie[],
+    number_of_pages: number
 }
 
 export type detailedMovie = {

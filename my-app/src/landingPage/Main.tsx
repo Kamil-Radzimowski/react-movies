@@ -14,7 +14,7 @@ import theme from "../Util/theme";
 import Cookies from 'js-cookie'
 import NavBar from "../navBar/NavBar";
 import NewsCard from "./NewsCard";
-import { w3cwebsocket as W3CWebSocket } from "websocket";
+import {getClient} from "../Util/WebSocket";
 
 
 function Main() {
@@ -27,14 +27,14 @@ function Main() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        const client = new W3CWebSocket('ws://127.0.0.1:8080');
-        client.onopen = () => {
-            console.log('WebSocket Client Connected');
-        };
+        const client = getClient()
+
         client.onmessage = (message) => {
-            console.log(message);
-        };
-        // pass
+            const obj = JSON.parse(message.data)
+            if(obj.type === "NEWS"){
+                //pass
+            }
+        }
     }, [])
 
     function onSearchKeyPressed(key){

@@ -30,7 +30,6 @@ const CommentSection = (props: commentSection) => {
     const onAdd = (comment: comment) => {
             setComments(oldArray => {
                 if(oldArray != undefined){
-                    console.log("dodano")
                     return [...oldArray, comment]
                 } else {
                     return oldArray
