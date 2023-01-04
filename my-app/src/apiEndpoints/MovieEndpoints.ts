@@ -20,7 +20,7 @@ const extendedApi = movieApi.injectEndpoints({
         voteOnMovie: builder.mutation<void, {id: string, vote: number}>({
             query({id, vote}){
                 return{
-                    url: `movie/vote/${id}/${vote * 2}`,
+                    url: `movie/vote/${id}/${vote}`,
                     method: "POST"
                 }
             }

@@ -54,7 +54,22 @@ export default router
             sortObj.vote_count = -1
         }
 
-        getDb().collection(moviesCollection).find({'title' : { '$regex' : query, '$options' : 'i' } }).sort(sortObj).toArray(function (err, result){
+        getDb().collection(moviesCollection).aggregate([
+            {
+                $match: {'title' : { '$regex' : query, '$options' : 'i' } }
+            },
+            {
+                $project: {
+                    _id: 0, id:1, title: 1, popularity: 1,
+                    poster_path: 1,
+                    vote_count: {$size: "$votes"},
+                    overview: 1,
+                }
+            },
+            {
+                $sort: sortObj
+            },
+        ]).toArray(function (err, result){
             if(err){
                 res.status(400).error("error")
             } else {
@@ -76,11 +91,34 @@ export default router
     .get('/:id' , async (req, res) => {
         const id = req.params.id
 
-        getDb().collection(moviesCollection).findOne({id: parseInt(id)}, function (err, result){
+        getDb().collection(moviesCollection).aggregate([
+            {
+                $unwind: {path: "$votes", "preserveNullAndEmptyArrays": true}
+            },
+            {
+                $match: {id: parseInt(id)}
+            },
+
+            {
+                $group: {
+                    _id: "$id",
+                    id: {$first: "$id"},
+                    title: {$first: "$title"},
+                    poster_path: {$first: "$poster_path"},
+                    overview: {$first: "$overview"},
+                    popularity: {$first: "$popularity"},
+                    vote_average: {$avg: "$votes.rate"},
+                    vote_count: {$count: {}},
+                    genres: {$first: "$genres"}
+                }
+            }
+        ]).toArray(function(err, result){
             if(err){
+                console.log(err)
                 res.status(400).send(err)
             } else {
-                res.json({movie: result})
+                console.log(result[0])
+                res.send({movie: result[0]})
             }
         })
     })
@@ -102,7 +140,7 @@ export default router
             user = "Anonim"
         }
 
-        const vote = {user: user, rate: rating}
+        const vote = {user: user, rate: parseInt(rating)}
 
         const result = await getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$push: {votes: vote}})
         res.send(result)

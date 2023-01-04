@@ -33,7 +33,7 @@ const MoviePage = () => {
 
     const getVote = () => {
         if(vote == null){
-            return (data?.vote_average ?? 0) / 2
+            return (data?.vote_average ?? 0)
         } else {
             return vote
         }
@@ -68,7 +68,7 @@ const MoviePage = () => {
                                 )})}
                                 <Rating sx={{paddingLeft: 2}} className='rating' disabled={isVotingDisabled()} onChange={(event, newValue) => {
                                     postVote(newValue)
-                                }} value={getVote()} precision={0.25}></Rating>
+                                }} value={getVote()} precision={1}></Rating>
                             </CardContent>
                             <CardContent>
                                 <Typography>
