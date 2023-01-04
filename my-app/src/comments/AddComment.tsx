@@ -23,6 +23,7 @@ const AddComment = (props: addCommentProps) => {
             // pass
         } else {
             props.onAdd({id: uuid(), comment: comment, user: user})
+            setComment("")
         }
     }
 

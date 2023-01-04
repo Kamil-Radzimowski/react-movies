@@ -4,12 +4,14 @@ import AddComment from "./AddComment";
 import Comment from './Comment'
 import {comment} from "../Util/types";
 import {getClient} from "../Util/WebSocket";
+import Cookies from 'js-cookie'
 
 type commentSection = {
     id: string | undefined
 }
 
 const CommentSection = (props: commentSection) => {
+    const [user, setUser] = useState<string>(Cookies.get("username"))
     const [comments, setComments] = useState<comment[] | undefined>(undefined)
     const { data, isLoading} = useGetCommentsForMovieQuery(props.id || "")
 
@@ -22,7 +24,9 @@ const CommentSection = (props: commentSection) => {
             const obj = JSON.parse(message.data)
             if(obj.type === "COMMENT"){
                 const comment: comment = obj.comment
-                onAdd(comment)
+                if(comment.user != user){
+                    onAdd(comment)
+                }
             }
         };
     }, [data])
