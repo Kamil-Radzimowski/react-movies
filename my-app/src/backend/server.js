@@ -18,6 +18,7 @@ const options = {
 
 import http from "http";
 import WebSocket, {WebSocketServer} from "ws";
+import {sendNotification} from "./websocket/notifiactions/wsNotifications.js";
 
 const options = {}
 
@@ -87,7 +88,7 @@ wss.on('connection', (ws) => {
 
     ws.on('message', (message) => {
 
-        console.log('received: %s', message);
-        ws.send(`Hello, you sent -> ${message}`);
+        console.log('received: %s', message.toString());
+        sendNotification(message.toString())
     });
 });

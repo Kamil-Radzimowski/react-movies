@@ -1,21 +1,14 @@
 import {Button, Card, CardActions, CardContent, CardHeader, TextField} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import mqtt from 'mqtt/dist/mqtt'
-
-const options = {
-    // Clean session
-    clean: true,
-    // Auth
-    clientId: 'NuWw7',
-}
-
+import {getClient} from "../../Util/WebSocket";
 
 function NotificationSender() {
     const [text, setText] = useState('')
-    let client;
+    const [textError, setTextError] = useState('')
+    let client = getClient()
 
     useEffect(() => {
-        client  = mqtt.connect('mqtt://localhost:1883', options)
+        client  = getClient()
     }, [])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +16,17 @@ function NotificationSender() {
     }
 
     const sendNotification = () => {
-        client.publish("notification", text)
+        if(text === ''){
+            setTextError("Wiadomość nie może być pusta!")
+        } else {
+            setTextError("")
+            if(client != undefined){
+                console.log("sent")
+                client.send(text)
+            } else {
+                console.log(client)
+            }
+        }
     }
 
     return <>
@@ -32,6 +35,9 @@ function NotificationSender() {
             </CardHeader>
             <CardContent>
                 <TextField
+                    error={textError !== ''}
+                    helperText={textError}
+                    fullWidth
                     autoFocus
                     margin="dense"
                     id="text"

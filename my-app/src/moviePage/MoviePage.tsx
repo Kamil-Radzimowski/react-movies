@@ -40,6 +40,7 @@ const MoviePage = () => {
     }
 
     const postVote = (newValue: number | null) => {
+        setVote(vote)
         voteQuery({id: movieId || "1", vote: newValue || 0})
     }
 
@@ -66,7 +67,7 @@ const MoviePage = () => {
                                         <Typography>{`${genre}`}</Typography>
                                     </Paper>
                                 )})}
-                                <Rating sx={{paddingLeft: 2}} className='rating' disabled={isVotingDisabled()} onChange={(event, newValue) => {
+                                <Rating sx={{paddingLeft: 2}} className='rating' disabled={vote != null} onChange={(event, newValue) => {
                                     postVote(newValue)
                                 }} value={getVote()} precision={1}></Rating>
                             </CardContent>
