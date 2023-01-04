@@ -33,8 +33,16 @@ const extendedApi = movieApi.injectEndpoints({
                 return response
             }
         }),
+        updateComment: builder.mutation<void, {id: string, commentId: string, text: string}>({
+            query({id, commentId, text}) {
+                return {
+                    url: `comment/comments/${id}/${commentId}/${text}`,
+                    method: 'PATCH'
+                }
+            }
+        }),
     }),
     overrideExisting: false,
 })
 
-export const {useGetCommentsForMovieQuery, useAddCommentMutation, useDeleteCommentMutation,  useGetCommentsGroupedByMovieQuery} = extendedApi
+export const {useGetCommentsForMovieQuery, useAddCommentMutation, useDeleteCommentMutation,  useGetCommentsGroupedByMovieQuery, useUpdateCommentMutation} = extendedApi

@@ -44,7 +44,7 @@ const CommentSection = (props: commentSection) => {
 
     return <>
         {!isLoading && comments != undefined ? comments?.map((comment) => {
-            return <Comment key={comment.id} id={comment.id} name={comment.user} text={comment.comment} ></Comment>
+            return <Comment movieId={props.id} user={user} key={comment.id} id={comment.id} name={comment.user} text={comment.comment} ></Comment>
         }) : null}
         <AddComment id={props.id || ""} onAdd={onAdd}></AddComment>
     </>
