@@ -1,12 +1,10 @@
 import React, {useState} from 'react'
 import {Autocomplete, Button, Card, CardActions, CardContent, CardHeader, Chip, Stack, TextField} from "@mui/material";
-import {useAddMovieMutation} from "../../../apiEndpoints/MovieEndpoints";
-import {FileUpload} from "@mui/icons-material";
+import {sendMovieToBackend} from "../../../Util/SendMovieToBackend";
 
 const AddNewMovie = () => {
-    const [add] = useAddMovieMutation()
 
-    const [selectedFile, setSelectedFile] = useState<File | undefined>();
+    const [selectedFile, setSelectedFile] = useState<File>();
     const [title, setTitle] = useState("")
     const [desc, setDesc] = useState("")
     const [genres, setGenres] = useState<string[]>([])
@@ -36,8 +34,7 @@ const AddNewMovie = () => {
         if(selectedFile != undefined){
             const formData = new FormData()
             formData.append("image", selectedFile)
-            console.log(formData)
-            add({title: title, desc: desc, genres: genres, image: formData})
+            sendMovieToBackend(title, desc, genres, formData)
         }
     }
 

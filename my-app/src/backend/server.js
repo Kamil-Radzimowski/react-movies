@@ -6,18 +6,7 @@ import usersRoutes from "./routes/user/usersRoutes.js";
 import commentRoutes from "./routes/comments/commentRoutes.js";
 import newsRoutes from "./routes/news/newsRoutes.js";
 import {connectToServer} from "./mongo.js";
-import multer from "multer";
-import bodyParser from "body-parser";
-/*
-const options = {
-    key: fs.readFileSync('./ssl/privatekey'),
-    cert: fs.readFileSync('./ssl/certificate'),
-    passphrase: 'kamil'
-};
- */
-
-import http from "http";
-import WebSocket, {WebSocketServer} from "ws";
+import {WebSocketServer} from "ws";
 import {sendNotification} from "./websocket/notifiactions/wsNotifications.js";
 
 const options = {}
@@ -26,35 +15,15 @@ const app = express()
 const port = 3000
 const wsport = 8080
 
-const contactSchema = {
-    email: String,
-    query: String,
-};
-
-const upload = multer()
-
-// const Contact = mongoose.model("Contact", contactSchema);
-
 app.use(cors())
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(upload.array())
-app.use(express.static('public'));
-
 
 /*
-mongoose.connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+const options = {
+    key: fs.readFileSync('./ssl/privatekey'),
+    cert: fs.readFileSync('./ssl/certificate'),
+    passphrase: 'kamil'
+};
  */
-
-/*
-const server = https.createServer(options, app).listen(port, function () {
-    console.log("Express server listening on port " + port);
-});
- */
-
-
 
 export const database = {
     users: [],
@@ -75,8 +44,6 @@ connectToServer(() => {
 })
 
 app.listen(port)
-
-const server = http.createServer(app);
 
 //initialize the WebSocket server instance
 export const wss = new WebSocketServer({ port:  wsport});

@@ -3,13 +3,22 @@ import {LogToFile} from "../../logs/FileLogger.js";
 import {getDb} from "../../mongo.js";
 import multer from "multer";
 
+const storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, './backendAssets/img');
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.originalname);
+    }
+});
+
+const upload = multer({
+    storage: storage
+})
+
 const router = express.Router();
 
 const moviesCollection = "movies"
-
-const upload = multer({
-    dest: "../../backendAssets/img"
-});
 
 const simplifyMovie = (movie) => {
     return {
@@ -169,14 +178,31 @@ export default router
     .post('/add/:title/:desc/:genres', upload.single("image"), (req, res) => {
         const title = req.params.title
         const desc = req.params.desc
-        const genres = req.params.desc
+        const genres = req.params.genres.split(',')
 
-        const tempPath = req.file;
-        const test = req.body
+        const file = req.file;
 
-        console.log(test)
+        const obj = {
+            title: title,
+            overview: desc,
+            genres: genres,
+            poster_path: file.originalname,
+            comments: [],
+            origin_country: "USA",
+            popularity: Math.floor(Math.random() * 300) + 1,
+            votes: []
+        }
 
-        console.log(title)
-        console.log(tempPath)
-
+        getDb().collection(moviesCollection).find({}).sort({id:-1}).limit(1).toArray(function (err, result) {
+            if (err) {
+                res.status(400).send(err)
+            } else {
+                obj.id = result[0].id + 1
+                getDb().collection(moviesCollection).insertOne(obj).then(insertRes => {
+                    res.send(insertRes)
+                }).catch(err => {
+                    res.status(400).send(err)
+                })
+            }
+        })
     })

@@ -52,12 +52,13 @@ const extendedApi = movieApi.injectEndpoints({
         }),
         addMovie: builder.mutation<void, {title: string, desc: string, genres: string[], image: FormData}>({
             query({title, desc, genres, image}){
+                console.log(image)
                 return{
                     url: `movie/add/${title}/${desc}/${genres}`,
                     method: "POST",
                     body: image,
                     headers: {
-                        "Content-Type": "multipart/form-data;",
+                        'Content-Type': 'multipart/form-data',
                     },
                 }
             }
