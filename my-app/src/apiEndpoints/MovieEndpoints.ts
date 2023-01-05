@@ -52,7 +52,6 @@ const extendedApi = movieApi.injectEndpoints({
         }),
         addMovie: builder.mutation<void, {title: string, desc: string, genres: string[], image: FormData}>({
             query({title, desc, genres, image}){
-                console.log(image)
                 return{
                     url: `movie/add/${title}/${desc}/${genres}`,
                     method: "POST",
@@ -63,8 +62,16 @@ const extendedApi = movieApi.injectEndpoints({
                 }
             }
         }),
+        deleteMovie: builder.mutation<void, {id: number}>({
+            query({id}){
+                return{
+                    url: `movie/delete/${id}`,
+                    method: "DELETE",
+                }
+            }
+        }),
     }),
     overrideExisting: false,
 })
 
-export const {useGetAllMoviesQuery, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useVoteOnMovieMutation, useUpdateMovieMutation, useAddMovieMutation} = extendedApi
+export const {useGetAllMoviesQuery, useDeleteMovieMutation, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useVoteOnMovieMutation, useUpdateMovieMutation, useAddMovieMutation} = extendedApi

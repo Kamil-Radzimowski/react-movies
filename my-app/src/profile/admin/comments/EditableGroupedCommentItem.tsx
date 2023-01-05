@@ -16,9 +16,7 @@ const EditableGroupedCommentItem = (props: groupedComments) => {
     }
 
     const updateCommentList = (id: string) => {
-        console.log(id)
         const newList = commentList.filter((comm) => {return comm.id != id})
-        console.log(newList)
         setCommentList(newList)
     }
 
