@@ -4,15 +4,18 @@ import {ExpandLess, ExpandMore} from "@mui/icons-material";
 import {useGetAllUsersQuery} from "../../../apiEndpoints/UserEndpoints";
 import EditableUserItem from "./EditableUserItem";
 import {user} from "../../../Util/types";
+import Cookies from 'js-cookie'
 
 const AdminUsersList = () => {
     const [users, setUsers] = useState<user[] | undefined>(undefined)
     const [isUsersListOpen, setIsUsersListOpen] = useState(false)
 
+    const currentUser = Cookies.get("username")
+
     const {data, isLoading} = useGetAllUsersQuery()
 
     useEffect(() => {
-        setUsers(data)
+        setUsers(data?.filter((user) => {return user.username != currentUser}))
     }, [data])
 
     const handleUsersListClick = () => {
