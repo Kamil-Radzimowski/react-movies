@@ -208,6 +208,41 @@ export default router
             {
                 $sort: {vote_count: -1}
             },
+            {
+                $limit: 5
+            }
+        ]).toArray().then((result) => {
+            res.send({movies: result})
+        }).catch((err) => {
+            res.status(500).send(err)
+        })
+    })
+    .get('/stats/highestVoteScore', (req, res) => {
+        getDb().collection(moviesCollection).aggregate([
+            {
+                $unwind: {path: "$votes", "preserveNullAndEmptyArrays": true}
+            },
+            {
+                $group: {
+                    _id: "$id",
+                    id: {$first: "$id"},
+                    title: {$first: "$title"},
+                    vote_average: {$avg: "$votes.rate"},
+                }
+            },
+            {
+                $project: {
+                    id: 1,
+                    title: 1,
+                    vote_average: {$ifNull: ["$vote_average", 0]}
+                }
+            },
+            {
+                $sort: {vote_average: -1}
+            },
+            {
+                $limit: 5
+            }
         ]).toArray().then((result) => {
             res.send({movies: result})
         }).catch((err) => {

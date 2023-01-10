@@ -66,7 +66,7 @@ export type groupedComments = {
     comments: comment[]
 }
 
-export type statsMostCommented = {
+export type statsItem = {
     labels: string[],
     datasets: {
         label: string,

@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState} from "react";
 import {
-    useGetMostCommentedMoviesQuery
+    useGetMoviesWithHighestVoteScoreQuery
 } from "../../../apiEndpoints/MovieEndpoints";
 import { Bar } from 'react-chartjs-2';
 import {
@@ -21,9 +21,8 @@ ChartJS.register(
     Legend
 );
 
-
-const MostCommentedMovies = () => {
-    const {data} = useGetMostCommentedMoviesQuery()
+const MoviesWithHighestScore = () => {
+    const {data} = useGetMoviesWithHighestVoteScoreQuery()
     const [movies, setMovies] = useState(data)
 
     const options = {
@@ -34,7 +33,7 @@ const MostCommentedMovies = () => {
             },
             title: {
                 display: true,
-                text: 'Najchętniej komentowane filmy',
+                text: 'Najwyżej oceniane filmy',
             },
         },
     };
@@ -45,7 +44,7 @@ const MostCommentedMovies = () => {
 
     return <>
         {movies != undefined ? <Bar width={100} height={25} options={options} data={movies}></Bar> : null}
-        </>
+    </>
 }
 
-export default MostCommentedMovies
+export default MoviesWithHighestScore

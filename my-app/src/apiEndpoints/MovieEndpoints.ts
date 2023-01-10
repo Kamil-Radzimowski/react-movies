@@ -1,5 +1,5 @@
 import {movieApi} from "../Util/MovieService";
-import {detailedMovie, movie, searchResult, statsMostCommented} from "../Util/types";
+import {detailedMovie, movie, searchResult, statsItem} from "../Util/types";
 
 
 const extendedApi = movieApi.injectEndpoints({
@@ -71,18 +71,28 @@ const extendedApi = movieApi.injectEndpoints({
                 }
             }
         }),
-        getMostCommentedMovies: builder.query<statsMostCommented, void>({
+        getMostCommentedMovies: builder.query<statsItem, void>({
             query: () => `movie/stats/mostCommented`,
             transformResponse: (response: {movies: movie[]}) => {
-                return response.movies.reduce<statsMostCommented>((acc, current) => {
+                return response.movies.reduce<statsItem>((acc, current) => {
                     acc.labels.push(current.title)
                     acc.datasets[0].data.push(current.vote_count)
                     return acc
-                }, {labels: [], datasets: [{label: 'Liczba komentarzy', data: [], backgroundColor: `rgba(53, 162, 235, 0.5)`}]})
+                }, {labels: [], datasets: [{label: 'Liczba komentarzy', data: [], backgroundColor: `rgba(1, 180, 228, 0.5)`}]})
             }
-        })
+        }),
+        getMoviesWithHighestVoteScore: builder.query<statsItem, void>({
+            query: () => `movie/stats/highestVoteScore`,
+            transformResponse: (response: {movies: detailedMovie[]}) => {
+                return response.movies.reduce<statsItem>((acc, current) => {
+                    acc.labels.push(current.title)
+                    acc.datasets[0].data.push(current.vote_average)
+                    return acc
+                }, {labels: [], datasets: [{label: 'Średnia ocena użytkowników', data: [], backgroundColor: `rgba(144, 206, 161, 0.5)`}]})
+            }
+        }),
     }),
     overrideExisting: false,
 })
 
-export const {useGetAllMoviesQuery, useDeleteMovieMutation, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useVoteOnMovieMutation, useUpdateMovieMutation, useAddMovieMutation, useGetMostCommentedMoviesQuery} = extendedApi
+export const {useGetAllMoviesQuery, useDeleteMovieMutation, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useVoteOnMovieMutation, useUpdateMovieMutation, useAddMovieMutation, useGetMostCommentedMoviesQuery, useGetMoviesWithHighestVoteScoreQuery} = extendedApi
