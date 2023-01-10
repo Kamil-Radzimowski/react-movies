@@ -249,3 +249,28 @@ export default router
             res.status(500).send(err)
         })
     })
+    .get('/stats/mostPopularGenres', (req, res) => {
+        getDb().collection(moviesCollection).aggregate([
+            {
+                $unwind: {path: "$genres", "preserveNullAndEmptyArrays": true}
+            },
+            {
+                $group: {
+                    _id: "$genres",
+                    count: { $count: {} }
+                }
+            },
+            {
+                $sort: {count: -1}
+            },
+            {
+                $limit: 5
+            }
+        ]).toArray().then((result) => {
+            console.log(result)
+            res.send({genres: result})
+        }).catch((err) => {
+            console.log(err)
+            res.status(500).send(err)
+        })
+    })

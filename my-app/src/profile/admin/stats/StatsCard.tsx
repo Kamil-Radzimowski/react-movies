@@ -1,14 +1,22 @@
 import React from "react";
 import {Card, CardContent, CardHeader} from "@mui/material";
-import MostCommentedMovies from "./MostCommentedMovies";
-import MoviesWithHighestScore from "./MoviesWithHighestScore";
+import StatItem from "./StatItem";
+import {
+    useGetMostCommentedMoviesQuery, useGetMostPopularGenresQuery,
+    useGetMoviesWithHighestVoteScoreQuery
+} from "../../../apiEndpoints/MovieEndpoints";
 
 function StatsCard(){
+    const {data: commentData} = useGetMostCommentedMoviesQuery()
+    const {data: voteData} = useGetMoviesWithHighestVoteScoreQuery()
+    const {data: genresData} = useGetMostPopularGenresQuery()
+
     return <Card>
         <CardHeader title='Statystyki'/>
         <CardContent>
-            <MostCommentedMovies></MostCommentedMovies>
-            <MoviesWithHighestScore></MoviesWithHighestScore>
+            {commentData != undefined ? <StatItem data={commentData} label={"Najchętniej komentowane filmy"}></StatItem> : null}
+            {voteData != undefined ? <StatItem data={voteData} label={"Najwyżej oceniane filmy"}></StatItem> : null}
+            {genresData != undefined ? <StatItem data={genresData} label={"Liczba filmów pod względem gatunku"}></StatItem> : null}
         </CardContent>
     </Card>
 }

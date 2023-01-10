@@ -91,8 +91,18 @@ const extendedApi = movieApi.injectEndpoints({
                 }, {labels: [], datasets: [{label: 'Średnia ocena użytkowników', data: [], backgroundColor: `rgba(144, 206, 161, 0.5)`}]})
             }
         }),
+        getMostPopularGenres: builder.query<statsItem, void>({
+            query: () => `movie/stats/mostPopularGenres`,
+            transformResponse: (response: {genres: {_id: string, count: number}[]}) => {
+                return response.genres.reduce<statsItem>((acc, current) => {
+                    acc.labels.push(current._id)
+                    acc.datasets[0].data.push(current.count)
+                    return acc
+                }, {labels: [], datasets: [{label: 'Liczba filmów tego gatunku', data: [], backgroundColor: `rgba(1, 180, 228, 0.5)`}]})
+            }
+        }),
     }),
     overrideExisting: false,
 })
 
-export const {useGetAllMoviesQuery, useDeleteMovieMutation, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useVoteOnMovieMutation, useUpdateMovieMutation, useAddMovieMutation, useGetMostCommentedMoviesQuery, useGetMoviesWithHighestVoteScoreQuery} = extendedApi
+export const {useGetAllMoviesQuery, useDeleteMovieMutation, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useVoteOnMovieMutation, useUpdateMovieMutation, useAddMovieMutation, useGetMostCommentedMoviesQuery, useGetMoviesWithHighestVoteScoreQuery, useGetMostPopularGenresQuery} = extendedApi
