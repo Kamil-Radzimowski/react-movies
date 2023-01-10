@@ -1,5 +1,4 @@
 import express from "express";
-import {database} from "../../server.js";
 import {LogToFile} from "../../logs/FileLogger.js";
 import bcrypt from "bcrypt";
 import {uuid} from "uuidv4";
@@ -66,8 +65,11 @@ export default router
             projection: {_id: 0, id: 1, username: 1, isAdmin: 1}
         }
 
-        const result = await getDb().collection(usersCollection).find({}, options).toArray()
-        res.send(result)
+        getDb().collection(usersCollection).find({}, options).toArray().then((result) => {
+            res.send(result)
+        }).catch((err) => {
+            res.status(500).send(err)
+        })
     })
     .patch('/:id/update', (req, res) => {
         const userId = req.params.id
@@ -75,22 +77,18 @@ export default router
 
         isAdmin = isAdmin === 'true';
 
-        getDb().collection(usersCollection).updateOne({id: userId}, {$set: {isAdmin: isAdmin}},  function(err, result){
-            if(err){
-                res.status(400).send(err)
-            } else {
-                res.send("Updated")
-            }
+        getDb().collection(usersCollection).updateOne({id: userId}, {$set: {isAdmin: isAdmin}}).then((result) => {
+            res.send("Updated")
+        }).catch((err) => {
+            res.status(500).send(err)
         })
     })
     .delete('/:id/ban', (req, res) => {
         const userId = req.params.id
 
-        getDb().collection(usersCollection).deleteOne({id: userId}, function(err, result){
-            if(err){
-                res.status(400).send(err)
-            } else {
-                res.send("Deleted")
-            }
+        getDb().collection(usersCollection).deleteOne({id: userId}).then((result) => {
+            res.send("Deleted")
+        }).catch((err) => {
+            res.status(500).send(err)
         })
     })

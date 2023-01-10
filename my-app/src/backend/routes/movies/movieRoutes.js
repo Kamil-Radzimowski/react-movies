@@ -28,23 +28,18 @@ const simplifyMovie = (movie) => {
 
 export default router
     .get('/all', (req, res) => {
-        getDb().collection(moviesCollection).find({}).toArray(function (err, result){
-            if(err){
-                res.status(400).send("error")
-            }
-            else{
-                res.json(result)
-            }
+        getDb().collection(moviesCollection).find({}).toArray().then((result) => {
+            res.json(result)
+        }).catch((err) => {
+            res.status(500).send(err)
         })
     })
     .get('/recommendation', (req, res) => {
-        getDb().collection(moviesCollection).find({}).limit(5).toArray(function (err, result){
-            if(err){
-                res.status(400).send("error")
-            } else {
-                const data = result.map((entry) => {return simplifyMovie(entry)})
-                res.send({results: data})
-            }
+        getDb().collection(moviesCollection).find({}).limit(5).toArray().then((result) => {
+            const data = result.map((entry) => {return simplifyMovie(entry)})
+            res.send({results: data})
+        }).catch((err) => {
+            res.status(500).send(err)
         })
     })
     .get('/search', (req, res) => {
@@ -78,23 +73,21 @@ export default router
             {
                 $sort: sortObj
             },
-        ]).toArray(function (err, result){
-            if(err){
-                res.status(400).error("error")
-            } else {
-                const data = result.reduce((resultArray, item, index) => {
-                    const chunkIndex = Math.floor(index/chunk)
+        ]).toArray().then((result) => {
+            const data = result.reduce((resultArray, item, index) => {
+                const chunkIndex = Math.floor(index/chunk)
 
-                    if(!resultArray[chunkIndex]) {
-                        resultArray[chunkIndex] = [] // start a new chunk
-                    }
+                if(!resultArray[chunkIndex]) {
+                    resultArray[chunkIndex] = [] // start a new chunk
+                }
 
-                    resultArray[chunkIndex].push(item)
+                resultArray[chunkIndex].push(item)
 
-                    return resultArray
-                }, [])
-                res.send({results: data[page - 1], total_results: result.length, number_of_pages: data.length})
-            }
+                return resultArray
+            }, [])
+            res.send({results: data[page - 1], total_results: result.length, number_of_pages: data.length})
+        }).catch((err) => {
+            res.status(500).error(err)
         })
     })
     .get('/:id' , async (req, res) => {
@@ -121,14 +114,10 @@ export default router
                     genres: {$first: "$genres"}
                 }
             }
-        ]).toArray(function(err, result){
-            if(err){
-                console.log(err)
-                res.status(400).send(err)
-            } else {
-                console.log(result[0])
-                res.send({movie: result[0]})
-            }
+        ]).toArray().then((result) => {
+            res.send({movie: result[0]})
+        }).catch((err) => {
+            res.status(500).send(err)
         })
     })
     .get("/poster/:name", (req, res) => {
@@ -151,8 +140,11 @@ export default router
 
         const vote = {user: user, rate: parseInt(rating)}
 
-        const result = await getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$push: {votes: vote}})
-        res.send(result)
+        getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$push: {votes: vote}}).then((result) => {
+            res.send(result)
+        }).catch((err) => {
+            res.status(500).send(err)
+        })
     })
     .patch('/update/:id', async (req, res) => {
         const movieId = req.params.id
@@ -162,17 +154,18 @@ export default router
 
         genres = genres.split(",")
 
-        const result = await getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$set: {title: title, overview: desc, genres: genres}})
-        res.send(result)
+        getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$set: {title: title, overview: desc, genres: genres}}).then((result) => {
+            res.send(result)
+        }).catch((err) => {
+            res.status(500).send(err)
+        })
     })
     .delete('/delete/:id', (req, res) => {
         const id = req.params.id
-        getDb().collection(moviesCollection).deleteOne({id: parseInt(id)}, function (err, result){
-            if(err){
-                res.status(400).send(err)
-            } else {
-                res.send("Deleted")
-            }
+        getDb().collection(moviesCollection).deleteOne({id: parseInt(id)}).then((result) => {
+            res.send("Deleted")
+        }).catch((err) => {
+            res.status(500).send(err)
         })
     })
     .post('/add/:title/:desc/:genres', upload.single("image"), (req, res) => {
@@ -193,16 +186,14 @@ export default router
             votes: []
         }
 
-        getDb().collection(moviesCollection).find({}).sort({id:-1}).limit(1).toArray(function (err, result) {
-            if (err) {
+        getDb().collection(moviesCollection).find({}).sort({id:-1}).limit(1).toArray().then((result) => {
+            obj.id = result[0].id + 1
+            getDb().collection(moviesCollection).insertOne(obj).then(insertRes => {
+                res.send(insertRes)
+            }).catch(err => {
                 res.status(400).send(err)
-            } else {
-                obj.id = result[0].id + 1
-                getDb().collection(moviesCollection).insertOne(obj).then(insertRes => {
-                    res.send(insertRes)
-                }).catch(err => {
-                    res.status(400).send(err)
-                })
-            }
+            })
+        }).catch((err) => {
+            res.status(500).send(err)
         })
     })

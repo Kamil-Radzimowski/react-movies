@@ -9,13 +9,10 @@ const newsCollection = "news"
 
 export default router
     .get("/all", (req, res) => {
-        getDb().collection(newsCollection).find({}).toArray(function (err, result){
-            if(err){
-                res.status(400).send(err)
-            } else {
-                console.log(result)
-                res.send(result)
-            }
+        getDb().collection(newsCollection).find({}).toArray().then((result) => {
+            res.send(result)
+        }).catch((err) => {
+            res.status(500).send(err)
         })
     })
     .post("/:title/:desc", async (req, res) => {
@@ -28,20 +25,20 @@ export default router
             desc: desc,
             date: date
         }
-        const result = await getDb().collection(newsCollection).insertOne(doc)
-        notifyNewsAdded(doc)
-        res.send(result)
-
+        getDb().collection(newsCollection).insertOne(doc).then((result) => {
+            notifyNewsAdded(doc)
+            res.send(result)
+        }).catch((err) => {
+            res.status(500).send(err)
+        })
     })
     .delete("/:id", (req, res) => {
         const newsId = req.params.id
         console.log(newsId)
-        getDb().collection(newsCollection).deleteOne({_id: new ObjectId(newsId)}, function(err, result){
-            if(err){
-                res.status(400).send(err)
-            } else {
-                res.send(result)
-            }
+        getDb().collection(newsCollection).deleteOne({_id: new ObjectId(newsId)}).then((result) => {
+            res.send(result)
+        }).catch((err) => {
+            res.status(500).send(err)
         })
     })
     .patch("/:id/:title/:desc", (req, res) => {
@@ -49,11 +46,9 @@ export default router
         const title = req.params.title
         const desc = req.params.desc
 
-        getDb().collection(newsCollection).updateOne({_id: new ObjectId(newsId)}, {$set: {title: title, desc: desc}}, function (err, result){
-            if(err){
-                res.status(400).send(err)
-            } else {
-                res.send(result)
-            }
+        getDb().collection(newsCollection).updateOne({_id: new ObjectId(newsId)}, {$set: {title: title, desc: desc}}).then((result) => {
+            res.send(result)
+        }).catch((err) => {
+            res.status(500).send(err)
         })
     })

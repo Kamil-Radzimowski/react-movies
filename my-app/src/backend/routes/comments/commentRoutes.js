@@ -16,8 +16,11 @@ export default router
             projection: {_id: 0, comments: 1}
         }
 
-        const comments = await getDb().collection(moviesCollection).find({id: parseInt(id)}, options).toArray()
-        res.send(comments[0].comments)
+        getDb().collection(moviesCollection).find({id: parseInt(id)}, options).toArray().then((result) => {
+            res.send(result[0].comments)
+        }).catch((err) => {
+            res.status(500).send(err)
+        })
     })
     .post("/comments/:id", async (req, res) => {
         const movieId = req.params.id
@@ -30,21 +33,21 @@ export default router
 
         const comment = {id: uuid(), user: user, comment: text}
 
-        const result = await getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$push: { comments: comment}})
-
-        notifyCommentAdded(comment)
-        res.send(result)
+        getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$push: { comments: comment}}).then((result) => {
+            res.send(result)
+            notifyCommentAdded(comment)
+        }).catch((err) => {
+            res.status(500).send(err)
+        })
     })
     .delete('/comments/delete/:movieid/:commentid', async(req, res) => {
         const movieId = req.params.movieid
         const commentId = req.params.commentid
 
-        getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$pull: {comments: {id: commentId}}}, function(err, result){
-            if(err){
-                res.status(400).send(err)
-            } else {
-                res.send("Komentarz usuniety")
-            }
+        getDb().collection(moviesCollection).updateOne({id: parseInt(movieId)}, {$pull: {comments: {id: commentId}}}).then((result) => {
+            res.send("Komentarz usunięty")
+        }).catch((err) => {
+            res.status(500).send(err)
         })
     })
     .patch('/comments/:id/:commentid/:comment', async (req, res) => {
@@ -52,16 +55,16 @@ export default router
         const commentId = req.params.commentid
         const comment = req.params.comment
 
-        const result = await getDb().collection(moviesCollection).updateOne({id: parseInt(movieId), "comments.id": commentId}, {$set: {"comments.$.comment": comment}})
-        res.send(result)
+        getDb().collection(moviesCollection).updateOne({id: parseInt(movieId), "comments.id": commentId}, {$set: {"comments.$.comment": comment}}).then((result) => {
+            res.send(result)
+        }).catch((err) => {
+            res.status(500).send(err)
+        })
     })
     .get('/comments/grouped', (req, res) => {
-
-        getDb().collection(moviesCollection).find({}).project({_id: 0, title: 1, id:1, comments: 1}).toArray(function (err, result){
-            if(err){
-                res.status(400).send(err)
-            } else {
-                res.send(result)
-            }
+        getDb().collection(moviesCollection).find({}).project({_id: 0, title: 1, id:1, comments: 1}).toArray().then((result) => {
+            res.send(result)
+        }).catch((err) => {
+            res.status(500).send(err)
         })
     })
