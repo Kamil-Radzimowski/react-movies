@@ -1,5 +1,6 @@
 import {movieApi} from "../Util/MovieService";
-import {detailedMovie, movie, searchResult} from "../Util/types";
+import {detailedMovie, movie, searchResult, statsMostCommented} from "../Util/types";
+
 
 const extendedApi = movieApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -70,8 +71,18 @@ const extendedApi = movieApi.injectEndpoints({
                 }
             }
         }),
+        getMostCommentedMovies: builder.query<statsMostCommented, void>({
+            query: () => `movie/stats/mostCommented`,
+            transformResponse: (response: {movies: movie[]}) => {
+                return response.movies.reduce<statsMostCommented>((acc, current) => {
+                    acc.labels.push(current.title)
+                    acc.datasets[0].data.push(current.vote_count)
+                    return acc
+                }, {labels: [], datasets: [{label: 'Liczba komentarzy', data: [], backgroundColor: `rgba(53, 162, 235, 0.5)`}]})
+            }
+        })
     }),
     overrideExisting: false,
 })
 
-export const {useGetAllMoviesQuery, useDeleteMovieMutation, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useVoteOnMovieMutation, useUpdateMovieMutation, useAddMovieMutation} = extendedApi
+export const {useGetAllMoviesQuery, useDeleteMovieMutation, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useVoteOnMovieMutation, useUpdateMovieMutation, useAddMovieMutation, useGetMostCommentedMoviesQuery} = extendedApi

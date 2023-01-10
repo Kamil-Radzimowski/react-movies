@@ -9,6 +9,7 @@ import Cookies from 'js-cookie'
 import NavBar from "../../navBar/NavBar";
 import AdminCommentList from "./comments/AdminCommentList";
 import AddNewMovie from "./movie/AddNewMovie";
+import StatsCard from "./stats/StatsCard";
 
 function AdminPanel() {
     const user = Cookies.get("username")
@@ -28,6 +29,7 @@ function AdminPanel() {
                 <AdminNewsList></AdminNewsList>
                 <AdminCommentList></AdminCommentList>
                 <AddNewMovie></AddNewMovie>
+                <StatsCard></StatsCard>
             </div>
         </div>
     </>

@@ -197,3 +197,20 @@ export default router
             res.status(500).send(err)
         })
     })
+    .get('/stats/mostCommented', (req, res) => {
+        getDb().collection(moviesCollection).aggregate([
+            {
+                $project: {
+                    _id: 0, title: 1,
+                    vote_count: {$size: "$votes"},
+                }
+            },
+            {
+                $sort: {vote_count: -1}
+            },
+        ]).toArray().then((result) => {
+            res.send({movies: result})
+        }).catch((err) => {
+            res.status(500).send(err)
+        })
+    })

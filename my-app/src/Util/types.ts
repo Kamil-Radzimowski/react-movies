@@ -66,6 +66,15 @@ export type groupedComments = {
     comments: comment[]
 }
 
+export type statsMostCommented = {
+    labels: string[],
+    datasets: {
+        label: string,
+        data: number[],
+        backgroundColor: string,
+    }[]
+}
+
 type country = {
     iso: string,
     name: string,

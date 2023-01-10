@@ -44,7 +44,6 @@ const AddNewMovie = () => {
         <CardContent>
             <Stack spacing={2}>
                 <TextField
-                    autoFocus
                     error={titleError.length !== 0}
                     margin="dense"
                     id="Tytuł"
@@ -55,7 +54,6 @@ const AddNewMovie = () => {
                     helperText={titleError}
                 />
                 <TextField
-                    autoFocus
                     error={descError.length !== 0}
                     margin="dense"
                     id="desc"
