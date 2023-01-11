@@ -32,8 +32,38 @@ function RegisterDialog(props: property){
 
 
     const validate = () => {
-        return true
+        let tmpUserError = ''
+        if(name.length === 0){
+            tmpUserError = 'Name is required'
+        }
+        setNameError(tmpUserError)
+
+        let tmpEmailError: string
+        if(email.length === 0){
+            tmpEmailError = "Email is required!"
+        }
+        else if(!validateEmail(email)){
+            tmpEmailError = "Invalid Email!"
+        } else {
+            tmpEmailError = ''
+        }
+        setEmailError(tmpEmailError)
+
+        let tmpPasswordError = ''
+        if(password.length === 0){
+            tmpPasswordError = 'Password is required!'
+        }
+        setPasswordError(tmpPasswordError)
+        return tmpPasswordError.length === 0 && tmpEmailError.length === 0 && tmpUserError.length === 0
     }
+
+    const validateEmail = (email) => {
+        return String(email)
+            .toLowerCase()
+            .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+    };
 
     const attemptRegister = async () => {
         if(validate()){
@@ -59,7 +89,7 @@ function RegisterDialog(props: property){
     }
 
     const handleOnLoginClick = () => {
-        props.onLoginClick
+        props.onLoginClick()
     }
 
     const handleClose = () => {
