@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import NotificationSender from "./NotificationSender";
 import AdminMovieList from "./movie/AdminMovieList";
@@ -10,10 +10,10 @@ import NavBar from "../../navBar/NavBar";
 import AdminCommentList from "./comments/AdminCommentList";
 import AddNewMovie from "./movie/AddNewMovie";
 import StatsCard from "./stats/StatsCard";
+import LogoutComponent from "../LogoutComponent";
 
 function AdminPanel() {
-    const user = Cookies.get("username")
-    useNavigate();
+    const [user, setUser] = useState(Cookies.get("username"))
 
     const handleNavBarChange = () => {
         // pass
@@ -30,6 +30,7 @@ function AdminPanel() {
                 <AdminCommentList></AdminCommentList>
                 <AddNewMovie></AddNewMovie>
                 <StatsCard></StatsCard>
+                <LogoutComponent></LogoutComponent>
             </div>
         </div>
     </>

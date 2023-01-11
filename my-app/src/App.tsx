@@ -7,7 +7,6 @@ import {store} from "./Util/store";
 import {Provider} from "react-redux";
 import theme from "./Util/theme";
 import {ThemeProvider} from "@mui/material";
-import AdminPanel  from "./profile/admin/AdminPanel";
 import ProfilePanel from "./profile/ProfilePanel";
 
 

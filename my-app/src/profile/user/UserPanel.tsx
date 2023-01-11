@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import NavBar from "../../navBar/NavBar";
 import Cookies from 'js-cookie'
+import LogoutComponent from "../LogoutComponent";
 
 
 const UserPanel = () => {
@@ -12,6 +13,7 @@ const UserPanel = () => {
 
     return <>
         <NavBar text={"Panel"} user={user} callback={handleNavBarChange}></NavBar>
+        <LogoutComponent></LogoutComponent>
     </>
 }
 
