@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import './styleMoviePage.scss';
 import { Gradient } from 'react-gradient';
-import movie_logo from "../assets/the-movie-db-logo.svg";
 import {Box, Card, CardContent, CardMedia, Paper, Rating, Typography} from "@mui/material";
 import {useGetMovieDetailsByIdQuery, useVoteOnMovieMutation} from "../apiEndpoints/MovieEndpoints";
 import config from "../Util/Config";
@@ -15,8 +14,8 @@ import Cookies from 'js-cookie'
 
 const MoviePage = () => {
     const [user, setUser] = useState(Cookies.get("username"))
-    const [vote, setVote] = React.useState<number | null>(null)
     const {movieId} = useParams<{ movieId: string }>()
+    const [vote, setVote] = React.useState<number | undefined>(Cookies.get(`vote:${movieId}`))
     const navigate = useNavigate()
     const gradient = config.getGradient()
 
@@ -28,11 +27,11 @@ const MoviePage = () => {
     }
 
     const isVotingDisabled = () => {
-        return vote != null
+        return vote != undefined
     }
 
     const getVote = () => {
-        if(vote == null){
+        if(vote == undefined){
             return (data?.vote_average ?? 0)
         } else {
             return vote
@@ -40,8 +39,9 @@ const MoviePage = () => {
     }
 
     const postVote = (newValue: number | null) => {
-        setVote(vote)
+        setVote(newValue || undefined)
         voteQuery({id: movieId || "1", vote: newValue || 0})
+        Cookies.set(`vote:${movieId}`, newValue)
     }
 
     const handleNavBarCallback = () => {
@@ -67,7 +67,7 @@ const MoviePage = () => {
                                         <Typography>{`${genre}`}</Typography>
                                     </Paper>
                                 )})}
-                                <Rating sx={{paddingLeft: 2}} className='rating' disabled={vote != null} onChange={(event, newValue) => {
+                                <Rating sx={{paddingLeft: 2}} className='rating' disabled={isVotingDisabled()} onChange={(event, newValue) => {
                                     postVote(newValue)
                                 }} value={getVote()} precision={1}></Rating>
                             </CardContent>
@@ -77,16 +77,6 @@ const MoviePage = () => {
                                 </Typography>
                             </CardContent>
                             <CardContent>
-                                {/*
-                                <Typography>{`Kraj Produkcji: ${data?.production_countries.reduce((acc, current, index) => {
-                                    if(index == 0) {
-                                        return acc.concat(current.name)
-                                    }
-                                    else{
-                                        return acc.concat(', ').concat(current.name)
-                                    }
-                                }, "")}`}</Typography>
-                                */}
                             </CardContent>
                         </Box>
                     </Box>
