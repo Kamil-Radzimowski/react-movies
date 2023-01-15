@@ -14,7 +14,12 @@ const Messages = () => {
     const [mqttClient, setClient] = useState<MqttClient>()
 
     useEffect(() => {
-        const client = mqtt.connect('ws://127.0.0.1:8080')
+        const client = mqtt.connect({
+            host: '9696373cb8f042bd8d8bd372f2fb5373.s2.eu.hivemq.cloud',
+            port: 8884,
+            username: 'Testing',
+            password: 'Testing1'
+        })
         client.on('message', function (topic, message) {
             if(topic == 'chat'){
                 console.log(message.toString())
@@ -28,7 +33,10 @@ const Messages = () => {
             user: user,
             message: text
         }
-        mqttClient?.publish('chat', JSON.stringify(obj))
+        if(mqttClient){
+            console.log('sent')
+            mqttClient.publish('chat', JSON.stringify(obj))
+        }
     }
 
     return <>
