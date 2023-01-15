@@ -8,6 +8,7 @@ import {Provider} from "react-redux";
 import theme from "./Util/theme";
 import {ThemeProvider} from "@mui/material";
 import ProfilePanel from "./profile/ProfilePanel";
+import LiveChat from "./liveChat/LiveChat";
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
                     <Route path="/movie/:movieId" element={<MoviePage/>}/>
                     <Route path="/movieList/:input/:page" element={<MovieList/>}/>
                     <Route path="/profile" element={<ProfilePanel/>} />
+                    <Route path="/liveChat" element={<LiveChat/>}/>
                 </Routes>
             </BrowserRouter>
             </ThemeProvider>

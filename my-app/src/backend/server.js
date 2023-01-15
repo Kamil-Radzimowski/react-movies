@@ -56,6 +56,15 @@ wss.on('connection', (ws) => {
     ws.on('message', (message) => {
 
         console.log('received: %s', message.toString());
-        sendNotification(message.toString())
+
+        try{
+            const obj = JSON.parse(message.toString())
+
+            if(obj.type === 'NOTIFICATION'){
+                sendNotification(obj.message)
+            }
+        } catch (e) {
+            // pass
+        }
     });
 });

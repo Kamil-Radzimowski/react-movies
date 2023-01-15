@@ -4,7 +4,7 @@ import RecommendedMovieCard from "./recommendedMovieCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Gradient } from 'react-gradient';
 import './style.scss';
-import {FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, ThemeProvider} from "@mui/material";
+import {Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, ThemeProvider} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {Search} from "@mui/icons-material";
 import {movie, news} from "../Util/types";
@@ -62,6 +62,11 @@ function Main() {
         navigate(`/movieList/${searchInput}/1`)
     }
 
+    function navigateToLiveChat(){
+        navigate(`liveChat`)
+    }
+
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchInput(event.target.value);
     };
@@ -105,6 +110,10 @@ function Main() {
                 {!areNewsLoading && newsState != undefined ? newsState.map((item) => {
                     return <NewsCard key={item._id} title={item.title} desc={item.desc} date={item.date}/>
                 }) : null}
+            </div>
+            <div className='Live-chat'>
+                <Gradient className='live-text' gradients={gradient} property='text' angle='45deg'>Chat na żywo!</Gradient>
+                <Button onClick={navigateToLiveChat} variant='outlined'>Wypróbuj</Button>
             </div>
         </div>
     );

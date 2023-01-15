@@ -75,6 +75,11 @@ export type statsItem = {
     }[]
 }
 
+export type message = {
+    user: string
+    message: string
+}
+
 type country = {
     iso: string,
     name: string,

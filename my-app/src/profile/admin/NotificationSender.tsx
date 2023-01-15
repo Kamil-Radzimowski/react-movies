@@ -22,7 +22,11 @@ function NotificationSender() {
             setTextError("")
             if(client != undefined){
                 console.log("sent")
-                client.send(text)
+                const obj = {
+                    type: 'NOTIFICATION',
+                    message: text
+                }
+                client.send(JSON.stringify(obj))
             } else {
                 console.log(client)
             }
