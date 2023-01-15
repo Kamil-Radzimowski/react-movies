@@ -7,22 +7,33 @@ import {IncomingMessage, MyMessage} from "./Message";
 import './LiveChat.scss'
 import ChatInput from "./ChatInput";
 import {Box, Container, Paper} from "@mui/material";
+import uuid from 'react-uuid';
 
 const Messages = () => {
-    const [messages, setMessages] = useState<message[]>([{user: "Anonim", message: "Czesc"}, {user: "DzikiOwoc15", message: "witam"}])
+    const [messages, setMessages] = useState<message[]>([{id: 'aeasf', user: "Anonim", message: "Czesc"}, {id: 'asfava', user: "DzikiOwoc15", message: "witam"}])
     const [user, setUser] = useState(Cookies.get('username'))
     const [mqttClient, setClient] = useState<MqttClient>()
 
     useEffect(() => {
-        const client = mqtt.connect({
-            host: '9696373cb8f042bd8d8bd372f2fb5373.s2.eu.hivemq.cloud',
-            port: 8884,
+        const client = mqtt.connect('wss://9696373cb8f042bd8d8bd372f2fb5373.s2.eu.hivemq.cloud:8884/mqtt',{
+            protocol: 'wss',
             username: 'Testing',
             password: 'Testing1'
         })
+        client.on('connect', function(){
+            console.log('ok')
+            client.subscribe('chat')
+        })
+        client.on('error', (err) => {
+            console.log('Connection error: ', err)
+            client.end()
+        })
+
         client.on('message', function (topic, message) {
+            console.log(topic)
             if(topic == 'chat'){
-                console.log(message.toString())
+                const obj = JSON.parse(message.toString())
+                setMessages(oldArray => [...oldArray, obj].filter((v,i,a)=>a.findIndex(v2=>(v2.id===v.id))===i));
             }
         })
         setClient(client)
@@ -30,6 +41,7 @@ const Messages = () => {
 
     const sendMessage = (text: string) => {
         const obj = {
+            id: uuid(),
             user: user,
             message: text
         }
@@ -43,9 +55,9 @@ const Messages = () => {
         <div className='messages'>
         {messages?.map((message) => {
             if(user === message.user){
-                return <MyMessage user={message.user} message={message.message}/>
+                return <MyMessage key={message.id} user={message.user} message={message.message}/>
             } else {
-                return <IncomingMessage user={message.user} message={message.message}/>
+                return <IncomingMessage key={message.id} user={message.user} message={message.message}/>
             }
         })}
         </div>

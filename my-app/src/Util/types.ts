@@ -76,6 +76,7 @@ export type statsItem = {
 }
 
 export type message = {
+    id: string
     user: string
     message: string
 }

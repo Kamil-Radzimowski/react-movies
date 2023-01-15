@@ -14,6 +14,7 @@ const ChatInput = (props: ChatInputProps) => {
     }
 
     const sendMessage = () => {
+        setText('')
         props.callback(text)
     }
 
