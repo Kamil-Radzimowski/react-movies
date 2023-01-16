@@ -101,8 +101,14 @@ const extendedApi = movieApi.injectEndpoints({
                 }, {labels: [], datasets: [{label: 'Liczba filmów tego gatunku', data: [], backgroundColor: `rgba(1, 180, 228, 0.5)`}]})
             }
         }),
+        getLiveChatShortcuts: builder.query<{_id: string, title: string}[], void>({
+            query: () => `movie/liveChat/shortcuts`,
+            transformResponse: (response: {result: {title: string, _id: string}[]}) => {
+                return response.result
+            }
+        }),
     }),
     overrideExisting: false,
 })
 
-export const {useGetAllMoviesQuery, useDeleteMovieMutation, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useVoteOnMovieMutation, useUpdateMovieMutation, useAddMovieMutation, useGetMostCommentedMoviesQuery, useGetMoviesWithHighestVoteScoreQuery, useGetMostPopularGenresQuery} = extendedApi
+export const {useGetAllMoviesQuery, useDeleteMovieMutation, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useVoteOnMovieMutation, useUpdateMovieMutation, useAddMovieMutation, useGetMostCommentedMoviesQuery, useGetMoviesWithHighestVoteScoreQuery, useGetMostPopularGenresQuery, useGetLiveChatShortcutsQuery} = extendedApi

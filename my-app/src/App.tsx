@@ -9,6 +9,7 @@ import theme from "./Util/theme";
 import {ThemeProvider} from "@mui/material";
 import ProfilePanel from "./profile/ProfilePanel";
 import LiveChat from "./liveChat/LiveChat";
+import LiveChatSelector from "./liveChat/LiveChatSelector";
 
 
 function App() {
@@ -21,7 +22,8 @@ function App() {
                     <Route path="/movie/:movieId" element={<MoviePage/>}/>
                     <Route path="/movieList/:input/:page" element={<MovieList/>}/>
                     <Route path="/profile" element={<ProfilePanel/>} />
-                    <Route path="/liveChat" element={<LiveChat/>}/>
+                    <Route path="/liveChat" element={<LiveChatSelector/>}/>
+                    <Route path="/liveChat/:name" element={<LiveChat/>}/>
                 </Routes>
             </BrowserRouter>
             </ThemeProvider>

@@ -8,9 +8,11 @@ import './LiveChat.scss'
 import ChatInput from "./ChatInput";
 import {Box, Container, Paper} from "@mui/material";
 import uuid from 'react-uuid';
+import {useParams} from "react-router-dom";
 
 const Messages = () => {
-    const [messages, setMessages] = useState<message[]>([{id: 'aeasf', user: "Anonim", message: "Czesc"}, {id: 'asfava', user: "DzikiOwoc15", message: "witam"}])
+    const params = useParams<{name: string}>()
+    const [messages, setMessages] = useState<message[]>([])
     const [user, setUser] = useState(Cookies.get('username'))
     const [mqttClient, setClient] = useState<MqttClient>()
 
@@ -21,8 +23,8 @@ const Messages = () => {
             password: 'Testing1'
         })
         client.on('connect', function(){
-            console.log('ok')
-            client.subscribe('chat')
+            console.log(params.name)
+            client.subscribe(`chat/${params.name}`)
         })
         client.on('error', (err) => {
             console.log('Connection error: ', err)
@@ -30,8 +32,7 @@ const Messages = () => {
         })
 
         client.on('message', function (topic, message) {
-            console.log(topic)
-            if(topic == 'chat'){
+            if(topic == `chat/${params.name}`){
                 const obj = JSON.parse(message.toString())
                 setMessages(oldArray => [...oldArray, obj].filter((v,i,a)=>a.findIndex(v2=>(v2.id===v.id))===i));
             }
@@ -42,12 +43,11 @@ const Messages = () => {
     const sendMessage = (text: string) => {
         const obj = {
             id: uuid(),
-            user: user,
+            user: user || 'Anonim',
             message: text
         }
         if(mqttClient){
-            console.log('sent')
-            mqttClient.publish('chat', JSON.stringify(obj))
+            mqttClient.publish(`chat/${params.name}`, JSON.stringify(obj))
         }
     }
 
@@ -75,7 +75,7 @@ const LiveChat = () => {
     }
 
     return <>
-        <NavBar text='Czat na żywo!' user={user} callback={loginCallback}></NavBar>
+        <NavBar text={`Czat na żywo!`} user={user} callback={loginCallback}></NavBar>
         <Messages/>
     </>
 }

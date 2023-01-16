@@ -274,3 +274,11 @@ export default router
             res.status(500).send(err)
         })
     })
+    .get('/liveChat/shortcuts', (req, res) => {
+        getDb().collection(moviesCollection).find({}).project({title: 1}).toArray().then((result) => {
+            res.send({result: result})
+        }).catch((err) => {
+            console.log(err)
+            res.status(500).send(err)
+        })
+    })
