@@ -6,7 +6,7 @@ import {message} from "../Util/types";
 import {IncomingMessage, MyMessage} from "./Message";
 import './LiveChat.scss'
 import ChatInput from "./ChatInput";
-import {Box, Container, Paper} from "@mui/material";
+import {Paper} from "@mui/material";
 import uuid from 'react-uuid';
 import {useParams} from "react-router-dom";
 
