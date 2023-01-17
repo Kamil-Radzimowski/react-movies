@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { movieApi } from "./MovieService";
-import newsReducer from "../store/reducers/NewsReducer";
+import newsReducer from "../redux/reducers/NewsReducer";
 
 export const store = configureStore({
     reducer: {

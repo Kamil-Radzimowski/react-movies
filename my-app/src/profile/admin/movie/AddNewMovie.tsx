@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {Autocomplete, Button, Card, CardActions, CardContent, CardHeader, Chip, Stack, TextField} from "@mui/material";
-import {sendMovieToBackend} from "../../../Util/SendMovieToBackend";
+import {sendMovieToBackend} from "../../../apiEndpoints/SendMovieToBackend";
 
 const AddNewMovie = () => {
 

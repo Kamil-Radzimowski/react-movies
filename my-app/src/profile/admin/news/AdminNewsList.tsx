@@ -7,8 +7,8 @@ import {useGetAllNewsQuery} from "../../../apiEndpoints/NewsEndpoints";
 import EditableNewsItem from "./EditableNewsItem";
 import {news} from "../../../Util/types";
 import {useDispatch, useSelector} from "react-redux";
-import {getNews} from "../../../store/actions/NewsActions";
-import {StoreDispatch, StoreType} from "../../../store/Store";
+import {getNews} from "../../../redux/actions/NewsActions";
+import {StoreDispatch, StoreType} from "../../../redux/Store";
 
 const AdminNewsList = () => {
     const news = useSelector<StoreType, news[]>((state) => state.news)
