@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useGetCommentsForMovieQuery} from "../apiEndpoints/CommentEndpoints";
 import AddComment from "./AddComment";
 import Comment from './Comment'

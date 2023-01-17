@@ -4,6 +4,8 @@ import {Button, Card, CardActions, CardContent, IconButton, TextField} from "@mu
 import {useDeleteNewsMutation, useUpdateNewsMutation} from "../../../apiEndpoints/NewsEndpoints";
 import {Delete} from "@mui/icons-material";
 
+
+
 type EditableNewsItemProps = {
     news: news,
     removeCallback: (id: string) => void
@@ -14,6 +16,7 @@ const EditableNewsItem = (props: EditableNewsItemProps) => {
     const [newsDeletion] = useDeleteNewsMutation()
     const [title, setTitle] = useState(props.news.title)
     const [desc, setDesc] = useState(props.news.desc)
+
 
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(event.target.value)
@@ -27,9 +30,8 @@ const EditableNewsItem = (props: EditableNewsItemProps) => {
         change({id: props.news._id, title: title, desc: desc})
     }
 
-    const deleteNews = () => {
-        console.log(props.news._id)
-        newsDeletion({id: props.news._id})
+    const deleteNews = async () => {
+        await newsDeletion({id: props.news._id})
         props.removeCallback(props.news._id)
     }
 

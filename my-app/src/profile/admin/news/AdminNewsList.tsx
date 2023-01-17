@@ -6,14 +6,19 @@ import AddNews from "./AddNews";
 import {useGetAllNewsQuery} from "../../../apiEndpoints/NewsEndpoints";
 import EditableNewsItem from "./EditableNewsItem";
 import {news} from "../../../Util/types";
+import {useDispatch, useSelector} from "react-redux";
+import {getNews} from "../../../store/actions/NewsActions";
+import {StoreDispatch, StoreType} from "../../../store/Store";
 
 const AdminNewsList = () => {
-    const [news, setNews] = useState<news[] | undefined>(undefined)
+    const news = useSelector<StoreType, news[]>((state) => state.news)
     const {data, isLoading} = useGetAllNewsQuery()
     const [isNewsListOpen, setIsNewsListOpen] = useState(false)
+    const dispatch = useDispatch<StoreDispatch>()
 
+    console.log(news)
     useEffect(() => {
-        setNews(data)
+        dispatch(getNews())
     }, [data])
 
     const handleNewsListClick = () => {
@@ -21,8 +26,7 @@ const AdminNewsList = () => {
     }
 
     const filterDataAfterRemoval = (id: string) => {
-        const updatedNewsArray = news?.filter((news) => {return news._id != id})
-        setNews(updatedNewsArray)
+        dispatch(getNews())
     }
 
     return <>
@@ -33,9 +37,9 @@ const AdminNewsList = () => {
             </ListItemButton>
             <Collapse in={isNewsListOpen}>
                 <List>
-                    {!isLoading && news !== undefined ? news.map((item) => {
+                    {news && news.map((item) => {
                         return <EditableNewsItem key={item._id} news={item} removeCallback={filterDataAfterRemoval}/>
-                    }) : null}
+                    })}
                     <AddNews/>
                 </List>
             </Collapse>
