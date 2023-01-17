@@ -1,31 +1,33 @@
 import React, {useEffect, useState} from "react";
-import {Card, Collapse, List, ListItemButton, ListItemIcon, ListItemText, Typography} from "@mui/material";
+import {Collapse, List, ListItemButton, ListItemText} from "@mui/material";
 import {ExpandLess, ExpandMore} from "@mui/icons-material";
 import '../movie/styleAdminMovieList.scss';
 import AddNews from "./AddNews";
-import {useGetAllNewsQuery} from "../../../apiEndpoints/NewsEndpoints";
 import EditableNewsItem from "./EditableNewsItem";
 import {news} from "../../../Util/types";
 import {useDispatch, useSelector} from "react-redux";
-import {getNews} from "../../../redux/actions/NewsActions";
-import {StoreDispatch, StoreType} from "../../../redux/Store";
+import {getNews} from '../../../Redux/actions/NewsActions';
+import {StoreDispatch, StoreType} from "../../../Redux/Store";
 
 const AdminNewsList = () => {
     const news = useSelector<StoreType, news[]>((state) => state.news)
-    const {data, isLoading} = useGetAllNewsQuery()
     const [isNewsListOpen, setIsNewsListOpen] = useState(false)
     const dispatch = useDispatch<StoreDispatch>()
 
     console.log(news)
     useEffect(() => {
         dispatch(getNews())
-    }, [data])
+    }, [])
 
     const handleNewsListClick = () => {
         setIsNewsListOpen(!isNewsListOpen)
     }
 
     const filterDataAfterRemoval = (id: string) => {
+        dispatch(getNews())
+    }
+
+    const callback = () => {
         dispatch(getNews())
     }
 
@@ -40,7 +42,7 @@ const AdminNewsList = () => {
                     {news && news.map((item) => {
                         return <EditableNewsItem key={item._id} news={item} removeCallback={filterDataAfterRemoval}/>
                     })}
-                    <AddNews/>
+                    <AddNews callback={callback}/>
                 </List>
             </Collapse>
         </List>

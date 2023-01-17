@@ -2,7 +2,11 @@ import React, {useState} from 'react'
 import {Button, Card, CardActions, CardContent, TextField} from "@mui/material";
 import {useAddNewsMutation} from "../../../apiEndpoints/NewsEndpoints";
 
-const AddNews = () => {
+type AddNewsProps = {
+    callback: () => void
+}
+
+const AddNews = (props: AddNewsProps) => {
     const [add] = useAddNewsMutation()
     const [title, setTitle] = useState("")
     const [desc, setDesc] = useState("")
@@ -15,8 +19,8 @@ const AddNews = () => {
         setDesc(event.target.value)
     }
 
-    const addNews = () => {
-        add({title: title, desc: desc})
+    const addNews = async () => {
+        await add({title: title, desc: desc})
         setDesc("")
         setTitle("")
     }
