@@ -1,5 +1,5 @@
 import React from 'react'
-import {Avatar, Card, CardContent, CardHeader, Grid, IconButton, TextField} from "@mui/material";
+import {Avatar, Card, CardContent, CardHeader, Grid, TextField} from "@mui/material";
 import './Message.scss'
 
 type messageProps = {

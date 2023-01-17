@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import './styleMoviePage.scss';
 import { Gradient } from 'react-gradient';
 import {Box, Card, CardContent, CardMedia, Paper, Rating, Typography} from "@mui/material";
@@ -16,16 +16,10 @@ const MoviePage = () => {
     const [user, setUser] = useState(Cookies.get("username"))
     const {movieId} = useParams<{ movieId: string }>()
     const [vote, setVote] = React.useState<number | undefined>(Cookies.get(`vote:${movieId}`))
-    const navigate = useNavigate()
     const gradient = config.getGradient()
 
     const [voteQuery] = useVoteOnMovieMutation()
     const { data, isLoading} = useGetMovieDetailsByIdQuery(movieId || "")
-
-    function navigateToMainPage() {
-        navigate('/')
-    }
-
     const isVotingDisabled = () => {
         return vote != undefined
     }

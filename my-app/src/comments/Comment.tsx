@@ -3,7 +3,6 @@ import {Avatar, Card, CardContent, CardHeader, Grid, IconButton, TextField} from
 import './styleComment.scss';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
-import {useUpdateMovieMutation} from "../apiEndpoints/MovieEndpoints";
 import {useUpdateCommentMutation} from "../apiEndpoints/CommentEndpoints";
 
 type commentProps = {
