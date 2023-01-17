@@ -59,7 +59,9 @@ function Main() {
     }
 
     function navigateToMovieList(){
-        navigate(`/movieList/${searchInput}/1`)
+        if(searchInput){
+            navigate(`/movieList/${searchInput}/1`)
+        }
     }
 
     function navigateToLiveChat(){
