@@ -22,12 +22,6 @@ const moviesCollection = "movies"
 
 const chunk = 10;
 
-const simplifyMovie = (movie) => {
-    return {
-        id: movie.id, title: movie.title, popularity: movie.popularity, poster_path: movie.poster_path, vote_count: movie.vote_count, overview: movie.overview
-    }
-}
-
 const paginate = (result) => {
     return result.reduce((resultArray, item, index) => {
         const chunkIndex = Math.floor(index/chunk)
@@ -229,6 +223,11 @@ export default router
         const genres = req.params.genres.split(',')
 
         const file = req.file;
+
+
+        if(file === undefined){
+            return res.status(500).send("No image")
+        }
 
         const obj = {
             title: title,

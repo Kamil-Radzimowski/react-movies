@@ -25,6 +25,7 @@
     "express": "^4.18.2",
     "express-mongo-sanitize": "^2.2.0",
     "fs": "^0.0.1-security",
+    "jest": "^27.5.1",
     "js-cookie": "^3.0.1",
     "mongodb": "4.12",
     "mqtt": "^4.3.7",
@@ -54,7 +55,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "web": "webpack mqtt.js --output-library mqtt"
+    "web": "webpack mqtt.js --output-library mqtt",
+    "testJest": "jest"
   },
   "eslintConfig": {
     "extends": [
@@ -98,5 +100,11 @@
     "fs": false,
     "net": false,
     "tls": false
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transformIgnorePatterns": [
+      "node_modules/(?!variables/.*)"
+    ]
   }
 }
