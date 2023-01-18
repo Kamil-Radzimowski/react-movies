@@ -272,6 +272,13 @@ export default router
             res.status(500).send(err)
         })
     })
+    .get('/stats/mostPopular', (req, res) => {
+        getDb().collection(moviesCollection).find({}).sort({popularity: -1}).toArray().then((result) => {
+            res.send({movies: result})
+        }).catch((err) => {
+            res.status(500).send(err)
+        })
+    })
     .get('/stats/highestVoteScore', (req, res) => {
         getDb().collection(moviesCollection).aggregate([
             {
@@ -322,10 +329,8 @@ export default router
                 $limit: 5
             }
         ]).toArray().then((result) => {
-            console.log("RES", result)
             res.send({genres: result})
         }).catch((err) => {
-            console.log(err)
             res.status(500).send(err)
         })
     })
