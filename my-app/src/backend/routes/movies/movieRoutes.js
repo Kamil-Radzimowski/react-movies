@@ -20,10 +20,26 @@ const router = express.Router();
 
 const moviesCollection = "movies"
 
+const chunk = 10;
+
 const simplifyMovie = (movie) => {
     return {
         id: movie.id, title: movie.title, popularity: movie.popularity, poster_path: movie.poster_path, vote_count: movie.vote_count, overview: movie.overview
     }
+}
+
+const paginate = (result) => {
+    return result.reduce((resultArray, item, index) => {
+        const chunkIndex = Math.floor(index/chunk)
+
+        if(!resultArray[chunkIndex]) {
+            resultArray[chunkIndex] = [] // start a new chunk
+        }
+
+        resultArray[chunkIndex].push(item)
+
+        return resultArray
+    }, [])
 }
 
 export default router
@@ -46,10 +62,10 @@ export default router
         const query = req.query.query
         const page = req.query.page
         const sortOption = req.query.sort
-        const chunk = 10;
 
         if(!query || !page){
             res.status(400).send("Missing params!")
+            return
         }
 
         const sortObj = {}
@@ -78,20 +94,37 @@ export default router
                 $sort: sortObj
             },
         ]).toArray().then((result) => {
-            const data = result.reduce((resultArray, item, index) => {
-                const chunkIndex = Math.floor(index/chunk)
-
-                if(!resultArray[chunkIndex]) {
-                    resultArray[chunkIndex] = [] // start a new chunk
-                }
-
-                resultArray[chunkIndex].push(item)
-
-                return resultArray
-            }, [])
+            const data = paginate(result)
             res.send({results: data[page - 1], total_results: result.length, number_of_pages: data.length})
         }).catch((err) => {
-            res.status(500).error(err)
+            res.status(500).send(err)
+        })
+    })
+    .get('/search/:genre', (req, res) => {
+        const genre = req.params.genre
+        const page = req.query.page
+
+        if(!page){
+            res.status(400).send("Missing params!")
+        }
+
+        getDb().collection(moviesCollection).aggregate([
+            {
+                $match: {'genres': genre}
+            },
+            {
+                $project: {
+                    _id: 0, id:1, title: 1, popularity: 1,
+                    poster_path: 1,
+                    vote_count: {$size: "$votes"},
+                    overview: 1,
+                }
+            }
+        ]).toArray().then((result) => {
+            const data = paginate(result)
+            res.send({results: data[page - 1], total_results: result.length, number_of_pages: data.length})
+        }).catch((err) => {
+            res.status(500).send(err)
         })
     })
     .get('/:id' , async (req, res) => {
@@ -287,6 +320,19 @@ export default router
             res.send({result: result})
         }).catch((err) => {
             console.log(err)
+            res.status(500).send(err)
+        })
+    })
+    .get('/sample/genres', (req, res) => {
+        getDb().collection(moviesCollection).aggregate([
+            { $unwind: {path: "$genres", "preserveNullAndEmptyArrays": true}},
+            { $group: {_id: null, genre: {$addToSet: "$genres"}}},
+            { $unwind: "$genre" },
+            { $project: { _id: 0 }},
+            { $limit: 3}
+        ]).toArray().then((result) => {
+            res.send(result)
+        }).catch((err) => {
             res.status(500).send(err)
         })
     })

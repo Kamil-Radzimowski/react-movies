@@ -4,11 +4,20 @@ import RecommendedMovieCard from "./recommendedMovieCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Gradient } from 'react-gradient';
 import './style.scss';
-import {Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, ThemeProvider} from "@mui/material";
+import {
+    Button,
+    Chip,
+    FormControl,
+    IconButton,
+    InputAdornment,
+    InputLabel,
+    OutlinedInput, Stack,
+    ThemeProvider
+} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {Search} from "@mui/icons-material";
 import {movie, news} from "../Util/types";
-import { useGetRecommendedMoviesQuery} from "../apiEndpoints/MovieEndpoints";
+import {useGetRecommendedMoviesQuery, useGetSampleGenresQuery} from "../apiEndpoints/MovieEndpoints";
 import {useGetAllNewsQuery} from "../apiEndpoints/NewsEndpoints";
 import theme from "../Util/theme";
 import Cookies from 'js-cookie'
@@ -21,6 +30,7 @@ function Main() {
     const { data, isLoading } = useGetRecommendedMoviesQuery()
     const [newsState, setNewsState] = useState<news[] | undefined>(undefined)
     const {data: news = [], isLoading: areNewsLoading} = useGetAllNewsQuery()
+    const {data: genres = []} = useGetSampleGenresQuery()
     const [searchInput, setSearchInput] = useState("")
     const [user, setUser] = useState(Cookies.get("username"))
     const gradient = config.getGradient()
@@ -68,6 +78,9 @@ function Main() {
         navigate(`liveChat`)
     }
 
+    function navigateToSearchByGenre(genre: string){
+        navigate(`/movieListByGenre/${genre}/1`)
+    }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchInput(event.target.value);
@@ -100,6 +113,11 @@ function Main() {
                         }></OutlinedInput>
                     </FormControl>
                 </ThemeProvider>
+                <Stack direction='row' sx={{mt: 2}} spacing={2}>
+                    {genres.map((genre) => {
+                        return <Chip key={genre.genre} label={genre.genre} onClick={() => {navigateToSearchByGenre(genre.genre)}}/>
+                    })}
+                </Stack>
             </div>
             <div className="App-recommendations">
                 <Gradient className='recommendations-text' gradients={gradient} property='text' angle='45deg'>Nasze Rekomendacje</Gradient>

@@ -51,6 +51,16 @@ const extendedApi = movieApi.injectEndpoints({
                 }
             }
         }),
+        getMovieByGenre: builder.query<searchResult, {genre: string, page: string}>({
+            query: ({genre,  page}) => `movie/search/${genre}?page=${page}`,
+            transformResponse: (response: {results: movie[], page: number, number_of_pages: number, total_results: number}) => {
+                return {
+                    total_results: response.total_results,
+                    results: response.results,
+                    number_of_pages: response.number_of_pages
+                }
+            }
+        }),
         addMovie: builder.mutation<void, {title: string, desc: string, genres: string[], image: FormData}>({
             query({title, desc, genres, image}){
                 return{
@@ -107,8 +117,14 @@ const extendedApi = movieApi.injectEndpoints({
                 return response.result
             }
         }),
+        getSampleGenres: builder.query<{genre: string}[], void>({
+            query: () => `movie/sample/genres`,
+            transformResponse: (response: {genre: string}[]) => {
+                return response
+            }
+        }),
     }),
     overrideExisting: false,
 })
 
-export const {useGetAllMoviesQuery, useDeleteMovieMutation, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useVoteOnMovieMutation, useUpdateMovieMutation, useAddMovieMutation, useGetMostCommentedMoviesQuery, useGetMoviesWithHighestVoteScoreQuery, useGetMostPopularGenresQuery, useGetLiveChatShortcutsQuery} = extendedApi
+export const {useGetAllMoviesQuery, useDeleteMovieMutation, useGetMovieDetailsByIdQuery, useGetRecommendedMoviesQuery, useGetMovieByNameQuery, useVoteOnMovieMutation, useUpdateMovieMutation, useAddMovieMutation, useGetMostCommentedMoviesQuery, useGetMoviesWithHighestVoteScoreQuery, useGetMostPopularGenresQuery, useGetLiveChatShortcutsQuery, useGetSampleGenresQuery, useGetMovieByGenreQuery} = extendedApi
