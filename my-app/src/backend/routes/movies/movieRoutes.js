@@ -51,9 +51,8 @@ export default router
         })
     })
     .get('/recommendation', (req, res) => {
-        getDb().collection(moviesCollection).find({}).limit(5).toArray().then((result) => {
-            const data = result.map((entry) => {return simplifyMovie(entry)})
-            res.send({results: data})
+        getDb().collection(moviesCollection).find({}, {"id": 1, "title": 1, "popularity": 1, "poster_path": 1, "vote_count": 1, "overview": 1}).limit(5).toArray().then((result) => {
+            res.send({results: result})
         }).catch((err) => {
             res.status(500).send(err)
         })
