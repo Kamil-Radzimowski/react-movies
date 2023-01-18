@@ -1,12 +1,14 @@
 import express from 'express'
-import data from "./backendAssets/data.json" assert { type: "json" }
 import cors from 'cors'
+import bodyParser from "body-parser";
+import mongoSanitize from 'express-mongo-sanitize'
 import movieRoutes from "./routes/movies/movieRoutes.js";
 import usersRoutes from "./routes/user/usersRoutes.js";
 import commentRoutes from "./routes/comments/commentRoutes.js";
 import newsRoutes from "./routes/news/newsRoutes.js";
 import {connectToServer} from "./mongo.js";
 import {WebSocketServer} from "ws";
+
 import {sendNotification} from "./websocket/notifiactions/wsNotifications.js";
 
 const options = {}
@@ -17,6 +19,15 @@ const wsport = 8080
 
 app.use(cors())
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.use(mongoSanitize({
+    onSanitize: ({ req, key }) => {
+        console.warn(`This request[${key}] is sanitized`, req);
+    },
+}));
+
 /*
 const options = {
     key: fs.readFileSync('./ssl/privatekey'),
@@ -24,12 +35,6 @@ const options = {
     passphrase: 'kamil'
 };
  */
-
-export const database = {
-    users: [],
-    data: data
-}
-
 
 app.use('/movie', movieRoutes)
 

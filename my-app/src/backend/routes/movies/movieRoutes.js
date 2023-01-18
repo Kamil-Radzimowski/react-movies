@@ -48,6 +48,10 @@ export default router
         const sortOption = req.query.sort
         const chunk = 10;
 
+        if(!query || !page){
+            res.status(400).send("Missing params!")
+        }
+
         const sortObj = {}
 
         if(sortOption === "default"){
@@ -151,6 +155,10 @@ export default router
         const title = req.query.title
         const desc = req.query.desc
         let genres = req.query.genres
+
+        if(!title || !desc || !genres){
+            res.status(400).send("Missing params")
+        }
 
         genres = genres.split(",")
 
@@ -267,7 +275,7 @@ export default router
                 $limit: 5
             }
         ]).toArray().then((result) => {
-            console.log(result)
+            console.log("RES", result)
             res.send({genres: result})
         }).catch((err) => {
             console.log(err)

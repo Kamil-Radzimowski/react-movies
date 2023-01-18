@@ -15,6 +15,10 @@ export default router
         const pword = req.query.password
         const email = req.query.email
 
+        if(!login || !pword || !email){
+            res.status(400).send("Missing params")
+        }
+
         const isLoginOrEmailTaken = await getDb().collection(usersCollection).find({$or: [{login: login}, {email: email}]}).toArray()
 
         if(isLoginOrEmailTaken.length !== 0){
@@ -43,6 +47,10 @@ export default router
     .get('/login', async (req, res) => {
         const email = req.query.email
         const pword = req.query.password
+
+        if(!email || !pword){
+            res.status(400).send("Missing params")
+        }
 
         const userBase = await getDb().collection(usersCollection).find({email: email}).toArray()
         const user = userBase[0]

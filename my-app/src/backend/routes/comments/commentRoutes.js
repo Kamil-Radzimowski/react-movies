@@ -12,6 +12,10 @@ export default router
     .get("/comments", async(req, res) => {
         const id = req.query.id
 
+        if(!id){
+            res.status(400).send("missing id")
+        }
+
         const options = {
             projection: {_id: 0, comments: 1}
         }
@@ -26,6 +30,10 @@ export default router
         const movieId = req.params.id
         const text = req.query.text
         let user = req.query.user
+
+        if(!text){
+            res.status(400).send("Missing params")
+        }
 
         if(user === undefined || user === "undefined"){
             user = "Anonim"
