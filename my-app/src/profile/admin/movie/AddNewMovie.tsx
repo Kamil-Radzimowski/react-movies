@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {Autocomplete, Button, Card, CardActions, CardContent, CardHeader, Chip, Stack, TextField} from "@mui/material";
 import {sendMovieToBackend} from "../../../apiEndpoints/SendMovieToBackend";
+import theme from "../../../Util/theme";
 
 const AddNewMovie = () => {
 
@@ -11,6 +12,7 @@ const AddNewMovie = () => {
 
     const [titleError, setTitleError] = useState("")
     const [descError, setDescError] = useState("")
+    const [genresError, setGenresError] = useState("")
 
     const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(event.target.value)
@@ -30,8 +32,35 @@ const AddNewMovie = () => {
         }
     }
 
+    const validate = () => {
+        let wasErrorFound = false
+
+        if(title != ''){
+            setTitleError('')
+        } else {
+            wasErrorFound = true
+            setTitleError('Tytuł nie może być pusty!')
+        }
+
+        if(desc != ''){
+            setDescError('')
+        } else {
+            wasErrorFound = true
+            setDescError('Opis nie może być pusty!')
+        }
+
+        if (genres.length != 0){
+            setGenresError('')
+        } else {
+            wasErrorFound = true
+            setGenresError('Gatunek nie może być pusty!')
+        }
+
+        return wasErrorFound
+    }
+
     const submitNewMovie = () => {
-        if(selectedFile != undefined){
+        if(validate() && selectedFile != undefined){
             const formData = new FormData()
             formData.append("image", selectedFile)
             sendMovieToBackend(title, desc, genres, formData)

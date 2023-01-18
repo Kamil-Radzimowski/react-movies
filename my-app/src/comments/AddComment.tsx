@@ -15,15 +15,28 @@ type addCommentProps = {
 const AddComment = (props: addCommentProps) => {
     const user = Cookies.get("username")
     const [comment, setComment] = useState('')
+    const [error, setError] = useState('')
     const [addHook] = useAddCommentMutation()
 
-    const add = async () => {
-        const query = await addHook({id: props.id, text: comment, user: user || undefined})
-        if('error' in query){
-            // pass
+    const validate = () => {
+        if(comment == ''){
+            setError("Komentarz nie może być pusty")
+            return false
         } else {
-            props.onAdd({id: uuid(), comment: comment, user: user})
-            setComment("")
+            setError('')
+            return true
+        }
+    }
+
+    const add = async () => {
+        if(validate()){
+            const query = await addHook({id: props.id, text: comment, user: user || undefined})
+            if('error' in query){
+                // pass
+            } else {
+                props.onAdd({id: uuid(), comment: comment, user: user})
+                setComment("")
+            }
         }
     }
 
@@ -36,7 +49,7 @@ const AddComment = (props: addCommentProps) => {
             <CardHeader title={"Dodaj komentarz"}>
             </CardHeader>
             <CardContent>
-                <TextField fullWidth label="Treść" variant="outlined" value={comment} onChange={handleChange}/>
+                <TextField helperText={error} error={error.length != 0} fullWidth label="Treść" variant="outlined" value={comment} onChange={handleChange}/>
             </CardContent>
             <CardActions>
                 <Button onClick={add}>{'Dodaj'}</Button>
