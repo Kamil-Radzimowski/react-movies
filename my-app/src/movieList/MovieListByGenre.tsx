@@ -24,7 +24,7 @@ import Cookies from 'js-cookie'
 function MovieListByGenre() {
     const params = useParams<{genre: string, page: string }>()
     const [sortMethod, setSortMethod] = useState<string>("default");
-    const {data, isLoading} = useGetMovieByGenreQuery({genre: params.genre || '',  page: params.page || "1" })
+    const {data, isLoading} = useGetMovieByGenreQuery({genre: params.genre || '',  page: params.page || "1", sortOption: sortMethod})
     const [user, setUser] = useState(Cookies.get("username"))
     const gradient = config.getGradient()
 

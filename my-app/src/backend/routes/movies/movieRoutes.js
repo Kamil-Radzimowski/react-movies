@@ -103,10 +103,22 @@ export default router
     .get('/search/:genre', (req, res) => {
         const genre = req.params.genre
         const page = req.query.page
+        const sortOption = req.query.sort
 
         if(!page){
             res.status(400).send("Missing params!")
         }
+
+        const sortObj = {}
+
+        if(sortOption === "default"){
+            sortObj._id = 1
+        } else if (sortOption === "popularity"){
+            sortObj.popularity = -1
+        } else if (sortOption === "votes"){
+            sortObj.vote_count = -1
+        }
+
 
         getDb().collection(moviesCollection).aggregate([
             {
@@ -119,6 +131,9 @@ export default router
                     vote_count: {$size: "$votes"},
                     overview: 1,
                 }
+            },
+            {
+                $sort: sortObj
             }
         ]).toArray().then((result) => {
             const data = paginate(result)

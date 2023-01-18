@@ -51,8 +51,8 @@ const extendedApi = movieApi.injectEndpoints({
                 }
             }
         }),
-        getMovieByGenre: builder.query<searchResult, {genre: string, page: string}>({
-            query: ({genre,  page}) => `movie/search/${genre}?page=${page}`,
+        getMovieByGenre: builder.query<searchResult, {genre: string, page: string, sortOption: string}>({
+            query: ({genre,  page, sortOption}) => `movie/search/${genre}?page=${page}&sort=${sortOption}`,
             transformResponse: (response: {results: movie[], page: number, number_of_pages: number, total_results: number}) => {
                 return {
                     total_results: response.total_results,
