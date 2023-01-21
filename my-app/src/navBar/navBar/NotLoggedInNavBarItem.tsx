@@ -1,10 +1,14 @@
 import React, {useState} from 'react'
-import LoginDialog from "../login/LoginDialog";
-import RegisterDialog from "../login/RegisterDialog";
+import LoginDialog from "../../login/LoginDialog";
+import RegisterDialog from "../../login/RegisterDialog";
 import {Button, Stack} from "@mui/material";
 
+type NotLoggedInNavBarItemProps = {
+    callback: () => void,
+}
 
-function NotLoggedInNavBarItem(props: unknown){
+
+function NotLoggedInNavBarItem(props: NotLoggedInNavBarItemProps){
     const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false)
     const [isRegisterDialogOpen, setIsRegisterDialogOpen] = useState(false)
 
@@ -15,10 +19,13 @@ function NotLoggedInNavBarItem(props: unknown){
 
     function closeLoginDialog(){
         setIsLoginDialogOpen(false)
+        console.log("callback bar")
+        props.callback()
     }
 
     function closeRegisterDialog(){
         setIsRegisterDialogOpen(false)
+        props.callback()
     }
 
     function openRegisterDialog(){

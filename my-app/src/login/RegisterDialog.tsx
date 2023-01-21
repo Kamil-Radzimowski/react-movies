@@ -1,5 +1,19 @@
 import React, {useState} from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField} from "@mui/material";
+import {
+    Alert,
+    Button,
+    Collapse,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Stack,
+    TextField
+} from "@mui/material";
+import {useRegisterMutation} from "../apiEndpoints/UserEndpoints";
+import {SerializedError} from "@reduxjs/toolkit";
+import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
+import Cookies from 'js-cookie'
 
 type property = {
     open: boolean
@@ -14,15 +28,51 @@ function RegisterDialog(props: property){
     const [passwordError, setPasswordError] = useState('')
     const [name, setName] = useState('')
     const [nameError, setNameError] = useState('')
+    const [register, {data, isLoading, error, isError, isSuccess}] = useRegisterMutation()
 
 
     const validate = () => {
-        return true
+        let tmpUserError = ''
+        if(name.length === 0){
+            tmpUserError = 'Name is required'
+        }
+        setNameError(tmpUserError)
+
+        let tmpEmailError: string
+        if(email.length === 0){
+            tmpEmailError = "Email is required!"
+        }
+        else if(!validateEmail(email)){
+            tmpEmailError = "Invalid Email!"
+        } else {
+            tmpEmailError = ''
+        }
+        setEmailError(tmpEmailError)
+
+        let tmpPasswordError = ''
+        if(password.length === 0){
+            tmpPasswordError = 'Password is required!'
+        }
+        setPasswordError(tmpPasswordError)
+        return tmpPasswordError.length === 0 && tmpEmailError.length === 0 && tmpUserError.length === 0
     }
 
-    const attemptRegister = () => {
+    const validateEmail = (email) => {
+        return String(email)
+            .toLowerCase()
+            .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+    };
+
+    const attemptRegister = async () => {
         if(validate()){
-            // test
+            const result = await register({password: password, email: email, name: name})
+            if("data" in result){
+                Cookies.set("username", result.data.username)
+                Cookies.set("isAdmin", result.data.isAdmin)
+                handleClose()
+            }
         }
     }
 
@@ -39,7 +89,7 @@ function RegisterDialog(props: property){
     }
 
     const handleOnLoginClick = () => {
-        props.onLoginClick
+        props.onLoginClick()
     }
 
     const handleClose = () => {
@@ -52,11 +102,44 @@ function RegisterDialog(props: property){
         setNameError('')
     }
 
+    const handleError = (error: SerializedError | undefined | FetchBaseQueryError): string => {
+        if(error){
+            if('status' in error){
+                if(error.status == 409) {
+                    return "User already exists"
+                } else {
+                    return 'error' in error ? error.error : JSON.stringify(error.data)
+                }
+            } else {
+                if(error.code == "409"){
+                    return "User already exists"
+                }
+                else {
+                    return error.message || ""
+                }
+            }
+        } else {
+            return ""
+        }
+    }
+
+    const handleSuccess = (): string => {
+        return "Zarejestrowano pomyślnie"
+    }
+
     return <Dialog open={props.open} onClose={handleClose} fullWidth={true}
                    maxWidth={'md'}>
         <DialogTitle>Zarejestruj się</DialogTitle>
         <DialogContent>
             <Stack spacing={2}>
+                <Collapse in={isError || isSuccess}>
+                    <Alert
+                        severity={isSuccess ? 'success' : 'error'}
+                        sx={{ mb: 2 }}
+                    >
+                        {isSuccess ? handleSuccess() : handleError(error)}
+                    </Alert>
+                </Collapse>
                 <TextField
                     autoFocus
                     error={nameError.length !== 0}

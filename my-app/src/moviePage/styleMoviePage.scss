@@ -14,7 +14,6 @@
     }
   }
   .page-content{
-    display: flex;
     padding: 25px;
     img{
       height: 325px;
@@ -58,6 +57,11 @@
         padding: 10px;
         color: #282c34;
       }
+    }
+    .search-text{
+      display: block;
+      font-size: 25px;
+      padding: 10px 0;
     }
   }
 }

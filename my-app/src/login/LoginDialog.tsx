@@ -1,6 +1,20 @@
 import React, {useState} from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField} from "@mui/material";
-import {useLoginMutation} from "../Util/MovieService";
+import {
+    Alert,
+    Button,
+    Collapse,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Stack,
+    TextField
+} from "@mui/material";
+import {useLoginMutation} from "../apiEndpoints/UserEndpoints";
+import {SerializedError} from "@reduxjs/toolkit";
+import {FetchBaseQueryError} from "@reduxjs/toolkit/query";
+import Cookies from 'js-cookie'
+
 
 type property = {
     open: boolean
@@ -13,28 +27,37 @@ function LoginDialog(props: property){
     const [password, setPassword] = useState('')
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
-    const [login, {isLoading, error}] = useLoginMutation()
+    const [login, {isLoading, error, isError, isSuccess}] = useLoginMutation()
 
-    function attemptLogin(){
+    async function attemptLogin(){
         if(validateInput()){
-            //test
+            const result = await login({email: email, password: password})
+            if("data" in result){
+                Cookies.set("username", result.data.username)
+                Cookies.set("isAdmin", result.data.isAdmin)
+                handleClose()
+            }
         }
     }
 
     function validateInput(){
+        let tmpEmailError: string
         if(email.length === 0){
-            setEmailError("Email is required!")
+            tmpEmailError = "Email is required!"
         }
         else if(!validateEmail(email)){
-            setEmailError("Invalid Email!")
+            tmpEmailError = "Invalid Email!"
         } else {
-            setEmailError("")
+            tmpEmailError = ''
         }
+        setEmailError(tmpEmailError)
 
+        let tmpPasswordError = ''
         if(password.length === 0){
-            setPasswordError('Password is required!')
+            tmpPasswordError = 'Password is required!'
         }
-        return passwordError.length === 0 && emailError.length === 0
+        setPasswordError(tmpPasswordError)
+        return tmpPasswordError.length === 0 && tmpEmailError.length === 0
     }
 
     const validateEmail = (email) => {
@@ -59,16 +82,51 @@ function LoginDialog(props: property){
         setEmail('')
         setPasswordError('')
         setEmailError('')
+        setPasswordError('')
+        setEmailError('')
     }
 
     const handleOnRegisterClick = () => {
         props.onRegisterClick()
     }
-    return <Dialog open={props.open} onClose={handleClose} fullWidth={true}
+
+    const handleError = (error: SerializedError | undefined | FetchBaseQueryError): string => {
+        if(error){
+            if('status' in error){
+                if(error.status === 401){
+                    return "User does not exist"
+                }
+                if(error.status === 400){
+                    return "Invalid password"
+                }
+                return 'error' in error ? error.error : JSON.stringify(error.data)
+            } else {
+                console.log(error)
+                return error.message || ""
+            }
+        } else {
+            return ""
+        }
+    }
+
+    const handleSuccess = () => {
+        return "Zalogowano pomyślnie"
+    }
+
+    return <><Dialog open={props.open} onClose={handleClose} fullWidth={true}
                    maxWidth={'md'}>
-        <DialogTitle>Zaloguj się</DialogTitle>
+        <DialogTitle>Zaloguj się
+        </DialogTitle>
         <DialogContent>
             <Stack spacing={2}>
+                <Collapse in={isError || isSuccess}>
+                    <Alert
+                        severity={isSuccess ? 'success' : 'error'}
+                        sx={{ mb: 2 }}
+                    >
+                        {isSuccess ? handleSuccess() : handleError(error)}
+                    </Alert>
+                </Collapse>
                 <TextField
                     autoFocus
                     error={emailError.length !== 0}
@@ -98,6 +156,7 @@ function LoginDialog(props: property){
             <Button variant="contained" onClick={attemptLogin}>Zaloguj się</Button>
         </DialogActions>
     </Dialog>
+    </>
 }
 
 export default LoginDialog;

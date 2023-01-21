@@ -9,10 +9,12 @@ export type movie = {
 
 export type searchResult = {
     total_results: number,
-    results: movie[]
+    results: movie[],
+    number_of_pages: number
 }
 
 export type detailedMovie = {
+    id: number
     title: string,
     poster_path: string,
     overview: string,
@@ -25,7 +27,7 @@ export type detailedMovie = {
 
 export type loginResponse = {
     username: string
-    api_key: string
+    isAdmin: boolean
 }
 
 export type loginCredentials = {
@@ -37,6 +39,46 @@ export type registerCredentials = {
     name: string,
     email: string,
     password: string
+}
+
+export type comment = {
+    id: string,
+    user: string,
+    comment: string
+}
+
+export type user = {
+    id: string,
+    username: string,
+    isAdmin: boolean
+}
+
+export type news = {
+    _id: string,
+    title: string,
+    desc: string,
+    date: string
+}
+
+export type groupedComments = {
+    title: string
+    id: string
+    comments: comment[]
+}
+
+export type statsItem = {
+    labels: string[],
+    datasets: {
+        label: string,
+        data: number[],
+        backgroundColor: string,
+    }[]
+}
+
+export type message = {
+    id: string
+    user: string
+    message: string
 }
 
 type country = {
